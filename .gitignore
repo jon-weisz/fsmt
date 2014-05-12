@@ -4,5 +4,6 @@ documentation/build
 .idea
 .project
 .pydevproject
+.DS_Store
 *.egg
 *.pyc
