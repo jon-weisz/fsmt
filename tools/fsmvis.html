@@ -1,0 +1,110 @@
+<!--
+
+This file is part of FINITE STATE MACHINE BASED TESTING.
+
+Copyright(c) <Florian Lier, Norman Köster>
+http://opensource.cit-ec.de/fsmt
+
+This file may be licensed under the terms of the
+GNU Lesser General Public License Version 3 (the ``LGPL''),
+or (at your option) any later version.
+
+Software distributed under the License is distributed
+on an ``AS IS'' basis, WITHOUT WARRANTY OF ANY KIND, either
+express or implied. See the LGPL for the specific language
+governing rights and limitations.
+
+You should have received a copy of the LGPL along with this
+program. If not, go to http://www.gnu.org/licenses/lgpl.html
+or write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+The development of this software was supported by the
+Excellence Cluster EXC 277 Cognitive Interaction Technology.
+The Excellence Cluster EXC 277 is a grant of the Deutsche
+Forschungsgemeinschaft (DFG) in the context of the German
+Excellence Initiative.
+
+Authors: Florian Lier, Norman Köster
+<flier, nkoester>@techfak.uni-bielefeld.de
+
+-->
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <style>
+        g.node {
+            font-family: Verdana, Helvetica;
+            font-size: 14px;
+            font-weight:bold;
+        }
+        circle.node-dot {
+            fill: LightSkyBlue;
+            stroke: LightSlateGray;
+            stroke-width: 2px;
+        }
+
+        path.link {
+            fill: none;
+            stroke: gray;
+        }
+    </style>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+
+<body onload="">
+
+<h3 style="padding-left: 50px;">Finite State Machine based Testing | <small>FSMvis [BETA]</small></h3>
+
+<div style="margin-right:100px; margin-left:100px; margin-top:100px;" id="tree-container"></div>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/d3.min.js"></script>
+<script type="text/javascript" src="js/maketree.js"></script>
+<script type="text/javascript">
+
+        if ("WebSocket" in window) {
+            console.log("Web Socket is supported by your Browser!");
+            // Let us open a web socket
+            var ws = new WebSocket("ws://localhost:8008");
+        } else {
+            // The browser doesn't support WebSocket
+            var ws = null
+            alert("WebSocket NOT supported by your Browser! O_O");
+        }
+
+        function sendMessage(message) {
+            ws.send(message)
+        }
+
+        if (ws != null) {
+            ws.onmessage = function (evt) {
+                received_msg = evt.data;
+                setData(received_msg)
+                console.log("Got a response: " + evt.data);
+            };
+
+            ws.onopen = function () {
+                // Web Socket is connected, send data using send()
+                // ws.send("hello")
+                console.log("Connected");
+            };
+
+
+            ws.onclose = function () {
+                //Web Socket is closed.
+                console.log("Connection closed");
+            };
+
+            // $("#tree-container").empty()
+            window.setInterval(function () {buildTree("#tree-container")}, 500);
+            window.setInterval(function () {sendMessage("update_request")}, 250);
+
+        };
+</script>
+</body>
+
+</html>

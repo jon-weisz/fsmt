@@ -1,0 +1,588 @@
+<scxml xmlns="http://www.w3.org/2005/07/scxml" xmlns:my_ns="de.unibi.citec.clf.fsmt" id="Scalabuility Test" initial="initialise_test" version="1.0">
+    <datamodel>
+        <data expr="0" id="state_1_parallelcount" />
+        <data id="environment">
+            <variable val="$PATH" var="PATH" />
+            <variable val=":0.0" var="DISPLAY" />
+        </data>
+        <data id="hosts">
+            <hostinfo ip="127.0.0.1" name="localhost" />
+        </data>
+        <data id="component_bundle">
+            <component val="default">
+                <command val="ls $FSMFSM" />
+                <path val="/bin/" />
+                <execution_host val="localhost" />
+                <check_execution val="True">
+                    <check_type blocking="False" criteria="" ongoing="False" timeout="3" val="pid" />
+                </check_execution>
+            </component>
+            <component val="blender">
+                <command val="blender" />
+                <path val="/usr/bin/" />
+                <execution_host val="localhost" />
+                <check_execution val="True">
+                    <check_type blocking="True" criteria="" ongoing="True" timeout="2" val="pid" />
+                </check_execution>
+            </component>
+            <component val="none">
+                <command val="ls /tmp" />
+                <path val="/bin/" />
+                <execution_host val="localhost" />
+                <check_execution val="True">
+                    <check_type blocking="True" criteria="" ongoing="False" timeout="2" val="pid" />
+                </check_execution>
+            </component>
+        </data>
+    </datamodel>
+    <transition event="unsatisfied_criteria" target="criteria_error">
+        <log expr="'Received unsatisfied_criteria event!'" label="ERROR" />
+    </transition>
+    <transition event="external_abortion" target="abortion_error">
+        <log expr="'Received unsatisfied_criteria event!'" label="ERROR" />
+    </transition>
+    <transition event="execute_program.fail" target="execution_error">
+        <log expr="'Recieved execution_error event!'" label="ERROR" />
+    </transition>
+    <state id="initialise_test">
+        <onentry>
+            <log expr="'Entering State initialise_test'" label="INFO" />
+        </onentry>
+        <transition target="run_test" />
+        <onexit>
+            <log expr="'Exiting State: initialise_test'" label="INFO" />
+        </onexit>
+    </state>
+    <state id="run_test" initial="state_0">
+        <state id="state_0">
+            <onentry>
+                <log expr="'Entering State: state_0'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0.execute_program.success" target="state_0_1" />
+            <onexit>
+                <log expr="'Exiting State: state_0'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_1">
+            <onentry>
+                <log expr="'Entering State: state_0_1'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_1.execute_program.success" target="state_0_2" />
+            <onexit>
+                <log expr="'Exiting State: state_0_1'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_2">
+            <onentry>
+                <log expr="'Entering State: state_0_2'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_2.execute_program.success" target="state_0_3" />
+            <onexit>
+                <log expr="'Exiting State: state_0_2'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_3">
+            <onentry>
+                <log expr="'Entering State: state_0_3'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_3.execute_program.success" target="state_0_4" />
+            <onexit>
+                <log expr="'Exiting State: state_0_3'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_4">
+            <onentry>
+                <log expr="'Entering State: state_0_4'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_4.execute_program.success" target="state_0_5" />
+            <onexit>
+                <log expr="'Exiting State: state_0_4'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_5">
+            <onentry>
+                <log expr="'Entering State: state_0_5'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_5.execute_program.success" target="state_0_6" />
+            <onexit>
+                <log expr="'Exiting State: state_0_5'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_6">
+            <onentry>
+                <log expr="'Entering State: state_0_6'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_6.execute_program.success" target="state_0_7" />
+            <onexit>
+                <log expr="'Exiting State: state_0_6'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_7">
+            <onentry>
+                <log expr="'Entering State: state_0_7'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_7.execute_program.success" target="state_0_8" />
+            <onexit>
+                <log expr="'Exiting State: state_0_7'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_8">
+            <onentry>
+                <log expr="'Entering State: state_0_8'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_8.execute_program.success" target="state_0_9" />
+            <onexit>
+                <log expr="'Exiting State: state_0_8'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_9">
+            <onentry>
+                <log expr="'Entering State: state_0_9'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_9.execute_program.success" target="state_0_10" />
+            <onexit>
+                <log expr="'Exiting State: state_0_9'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_10">
+            <onentry>
+                <log expr="'Entering State: state_0_10'" label="INFO" />
+                <my_ns:execute_program value="blender" />
+            </onentry>
+            <transition event="state_0_10.execute_program.success" target="state_1" />
+            <onexit>
+                <log expr="'Exiting State: state_0_10'" label="INFO" />
+            </onexit>
+        </state>
+        <parallel id="state_1">
+            <onentry>
+                <assign expr="0" location="state_1_parallelcount" />
+                <log expr="'Entering State: state_1 (PARALLEL)'" label="INFO" />
+            </onentry>
+            <state id="state_1_pstate_0">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_0'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_0_state_0">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_0_state_0'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_0_state_0.execute_program.success" target="state_1_pstate_0_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_0_state_0'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_0_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_0'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_1">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_1'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_1_state_1">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_1_state_1'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_1_state_1.execute_program.success" target="state_1_pstate_1_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_1_state_1'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_1_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_1'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_2">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_2'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_2_state_2">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_2_state_2'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_2_state_2.execute_program.success" target="state_1_pstate_2_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_2_state_2'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_2_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_2'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_3">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_3'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_3_state_3">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_3_state_3'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_3_state_3.execute_program.success" target="state_1_pstate_3_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_3_state_3'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_3_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_3'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_4">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_4'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_4_state_4">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_4_state_4'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_4_state_4.execute_program.success" target="state_1_pstate_4_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_4_state_4'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_4_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_4'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_5">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_5'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_5_state_5">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_5_state_5'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_5_state_5.execute_program.success" target="state_1_pstate_5_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_5_state_5'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_5_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_5'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_6">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_6'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_6_state_6">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_6_state_6'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_6_state_6.execute_program.success" target="state_1_pstate_6_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_6_state_6'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_6_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_6'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_7">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_7'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_7_state_7">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_7_state_7'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_7_state_7.execute_program.success" target="state_1_pstate_7_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_7_state_7'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_7_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_7'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_8">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_8'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_8_state_8">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_8_state_8'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_8_state_8.execute_program.success" target="state_1_pstate_8_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_8_state_8'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_8_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_8'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_9">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_9'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_9_state_9">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_9_state_9'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_9_state_9.execute_program.success" target="state_1_pstate_9_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_9_state_9'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_9_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_9'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_10">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_10'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_10_state_10">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_10_state_10'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_10_state_10.execute_program.success" target="state_1_pstate_10_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_10_state_10'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_10_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_10'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_11">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_11'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_11_state_11">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_11_state_11'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_11_state_11.execute_program.success" target="state_1_pstate_11_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_11_state_11'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_11_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_11'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_12">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_12'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_12_state_12">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_12_state_12'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_12_state_12.execute_program.success" target="state_1_pstate_12_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_12_state_12'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_12_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_12'" label="INFO" />
+                </onexit>
+            </state>
+            <state id="state_1_pstate_13">
+                <onentry>
+                    <log expr="'Entering State: state_1_pstate_13'" label="INFO" />
+                </onentry>
+                <state id="state_1_pstate_13_state_13">
+                    <onentry>
+                        <log expr="'Entering State: state_1_pstate_13_state_13'" label="INFO" />
+                        <my_ns:execute_program value="blender" />
+                    </onentry>
+                    <transition event="state_1_pstate_13_state_13.execute_program.success" target="state_1_pstate_13_final" />
+                    <onexit>
+                        <log expr="'Exiting State: state_1_pstate_13_state_13'" label="INFO" />
+                    </onexit>
+                </state>
+                <final id="state_1_pstate_13_final">
+                    <onentry>
+                        <log expr="'Substate-Final reached: Increasing parallel counter state_1_parallelcount'" label="DEBUG" />
+                        <assign expr="state_1_parallelcount+1" location="state_1_parallelcount" />
+                    </onentry>
+                </final>
+                <onexit>
+                    <log expr="'Exiting State: state_1_pstate_13'" label="INFO" />
+                </onexit>
+            </state>
+            <transition cond="state_1_parallelcount==14" target="pre_result_assessment_wait">
+                <log expr="state_1_parallelcount" label="Exiting Count" />
+            </transition>
+            <onexit>
+                <log expr="'Exiting State: state_1 (PARALLEL)'" label="INFO" />
+            </onexit>
+        </parallel>
+        <state id="pre_result_assessment_wait">
+            <onentry>
+                <log expr="'Entering State: Wait (collecting data for 10 seconds)'" label="INFO" />
+                <send delay="'10s'" event="wait.finish" />
+            </onentry>
+            <transition event="wait.finish" target="result_assessment" />
+            <onexit>
+                <log expr="'Exiting State: Wait (collected data for 10 seconds)'" label="INFO" />
+            </onexit>
+        </state>
+    </state>
+    <state id="result_assessment" initial="clean">
+        <state id="clean">
+            <onentry>
+                <log expr="'Entering State: Cleanup components'" label="INFO" />
+                <my_ns:cleanUp expr="executable" value="" />
+            </onentry>
+            <transition target="assessment_state_0" />
+            <onexit>
+                <log expr="'Exiting State: Done cleaning up'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="assessment_state_0">
+            <onentry>
+                <log expr="'Entering State: assessment_state_0'" label="INFO" />
+                <my_ns:execute_program value="none" />
+            </onentry>
+            <transition event="assessment_state_0.execute_program.success" target="assessment_pre_exit_test_wait" />
+            <onexit>
+                <log expr="'Exiting State: assessment_state_0'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="assessment_pre_exit_test_wait">
+            <onentry>
+                <log expr="'Entering State: Wait (collecting data for 2 seconds)'" label="INFO" />
+                <send delay="'2s'" event="wait.finish" />
+            </onentry>
+            <transition event="wait.finish" target="exit_test" />
+            <onexit>
+                <log expr="'Exiting State: Wait (collected data for 2 seconds)'" label="INFO" />
+            </onexit>
+        </state>
+    </state>
+    <state id="criteria_error">
+        <onentry>
+            <log expr="'criteria_error state entered - Exiting!'" label="ERROR" />
+            <my_ns:error value="criteria" />
+        </onentry>
+        <transition target="exit_test" />
+    </state>
+    <state id="execution_error">
+        <onentry>
+            <log expr="'execution_error state entered - Exiting!'" label="ERROR" />
+            <my_ns:error value="executionFail" />
+        </onentry>
+        <transition target="exit_test" />
+    </state>
+    <state id="abortion_error">
+        <onentry>
+            <log expr="'execution_error state entered - Exiting!'" label="ERROR" />
+            <my_ns:error value="abortion" />
+        </onentry>
+        <transition target="exit_test" />
+    </state>
+    <final id="exit_test">
+        <onentry>
+            <log expr="'Entering State: exit_test'" label="INFO" />
+            <my_ns:cleanUp expr="executable" value="" />
+        </onentry>
+        <onexit>
+            <log expr="'Exiting State: exit_test'" label="INFO" />
+        </onexit>
+    </final>
+</scxml>

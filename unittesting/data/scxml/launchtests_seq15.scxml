@@ -1,0 +1,219 @@
+<scxml xmlns="http://www.w3.org/2005/07/scxml" xmlns:my_ns="de.unibi.citec.clf.fsmt" id="launchtest10" initial="initialise_test" version="1.0">
+    <datamodel>
+        <data id="environment">
+            <variable val="../../bin/" var="fsmt_path" />
+        </data>
+        <data id="hosts">
+            <hostinfo ip="127.0.0.1" name="localhost" />
+        </data>
+        <data id="component_bundle">
+            <component val="default">
+                <command val="ls $FSMFSM" />
+                <path val="/bin/" />
+                <execution_host val="localhost" />
+                <check_execution val="True">
+                    <check_type blocking="False" criteria="" ongoing="False" timeout="3" val="pid" />
+                </check_execution>
+            </component>
+            <component val="pid_lock-1">
+                <command val="fsmt_exlockouttimed 3 2 /tmp/.some_lock_file" />
+                <path val="$fsmt_path" />
+                <execution_host val="localhost" />
+                <check_execution val="True">
+                    <check_type blocking="True" criteria="" ongoing="False" timeout="1" val="pid" />
+                    <check_type blocking="True" criteria="/tmp/.some_lock_file" ongoing="False" timeout="1" val="lockfile" />
+                </check_execution>
+            </component>
+            <component val="out_lock-1">
+                <command val="fsmt_exlockouttimed 7 3 /tmp/.some_lock_file" />
+                <path val="$fsmt_path" />
+                <execution_host val="localhost" />
+                <check_execution val="True">
+                    <check_type blocking="True" criteria="" ongoing="False" timeout="1" val="pid" />
+                    <check_type blocking="True" criteria="FINDME" ongoing="False" timeout="4" val="stdout" />
+                </check_execution>
+            </component>
+            <component val="out_lock-2">
+                <command val="fsmt_exlockouttimed 7 3 /tmp/.some_lock_file" />
+                <path val="$fsmt_path" />
+                <execution_host val="localhost" />
+                <check_execution val="True">
+                    <check_type blocking="True" criteria="/tmp/.some_lock_file" ongoing="False" timeout="1" val="lockfile" />
+                    <check_type blocking="True" criteria="FINDME" ongoing="False" timeout="4" val="stdout" />
+                </check_execution>
+            </component>
+            <component val="out_lock-3">
+                <command val="fsmt_exlockouttimed 7 3 /tmp/.some_lock_file" />
+                <path val="$fsmt_path" />
+                <execution_host val="localhost" />
+                <check_execution val="True">
+                    <check_type blocking="True" criteria="" ongoing="False" timeout="1" val="pid" />
+                    <check_type blocking="True" criteria="/tmp/.some_lock_file" ongoing="False" timeout="1" val="lockfile" />
+                    <check_type blocking="True" criteria="FINDME" ongoing="False" timeout="4" val="stdout" />
+                </check_execution>
+            </component>
+        </data>
+    </datamodel>
+    <transition event="unsatisfied_criteria" target="criteria_error">
+        <log expr="'Received unsatisfied_criteria event!'" label="ERROR" />
+    </transition>
+    <transition event="external_abortion" target="abortion_error">
+        <log expr="'Received unsatisfied_criteria event!'" label="ERROR" />
+    </transition>
+    <transition event="execute_program.fail" target="execution_error">
+        <log expr="'Recieved execution_error event!'" label="ERROR" />
+    </transition>
+    <state id="initialise_test">
+        <onentry>
+            <log expr="'Entering State initialise_test'" label="INFO" />
+        </onentry>
+        <transition target="run_test" />
+        <onexit>
+            <log expr="'Exiting State: initialise_test'" label="INFO" />
+        </onexit>
+    </state>
+    <state id="run_test" initial="state_0">
+        <state id="state_0">
+            <onentry>
+                <log expr="'Entering State: state_0'" label="INFO" />
+                <my_ns:execute_program value="pid_lock-1" />
+            </onentry>
+            <transition event="state_0.execute_program.success" target="state_0_1" />
+            <onexit>
+                <log expr="'Exiting State: state_0'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_1">
+            <onentry>
+                <log expr="'Entering State: state_0_1'" label="INFO" />
+                <my_ns:execute_program value="out_lock-1" />
+            </onentry>
+            <transition event="state_0_1.execute_program.success" target="state_0_2" />
+            <onexit>
+                <log expr="'Exiting State: state_0_1'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_2">
+            <onentry>
+                <log expr="'Entering State: state_0_2'" label="INFO" />
+                <my_ns:execute_program value="out_lock-2" />
+            </onentry>
+            <transition event="state_0_2.execute_program.success" target="state_0_3" />
+            <onexit>
+                <log expr="'Exiting State: state_0_2'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="state_0_3">
+            <onentry>
+                <log expr="'Entering State: state_0_3'" label="INFO" />
+                <my_ns:execute_program value="out_lock-3" />
+            </onentry>
+            <transition event="state_0_3.execute_program.success" target="pre_result_assessment_wait" />
+            <onexit>
+                <log expr="'Exiting State: state_0_3'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="pre_result_assessment_wait">
+            <onentry>
+                <log expr="'Entering State: Wait (collecting data for 2 seconds)'" label="INFO" />
+                <send delay="'2s'" event="wait.finish" />
+            </onentry>
+            <transition event="wait.finish" target="result_assessment" />
+            <onexit>
+                <log expr="'Exiting State: Wait (collected data for 2 seconds)'" label="INFO" />
+            </onexit>
+        </state>
+    </state>
+    <state id="result_assessment" initial="clean">
+        <state id="clean">
+            <onentry>
+                <log expr="'Entering State: Cleanup components'" label="INFO" />
+                <my_ns:cleanUp expr="executable" value="" />
+            </onentry>
+            <transition target="assessment_state_0" />
+            <onexit>
+                <log expr="'Exiting State: Done cleaning up'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="assessment_state_0">
+            <onentry>
+                <log expr="'Entering State: assessment_state_0'" label="INFO" />
+                <my_ns:execute_program value="pid_lock-1" />
+            </onentry>
+            <transition event="assessment_state_0.execute_program.success" target="assessment_state_0_1" />
+            <onexit>
+                <log expr="'Exiting State: assessment_state_0'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="assessment_state_0_1">
+            <onentry>
+                <log expr="'Entering State: assessment_state_0_1'" label="INFO" />
+                <my_ns:execute_program value="out_lock-1" />
+            </onentry>
+            <transition event="assessment_state_0_1.execute_program.success" target="assessment_state_0_2" />
+            <onexit>
+                <log expr="'Exiting State: assessment_state_0_1'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="assessment_state_0_2">
+            <onentry>
+                <log expr="'Entering State: assessment_state_0_2'" label="INFO" />
+                <my_ns:execute_program value="out_lock-2" />
+            </onentry>
+            <transition event="assessment_state_0_2.execute_program.success" target="assessment_state_0_3" />
+            <onexit>
+                <log expr="'Exiting State: assessment_state_0_2'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="assessment_state_0_3">
+            <onentry>
+                <log expr="'Entering State: assessment_state_0_3'" label="INFO" />
+                <my_ns:execute_program value="out_lock-3" />
+            </onentry>
+            <transition event="assessment_state_0_3.execute_program.success" target="assessment_pre_exit_test_wait" />
+            <onexit>
+                <log expr="'Exiting State: assessment_state_0_3'" label="INFO" />
+            </onexit>
+        </state>
+        <state id="assessment_pre_exit_test_wait">
+            <onentry>
+                <log expr="'Entering State: Wait (collecting data for 2 seconds)'" label="INFO" />
+                <send delay="'2s'" event="wait.finish" />
+            </onentry>
+            <transition event="wait.finish" target="exit_test" />
+            <onexit>
+                <log expr="'Exiting State: Wait (collected data for 2 seconds)'" label="INFO" />
+            </onexit>
+        </state>
+    </state>
+    <state id="criteria_error">
+        <onentry>
+            <log expr="'criteria_error state entered - Exiting!'" label="ERROR" />
+            <my_ns:error value="criteria" />
+        </onentry>
+        <transition target="exit_test" />
+    </state>
+    <state id="execution_error">
+        <onentry>
+            <log expr="'execution_error state entered - Exiting!'" label="ERROR" />
+            <my_ns:error value="executionFail" />
+        </onentry>
+        <transition target="exit_test" />
+    </state>
+    <state id="abortion_error">
+        <onentry>
+            <log expr="'execution_error state entered - Exiting!'" label="ERROR" />
+            <my_ns:error value="abortion" />
+        </onentry>
+        <transition target="exit_test" />
+    </state>
+    <final id="exit_test">
+        <onentry>
+            <log expr="'Entering State: exit_test'" label="INFO" />
+            <my_ns:cleanUp expr="executable" value="" />
+        </onentry>
+        <onexit>
+            <log expr="'Exiting State: exit_test'" label="INFO" />
+        </onexit>
+    </final>
+</scxml>

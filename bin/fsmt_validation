@@ -1,0 +1,67 @@
+#! /usr/bin/python
+
+'''
+
+This file is part of FINITE STATE MACHINE BASED TESTING.
+
+Copyright(c) <Florian Lier, Norman Köster>
+http://opensource.cit-ec.de/fsmt
+
+This file may be licensed under the terms of the
+GNU Lesser General Public License Version 3 (the ``LGPL''),
+or (at your option) any later version.
+
+Software distributed under the License is distributed
+on an ``AS IS'' basis, WITHOUT WARRANTY OF ANY KIND, either
+express or implied. See the LGPL for the specific language
+governing rights and limitations.
+
+You should have received a copy of the LGPL along with this
+program. If not, go to http://www.gnu.org/licenses/lgpl.html
+or write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+The development of this software was supported by the
+Excellence Cluster EXC 277 Cognitive Interaction Technology.
+The Excellence Cluster EXC 277 is a grant of the Deutsche
+Forschungsgemeinschaft (DFG) in the context of the German
+Excellence Initiative.
+
+Authors: Florian Lier, Norman Köster
+<flier, nkoester>@techfak.uni-bielefeld.de
+
+'''
+
+from optparse import OptionParser
+from tools.fsmt_functionality_verification import test_fsmt_functionality
+import getpass
+
+if __name__ == '__main__':
+
+    parser = OptionParser(usage="Usage: %prog PATH_TO_SCXML_FILE",
+                          version="%prog 0.1")
+
+    parser.add_option("-o", "--output",
+                      action="store",
+                      dest="output",
+                      default="/tmp/" + getpass.getuser() +
+                            "/fsmt_validation/",
+                      help="Set output folder for result files, " +
+                      "the default is: " +
+                      "[/tmp/$USER/fsmt_validation/]")
+
+    parser.add_option("-r", "--runs",
+                      action="store",
+                      dest="runs",
+                      default=50,
+                      help="Set the number of runs to test FSMT timings " + \
+                      "with the given SCXML, " +
+                      "the default is: [50]")
+
+    (options, args) = parser.parse_args()
+
+    if len(args) != 1:
+        parser.print_help()
+        parser.error("Wrong number of arguments, RTFM!")
+
+    test_fsmt_functionality(args[0], options.runs, options.output)
