@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Köster
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from setuptools import setup, find_packages
 import subprocess
