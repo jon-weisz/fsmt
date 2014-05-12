@@ -2,7 +2,7 @@
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
-Copyright(c) <Florian Lier, Norman Köster>
+Copyright(c) <Florian Lier, Norman Koester>
 http://opensource.cit-ec.de/fsmt
 
 This file may be licensed under the terms of the
@@ -25,7 +25,7 @@ The Excellence Cluster EXC 277 is a grant of the Deutsche
 Forschungsgemeinschaft (DFG) in the context of the German
 Excellence Initiative.
 
-Authors: Florian Lier, Norman Köster
+Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
 """
