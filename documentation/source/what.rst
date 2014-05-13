@@ -28,10 +28,10 @@ state-chart model enables us to invoke states in parallel, or sequentially, whic
 start-up of system components, feasible and most importantly controllable. Last but not least, errors during the
 execution will prematurely end the state-machine to prevent subsequent errors.
 
-Further Information, Talks, and Papers
+Further Information, Talks, and Paper
 --------------------------------------------
 You can find additional information about FSMT here:
 
  * `International MORSE workshop paper 2013 <http://pub.uni-bielefeld.de/luur/download?func=downloadFile&recordOId=2602725&fileOId=2602726>`_
- * `International MORSE workshop talk 2013 <https://vimeo.com/68862135>`_
  * `International MORSE workshop slides 2013 <http://www.slideshare.net/FlorianLier/imw-20131>`_
+ * `Towards Automated Execution and Evaluation of Simulated Prototype HRI Experiments <http://pub.uni-bielefeld.de/publication/2645922>`_

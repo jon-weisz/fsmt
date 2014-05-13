@@ -27,10 +27,3 @@ Source code API-DOC
    
    fsmtest
    
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
