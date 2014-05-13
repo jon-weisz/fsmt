@@ -37,39 +37,51 @@ version = "master"
 filename = "master"
 
 setup(name="fsmtest",
+
       version=filename,
-      description="A SCXML based approach to support automated testing.",
-      long_description="A SCXML based approach to support automated testing" +
-          ". Long.",
+
+      description="A generic and configurable state machine based process to support automated system testing on a functional level",
+
+      long_description="This framework introduces a generic and configurable state machine based process: Finite State Machine"+
+                       "Testing to automate environment setup, system bootstrapping, functional system tests, result assessment,"+
+                       "exit and clean-up strategy.",
+
       author="Florian Lier and Norman Koester",
+
       author_email="flier[at]techfak.uni-bielefeld.de and " +
-          "nkoester[at]techfak.uni-bielefeld.de",
+                   "nkoester[at]techfak.uni-bielefeld.de",
+
       url="https://projects.cit-ec.uni-bielefeld.de/projects/svd/" +
           "wiki/State-Chart-Testing",
+
       download_url="https://projects.cit-ec.uni-bielefeld.de/projects/svd",
+
       packages=find_packages(exclude=["*.tests",
-                                          "*.tests.*",
-                                          "tests.*",
-                                          "tests"]),
-      scripts=["bin/fsmtest",
-               "bin/fsmt",
-             "bin/fsmt_iniparser",
-             "bin/fsmt_exout",
-             "bin/fsmt_exsilent",
-             "bin/fsmt_exchild",
-             "bin/fsmt_exouttimed",
-             "bin/fsmt_exlockouttimed",
-             "bin/fsmt_wsserver",
-             "bin/fsmt_validation",
-             "configuration/morse/tools/morse_ros_atrv/recordangles.sh",
-             "configuration/morse/tools/morse_ros_atrv/recordangles_path.sh",
-             "configuration/morse/tools/morse_ros_atrv/sendangles.sh"],
+                                      "*.tests.*",
+                                      "tests.*",
+                                      "tests"]),
+      scripts=["bin/fsmt",
+               "bin/fsmt_iniparser",
+               "bin/fsmt_exout",
+               "bin/fsmt_exsilent",
+               "bin/fsmt_exchild",
+               "bin/fsmt_exouttimed",
+               "bin/fsmt_exlockouttimed",
+               "bin/fsmt_wsserver",
+               "bin/fsmt_validation",
+               "configuration/morse/tools/morse_ros_atrv/recordangles.sh",
+               "configuration/morse/tools/morse_ros_atrv/recordangles_path.sh",
+               "configuration/morse/tools/morse_ros_atrv/sendangles.sh"],
       package_data={'fsmtest': ['configuration/*']},
+
       include_package_data=True,
+
       keywords=['Testing', 'Test', 'System Testing',
-                  'Component Based Testing', 'Simulation Testing',
-                  'Software Tests'],
+                'Component Based Testing', 'Simulation Testing',
+                'Software Tests'],
+
       license="LGPLv3",
+
       classifiers=[
           'Development Status :: Beta',
           'Environment :: Console',
@@ -81,6 +93,7 @@ setup(name="fsmtest",
           'Programming Language :: Python',
           'Topic :: Text Processing :: Markup :: XML'
       ],
+
       install_requires=[ 'pyscxml', 'Louie', 'termcolor',   'eventlet', 'suds',
                          'restlib', 'lxml',  'nose==1.2.1', 'coverage', 'nosexcover',
                          'pylint',  'setuptools-lint', 'psutil',

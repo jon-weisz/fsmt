@@ -5,12 +5,12 @@ General Usage
 --------------------------
 
 If you installed ``fsmt`` in a custom path, make sure you add this path to your 
-**$PYTHONPATH** & **$PATH** before starting fsmtest::
+**$PYTHONPATH** & **$PATH** before starting fsmt::
 
     $ export PYTHONPATH=/vol/sandbox/fsmt/lib/python2.7/site-packages:$PYTHONPATH
     $ export PATH=/vol/sandbox/fsmt/bin/:$PATH
 
-In general it is sufficient to just type ``fsmt`` or ``fsmtest`` and give a 
+In general it is sufficient to just type ``fsmt`` and give a
 path to a SCXML configuration file::
 
     $ fsmt configuration/std/stdtools.scxml
@@ -67,7 +67,7 @@ these directories are::
 The default_path for these files is ``/tmp/$USER/``, you can specify your own 
 path using the "-o" option::
 
-    fsmtest -o /vol/sandbox/logs/ configuration/std/stdtools.scxml 
+    fsmt -o /vol/sandbox/logs/ configuration/std/stdtools.scxml
 
 
 Environment Variables
