@@ -48,7 +48,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_0(self):
         print "Starting test_launch_fsmtest_0"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq0.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq0.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -64,7 +64,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_1(self):
         print "Starting test_launch_fsmtest_1"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq1.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq1.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -80,7 +80,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_2(self):
         print "Starting test_launch_fsmtest_2"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq2.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq2.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -96,7 +96,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_3(self):
         print "Starting test_launch_fsmtest_3"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq3.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq3.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -112,7 +112,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_4(self):
         print "Starting test_launch_fsmtest_4"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq4.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq4.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -128,7 +128,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_5(self):
         print "Starting test_launch_fsmtest_5"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq5.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq5.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -144,7 +144,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_6(self):
         print "Starting test_launch_fsmtest_6"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq6.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq6.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -160,7 +160,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_7(self):
         print "Starting test_launch_fsmtest_7"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq7.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq7.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -176,7 +176,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_8(self):
         print "Starting test_launch_fsmtest_8"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq8.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq8.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -192,7 +192,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_9(self):
         print "Starting test_launch_fsmtest_9"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq9.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq9.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -208,7 +208,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_10(self):
         print "Starting test_launch_fsmtest_10"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq10.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq10.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -224,7 +224,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_11(self):
         print "Starting test_launch_fsmtest_11"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq11.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq11.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -240,7 +240,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_12(self):
         print "Starting test_launch_fsmtest_12"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq12.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq12.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -256,7 +256,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_13(self):
         print "Starting test_launch_fsmtest_13"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq13.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq13.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -272,7 +272,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_14(self):
         print "Starting test_launch_fsmtest_14"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq14.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq14.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -288,7 +288,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_15(self):
         print "Starting test_launch_fsmtest_15"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq15.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq15.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -304,7 +304,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_16(self):
         print "Starting test_launch_fsmtest_16"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq16.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq16.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         sub_proc_ret_code = sub_process.wait()
@@ -320,7 +320,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_regression_1(self):
         print "Starting test_launch_fsmtest_regression_1"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq11.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq11.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         pid = sub_process.pid
@@ -346,7 +346,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_regression_2(self):
         print "Starting test_launch_fsmtest_regression_2"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq8.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq8.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         pid = sub_process.pid
@@ -372,7 +372,7 @@ class Test(unittest.TestCase):
 
     def test_launch_fsmtest_regression_3(self):
         print "Starting test_launch_fsmtest_regression_3"
-        cmd = ["../../bin/fsmtest", "../data/scxml/launchtests_seq5.scxml"]
+        cmd = ["../../bin/fsmt", "../data/scxml/launchtests_seq5.scxml"]
         sub_process = subprocess.Popen(cmd)
         t0 = time.time()
         pid = sub_process.pid
