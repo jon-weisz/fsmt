@@ -469,7 +469,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
     '''
 
     if not silent:
-        print "\nWARNING: This converter is in its early BETA phase..."
+        print "\nWARNING: BETA Version"
         print "WARNING: Not all features may work as intended..."
     try:
         #======================================================================
