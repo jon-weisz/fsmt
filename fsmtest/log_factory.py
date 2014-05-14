@@ -84,12 +84,9 @@ class ColorLog(object):
                         filename.find('fsmtest/Utils.py') > 0 or \
                         f.f_code.co_name == "<lambda>":  # New line
                     f = f.f_back  # Original line for context.
-                    continue  # Original line for context.
+                    continue      # Original line for context.
                 rv = (co.co_filename, f.f_lineno, co.co_name)
                 break
-#            if "advanced_pyscxml_logfunction" in rv:
-#                rv = ['/somewhere/PYSCXML', "-1", 'log']
-#                return "PYSCXML"
             return rv
 
         self.loggger.findCaller = find_caller_no_lambda
@@ -113,7 +110,7 @@ class LogFactory(object):
     '''
 
     _instance = None
-    _isSetup = False
+    _isSetup  = False
 
     def __new__(cls, *args, **kwargs):
         """
@@ -197,7 +194,7 @@ class LogFactory(object):
                         or (record.levelno == self.stream_level)
 
         #======================================================================
-        # defining the formatter
+        # Defining the formatter
         #======================================================================
         format_date = "%H:%M:%S"
 
@@ -226,11 +223,11 @@ class LogFactory(object):
                 datefmt=format_date)
 
         # Deactivates logging in the statemachine but also suppresses own logs
-        # in the custom_executable :/ TODO: investigate
+        # in the custom_executable TODO: investigate
         # logging.get_logger("pyscxml").propagate = False
 
         #======================================================================
-        # create the logger
+        # Create the logger
         #======================================================================
         if use_colour_logging:
             logger = ColorLog(logging.getLogger())
@@ -255,7 +252,7 @@ class LogFactory(object):
         import types
 
         #======================================================================
-        # add the stream level
+        # Add the stream level
         #======================================================================
         logger.enableStream = enable_stream
 
