@@ -470,7 +470,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
 
     if not silent:
         print "\nWARNING: BETA Version"
-        print "WARNING: Not all features may work as intended..."
+        print "WARNING: Not all features may work as expected"
     try:
         #======================================================================
         # PARSINT INTITIALISATION
