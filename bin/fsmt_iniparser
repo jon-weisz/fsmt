@@ -32,9 +32,10 @@ Authors: Florian Lier, Norman Koester
 
 '''
 
+from fsmtest.parser import fsminiparser
 from optparse import OptionParser
-from tools import fsminiparser
 import os
+
 
 if __name__ == '__main__':
 

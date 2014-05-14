@@ -30,9 +30,9 @@ Authors: Florian Lier, Norman Koester
 
 '''
 
-from tools import fsminiparser
 import unittest
 import os
+from fsmtest.parser import fsminiparser
 
 
 class Test(unittest.TestCase):
