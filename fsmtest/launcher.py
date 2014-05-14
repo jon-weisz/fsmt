@@ -258,7 +258,7 @@ class Launcher():
                 "\n#######################################################\n" +
                 "##        FSMT finished. Listing run details         ##\n" +
                 "#######################################################")
-            self.log.info("Absolute runtime: %s seconds" %
+            self.log.info("Absolute runtime : %s seconds" %
                           (time.time() - init_time))
             resource_centre.stop()
 
