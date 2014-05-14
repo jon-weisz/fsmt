@@ -94,7 +94,7 @@ setup(name="fsmtest",
           'Topic :: Text Processing :: Markup :: XML'
       ],
 
-      install_requires=[ 'pyscxml', 'Louie', 'termcolor',   'eventlet', 'suds',
+      install_requires=[ 'Louie', 'termcolor',   'eventlet', 'suds',
                          'restlib', 'lxml',  'nose==1.2.1', 'coverage', 'nosexcover',
                          'pylint',  'setuptools-lint', 'psutil',
                          'websocket-client', 'paramiko', 'pep8' ])
