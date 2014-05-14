@@ -147,8 +147,8 @@ class ProcessCommunicator():
         if software_component.check_execution is False or \
             number_of_observers_to_wait_for == 0:
             state_machine.log.warning(
-                ("[%s] check_execution is disabled/no observers defined - " + \
-                 "sending blind success event"), software_component.name)
+                ("[%s] Execution check is disabled - " + \
+                 "triggering un-checked success event"), software_component.name)
             global_success_event_sent = True
             if software_component.execution_type == "parallel":
                 state_machine.log.critical(
