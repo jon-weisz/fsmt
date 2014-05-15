@@ -81,7 +81,7 @@ paths. For instance::
     14:48:42 DEBUG [Utils.py@33]: Output path initialized in /tmp/flier/fsmtesting/05-26_144842
     14:48:42 DEBUG [Utils.py@33]: Envionment var $FSMTRA set to 05-26_144842
     14:48:42 DEBUG [Utils.py@33]: Envionment var $FSMBASE set to /tmp/flier/fsmtesting/05-26_144842/
-    14:48:42 DEBUG [Utils.py@33]: Envionment var $FSMLOG set to /tmp/flier/fsmtesting/05-26_144842/log
+    14:48:42 DEBUG [Utils.py@33]: Envionment var $FSMLOG set to /tmp/flier/fsmtesting/05-26_144842/logs
     14:48:42 DEBUG [Utils.py@33]: Envionment var $FSMFSM set to /tmp/flier/fsmtesting/05-26_144842/fsm
     14:48:42 DEBUG [Utils.py@33]: Envionment var $FSMIMG set to /tmp/flier/fsmtesting/05-26_144842/images
     14:48:42 DEBUG [Utils.py@33]: Envionment var $FSMPLO set to /tmp/flier/fsmtesting/05-26_144842/plots

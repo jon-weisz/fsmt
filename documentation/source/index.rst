@@ -20,10 +20,7 @@ Contents:
    unittestdescription
 
 
-Source code API-DOC
+.. Source code API-DOC
 
-.. toctree::
-   :maxdepth: 3
-   
-   fsmtest
+.. fsmtest
    
