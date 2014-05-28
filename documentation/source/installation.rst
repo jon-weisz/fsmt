@@ -45,7 +45,7 @@ Once everything is installed and your environment variables ``PYTHONPATH`` and
 ``PATH`` are set, you can easily call ``fsmt`` with a configuration file. For 
 example, you can call a standard test from the sources::
     
-    $ fsmt ~/FSMtesting/fsmt/configuration/std/stdtools.scxml
+    $ fsmt ~/sandbox/src/fsmt/configuration/std/stdtools.scxml
 
 .. note:: There are several tools alongside ``fsmt``. Please see :doc:`tools` 
 		  for details. 
