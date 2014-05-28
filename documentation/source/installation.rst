@@ -9,12 +9,11 @@ In order to use ``fsmt`` you require:
 * **Python 2.7.x** (python 3.x will **not** work)
 * **setuptools** for python
 
-
 First, you have to get the `fsmt` sourcecode::
 	
 	$ mkdir ~/FSMtesting/fsmt && cd ~/FSMtesting/fsmt
-	$ svn co https://projects.cit-ec.uni-bielefeld.de/svn/svd/FSMtesting/trunk .
-	$ sudo python setup.py build && sudo python setup.py install 
+	$ git clone https://openresearch.cit-ec.de/git/fsmt.git .
+	$ python setup.py setup.py install
 
 Generally, these are all the steps required to install ``fsmt``. You might 
 change the installation prefix to any prefix you want. For 
@@ -28,7 +27,7 @@ you have to do::
    $ sudo mkdir -p /vol/sandbox/fsmt/lib/python2.7/site-packages/
    $ export PYTHONPATH=/vol/sandbox/fsmt/lib/python2.7/site-packages/:$PYTHONPATH
    $ export PATH=/vol/sandbox/fsmt/bin:$PATH
-   $ python setup.py build && python setup.py install --prefix=/vol/sandbox/fsmt/ --record installed_files.txt
+   $ python setup.py install --prefix=/vol/sandbox/fsmt/ --record installed_files.txt
 
 You can check the installed requirements in the setup.py, they are automatically 
 installed via setuptools. However, it is noteworthy that PySCXML is required. 
