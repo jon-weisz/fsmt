@@ -6,26 +6,25 @@ General Build Information
 --------------------------------------
 In order to use ``fsmt`` you require:
 
-* **Python 2.7.x** (python 3.x will **not** work)
-* **setuptools** for python
+* **Python 2.7.x** (Python 3.x is **not** supported)
+* **setuptools** for Python
 
-First, you have to get the `fsmt` sourcecode::
-	
-	$ mkdir -p ~/src/fsmt && cd ~/src/fsmt
-	$ git clone https://openresearch.cit-ec.de/git/fsmt.git .
-	$ python setup.py install
+Install setuptools if not yet installed::
+
+    $ sudo apt-get install python-setuptools
+
 
 In general, these are all the steps required to install ``fsmt``. You might
-change the installation prefix to any prefix you want. For 
-anything below "/" (root) you will obviously need **root** permissions for installation.
-For **/home/$USER** (see below) you can omit the sudo command, but you will have to
-change the paths accordingly.
+change the installation prefix to any prefix you want. For anything below "/"
+(root) you will obviously need **root** permissions for installation. For
+**/home/$USER** (see below) you can omit the sudo command, but you will have
+to change the paths accordingly.
 
 So, if you for example want to install into a sandbox in ``~/sandbox/``, 
 you have to do::
 
    $ mkdir -p ~/sandbox/lib/python2.7/site-packages/ && cd ~/sandbox/
-   $ mkdir src && cd src
+   $ mkdir -p src/fsmt && cd src/fsmt
    $ git clone https://openresearch.cit-ec.de/git/fsmt.git .
    $ export PYTHONPATH=~/sandbox/lib/python2.7/site-packages/:$PYTHONPATH
    $ export PATH=~/sandbox/bin:$PATH
