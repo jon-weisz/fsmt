@@ -13,11 +13,11 @@ First, you have to get the `fsmt` sourcecode::
 	
 	$ mkdir -p ~/src/fsmt && cd ~/src/fsmt
 	$ git clone https://openresearch.cit-ec.de/git/fsmt.git .
-	$ python setup.py setup.py install
+	$ python setup.py install
 
 In general, these are all the steps required to install ``fsmt``. You might
 change the installation prefix to any prefix you want. For 
-anything below "/" (root) you will obviously need **sudo** for installation. 
+anything below "/" (root) you will obviously need **root** permissions for installation.
 For **/home/$USER** (see below) you can omit the sudo command, but you will have to
 change the paths accordingly.
 
