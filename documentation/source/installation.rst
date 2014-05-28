@@ -56,12 +56,12 @@ Build the documentation
 
 Actually, build **this** documentation::
 
-    $ cd ~/FSMtesting/src/fsmtest
+    $ cd ~/sandbox/src/fsmt
     $ python setup.py build_sphinx
 
 You can then find the documentation at::
 
-    ~/FSMtesting/fsmt/documentation/build/
+    ~/sandbox/src/fsmt/documentation/build/
 
 
 ROS based examples
