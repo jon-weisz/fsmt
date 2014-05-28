@@ -11,7 +11,7 @@ In order to use ``fsmt`` you require:
 
 First, you have to get the `fsmt` sourcecode::
 	
-	$ mkdir ~/src/fsmt && cd ~/src/fsmt
+	$ mkdir -p ~/src/fsmt && cd ~/src/fsmt
 	$ git clone https://openresearch.cit-ec.de/git/fsmt.git .
 	$ python setup.py setup.py install
 
