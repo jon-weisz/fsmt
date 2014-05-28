@@ -24,17 +24,20 @@ change the paths accordingly.
 So, if you for example want to install into a sandbox in ``~/sandbox/``, 
 you have to do::
 
-   $ mkdir -p ~/sandbox/lib/python2.7/site-packages/
+   $ mkdir -p ~/sandbox/lib/python2.7/site-packages/ && cd ~/sandbox/
+   $ mkdir src && cd src
+   $ git clone https://openresearch.cit-ec.de/git/fsmt.git .
    $ export PYTHONPATH=~/sandbox/lib/python2.7/site-packages/:$PYTHONPATH
    $ export PATH=~/sandbox/bin:$PATH
    $ python setup.py install --prefix=~/sandbox --record installed_files.txt
 
 You can check the installed requirements in the setup.py, they are automatically 
-installed via setuptools. However, it is noteworthy that PySCXML is required. 
-If you want to install it separately::
+installed via setuptools. However, it is noteworthy that PySCXML is **required**.
+You nned to install it separately from GIT::
 
-    $ git clone https://github.com/jroxendal/PySCXML.git
-    $ cd PySCXML
+    $ cd ~/sandbox/src
+    $ mkdir pyscxml && cd pyscxml
+    $ git clone https://github.com/jroxendal/PySCXML.git .
     $ export PYTHONPATH=~/sandbox/python2.7/site-packages:$PYTHONPATH
     $ python setup.py install --prefix=~/sandbox/
 
