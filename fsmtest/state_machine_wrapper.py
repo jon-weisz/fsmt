@@ -37,7 +37,7 @@ from fsmtest.process_executor import ProcessExecutor
 from fsmtest.scxml_helper import advanced_pyscxml_logfunction, \
     extract_software_component, extract_execution_type
 from fsmtest.utils import update_environment_setup, log_process_pids, \
-    end_process_and_children_in_mannered_way, write_fsm_file, write_fsm_diag
+    end_process_and_children, write_fsm_file, write_fsm_diag
 from fsmtest.containers.xunit_test_case import XUnitTestCase
 from scxml.pyscxml import StateMachine, custom_executable
 import multiprocessing
@@ -135,8 +135,6 @@ global all_program_observers
 all_program_observers = []
 
 # Don't loose the following line or all hell breaks loose
-
-
 @custom_executable("de.unibi.citec.clf.fsmt")
 def custom_executable(node, something):
     """
@@ -308,20 +306,20 @@ def custom_executable(node, something):
             one_program_executor.ptylog_writer.close_logger()
             logger_status = one_program_executor.pty_log_runner.wait()
             if logger_status != 0:
-                log.warning("Log writer ended with status 1, Force Quit")
+                log.warning("Log writer closed with return code 1 >> Force Quit")
             else:
                 log.debug("Closing log writer done, status 0, Good.")
 
-            # Kill the process in mannered fashion...
             try:
                 log.info("Ending process %s [%s] and its children", name, pid)
-                end_process_and_children_in_mannered_way(
+                end_process_and_children(
                     pid,
                     one_program_executor.subprocess,
                     log)
             except Exception, e:
-                log.warning("Error killing %s [%s]: %s. Considering it dead.",
+                log.warning("Error killing %s [%s]: %s. Considering it already dead.",
                             name, pid, e)
+
             all_program_executors.pop(one_program_executor)
 
         log.debug("Writing FSM results in %s", state_machine.log_folder_fsm)

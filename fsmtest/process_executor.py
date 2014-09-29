@@ -65,7 +65,6 @@ class ProcessExecutor():
         :param environment_map:
         :param log_folder:
         """
-        # multiprocessing.Process.__init__(self)
         self.log = LogFactory().get_logger()
         self.parent_pipe = process_pipe_
         self.software_component = software_component_
@@ -122,7 +121,6 @@ class ProcessExecutor():
         self.ptylog_writer = PTYLogWriter(self.software_component.name)
         self.component_runner = eventlet.spawn(self.component_runner_function)
 
-    # ex "run"
     def component_runner_function(self):
         """
         Run dos, run. This method actaully starts a component.
@@ -176,7 +174,7 @@ class ProcessExecutor():
         # Problem: Buffer does not get flushed!! ?!?!
         # cmd_splitter = ["tee", "%s" % self.log_file_name]
         # tee = subprocess.Popen(cmd_splitter, stdin=master,
-        #            stdout=slave_tee, stderr=slave_tee, bufsize=-1)
+        #       stdout=slave_tee, stderr=slave_tee, bufsize=-1)
         # self.tee_process = tee
 
         '''
@@ -280,14 +278,16 @@ class ProcessExecutor():
                 self.process_observers,
                 self.blocking_process_observers):
             an_observer.stop()
-            # thread stop+join == eventlet stop+wait (__IF__ threads are
-            # bug-free!!! which is actually also true for eventlets...anyways)
+            # Thread stop+join == eventlet stop+wait
+            # __IF__ threads are bug-free!!!
             an_observer.join()
             self.log.debug("(%s) Observer %s is done!",
                            self.software_component.name, an_observer.name)
 
-        self.log.info("(%s) Exited with return code %s",
-                      self.software_component.name, sub_proc_ret_code)
+        self.log.info("%s [%s] quit, return code %s",
+                      self.software_component.name,
+                      self.software_component.pid,
+                      sub_proc_ret_code)
 
         # Close the processCommunicator pipe too
         self.parent_pipe.close()

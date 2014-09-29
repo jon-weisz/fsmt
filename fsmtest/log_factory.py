@@ -42,11 +42,9 @@ import traceback
 
 
 class ColorLog(object):
-
     '''
     Wrapper hook class to realise coloured terminal output for the log.
     '''
-
     colormap = dict(
         debug=dict(color='grey', attrs=['bold']),
         info=dict(color='green'),
@@ -55,16 +53,13 @@ class ColorLog(object):
         error=dict(color='red'),
         critical=dict(color='red', attrs=['bold', 'underline']),
         # TODO: Check why outline is not working
-        outline=dict(color='blue'),
-    )
+        outline=dict(color='blue'))
 
     def __init__(self, logger):
         """
-        Constructor.
-
         :param logger:
         """
-        self.loggger = logger
+        self.custom_logger = logger
 
         def find_caller_no_lambda():
             """
@@ -89,7 +84,7 @@ class ColorLog(object):
                 break
             return rv
 
-        self.loggger.findCaller = find_caller_no_lambda
+        self.custom_logger.findCaller = find_caller_no_lambda
 
     def __getattr__(self, name):
         """
@@ -98,9 +93,9 @@ class ColorLog(object):
         """
         if name in ['debug', 'info', 'warn', 'warning',
                     'error', 'critical', 'outline']:
-            return lambda s, *args: getattr(self.loggger, name)(
+            return lambda s, *args: getattr(self.custom_logger, name)(
                 colored(s, **self.colormap[name]), *args)
-        return getattr(self.loggger, name)
+        return getattr(self.custom_logger, name)
 
 
 class LogFactory(object):
@@ -147,12 +142,12 @@ class LogFactory(object):
         self._use_colour_logging = use_colour_logging
 
         stream_level = 5
-        center_integer = 10
+        center_integer = 5
         level_names = {
             50: '[CRITICAL]'.center(center_integer),
             40: '[ERROR]'.center(center_integer),
             30: '[WARNING]'.center(center_integer),
-            20: '[INFO]'.center(center_integer),
+            20: '[INFO]'.ljust(center_integer),
             10: '[DEBUG]'.center(center_integer),
             stream_level: '[STREAM]'.center(center_integer),
             0:  '[NOTSET]'.center(center_integer),
@@ -183,7 +178,6 @@ class LogFactory(object):
             def filter(self, record):
                 '''
                 The filtering method.
-
                 :param record:
                 '''
                 if self.reject:
@@ -202,16 +196,22 @@ class LogFactory(object):
                                   attrs=['bold'])
         format_args_part_b = dict(color='white',
                                   attrs=['bold', 'underline'])
-        format_a = '%(asctime)s %(levelname)s ['
-        format_b = '%(module)s.py@%(lineno)d'
+
+        format_a  = '%(asctime)s %(levelname)s ['
+        format_b  = '%(module)s.py@%(lineno)d'
         format_c1 = ']:'
         format_d1 = ' %(message)s'
         format_c2 = ']: %(message)s'
 
+        format_a_info  = '%(asctime)s %(levelname)s'
+        format_c1_info = ':'
+        format_d1_info = ' %(message)s'
+
         no_colour_log_formatter = logging.Formatter(
             fmt=format_a + format_b + format_c2,
             datefmt=format_date)
-        if use_colour_logging:
+
+        if use_colour_logging and level != "INFO":
             log_formatter = logging.Formatter(
                 fmt=colored(format_a, **format_args_part_a) +
                 colored(format_b, **format_args_part_b) +
@@ -222,8 +222,19 @@ class LogFactory(object):
                 fmt=format_a + format_b + format_c2,
                 datefmt=format_date)
 
+        if use_colour_logging and level == "INFO":
+            log_formatter = logging.Formatter(
+                fmt=colored(format_a_info, **format_args_part_a) +
+                colored(format_c1_info, **format_args_part_a) +
+                format_d1_info, datefmt=format_date)
+        else:
+            log_formatter = logging.Formatter(
+                fmt=format_a + format_b + format_c2,
+                datefmt=format_date)
+
         # Deactivates logging in the statemachine but also suppresses own logs
-        # in the custom_executable TODO: investigate
+        # in the custom_executable.
+        # TODO: investigate
         # logging.get_logger("pyscxml").propagate = False
 
         #======================================================================
@@ -233,6 +244,7 @@ class LogFactory(object):
             logger = ColorLog(logging.getLogger())
         else:
             logger = logging.getLogger()
+
         logger.setLevel(logging.NOTSET)
         logging._levelNames = level_names
         logging.STREAM = stream_level

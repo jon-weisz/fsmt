@@ -50,8 +50,6 @@ class SoftwareComponent(object):
         self.execution_type = "default"
         self.check_execution = False
         self.identifier = id(self)
-        self._girlfriend = "None"  # boo :(
-        self._boyfriend = "flo"  # yay
         self.environment = None
 
     def add_check_type(self, check_type):

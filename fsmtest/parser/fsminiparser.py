@@ -170,7 +170,7 @@ Tstate = '''
                         <log label="INFO" expr="'Entering State: %(name)s'" />
                         <my_ns:execute_program value="%(componentToCall)s" />
                     </onentry>
-                    <transition event="%(name)s.execute_program.success" target="%(target)s" />
+                    <transition event="%(componentToCall)s.execute_program.success" target="%(target)s" />
                     <onexit>
                         <log label="INFO" expr="'Exiting State: %(name)s'" />
                     </onexit>

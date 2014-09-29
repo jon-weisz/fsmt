@@ -88,10 +88,13 @@ def log_process_pids(proc_exec, log):
     log.debug("These components will be ended now: %s" % kill_list)
 
 
-def end_process_and_children_in_mannered_way(pid, process, log):
-
+def end_process_and_children(pid, process, log):
+    """
+    :param pid:
+    :param process:
+    :param log:
+    """
     if process.poll() is None:
-
         log.debug("Before killing, look for children of %s..." % (pid))
         ret_child = kill_child_processes(pid, log)
         if ret_child == 0:
@@ -100,13 +103,12 @@ def end_process_and_children_in_mannered_way(pid, process, log):
             log.debug("Error: Not all children of %s could be killed." % pid)
 
         log.debug("Ending parent process %s now" % pid)
-        gone = kill_pid(pid, log)
+        is_gone = kill_pid(pid, log)
 
-        if gone > 0:
+        if is_gone > 0:
             log.warning("Status of %s still unknown" % (pid))
         else:
             log.debug("Ended process %s successfully!" % str(pid))
-
     else:
         log.debug("Process %s is already un-pollable. Doing nothing." % (pid))
 

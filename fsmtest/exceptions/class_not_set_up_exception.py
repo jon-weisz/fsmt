@@ -32,11 +32,9 @@ Authors: Florian Lier, Norman Koester
 
 
 class ClassNotSetUpException(Exception):
-
     '''
     Raised when a class is called before it was set up.
     '''
-
     def __init__(self, value):
         """
         :param value:

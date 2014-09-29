@@ -186,7 +186,7 @@ class Launcher():
         """
         global websocket_connection
         if self.is_setup:
-            self.log.debug("Creating FSM instance using your config: %s",
+            self.log.debug("Creating FSMT instance using your config: %s",
                            self.path_to_scxml_file[:])
             state_machine_wrapper = StateMachineWrapper()
             state_machine_wrapper.create_state_machine(self.path_to_scxml_file)
@@ -204,7 +204,6 @@ class Launcher():
             process_communicator = ProcessCommunicator()
             process_communicator.setup(
                 state_machine_wrapper,
-                # all_program_executors.keys(),
                 None,
                 self.log)
             eventlet.sleep(0.01)
@@ -232,10 +231,10 @@ class Launcher():
             # thread! Otherwise you cannot switch context
             state_machine_wrapper.exit_watcher = \
                 ExitWatcher(state_machine_wrapper)
+
             # Exit watcher is closed in the clean_up block
             eventlet.spawn(state_machine_wrapper.exit_watcher.do_watch)
-            # sc = stateCenter(statemachine)
-            # eventlet.spawn_after(0.1, sc.set_current_state)
+
             init_time = time.time()
             state_machine_wrapper.init_time = init_time
             fsm_pid = os.getpid()
@@ -253,13 +252,9 @@ class Launcher():
             self.log.info("Writing log archive to %s", destination)
             make_zipfile(source, destination)
 
-            # Done!
-            self.log.debug(
-                "\n#######################################################\n" +
-                "##        FSMT finished. Listing run details         ##\n" +
-                "#######################################################")
             self.log.info("Absolute runtime : %s seconds" %
                           (time.time() - init_time))
+
             resource_centre.stop()
 
             self.log.info("Maximum CPU usage: %s %%",
@@ -276,13 +271,11 @@ class Launcher():
                 result = ""
                 if state_machine_wrapper.exit_grace:
                     result += "CTRL+C detected... "
-                if state_machine_wrapper.unsatisfied:
-                    # This is mentioned before ...
-                    # result += "State Machine received 'unsatisfied_criteria'"
-                    pass
                 state_machine_wrapper.log.warning(
                     "POSIX exit status: 1 %s ", result)
                 sys.exit(1)
+            else:
+                self.log.info(">> FSMT RUN WAS SUCCESSFUL <<")
         else:
             self.log.error(
                 "You need to call setup() before calling the run() method!")

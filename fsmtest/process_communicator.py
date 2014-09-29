@@ -158,7 +158,7 @@ class ProcessCommunicator():
                     software_component.counter_name
                 ] += 1
             elif software_component.execution_type == "default":
-                state_machine.send(software_component.parent_state +
+                state_machine.send(software_component.name +
                                    ".execute_program.success")
                 state_machine.block_diagram[
                     'content'] += software_component.parent_state + "-" + \
@@ -255,7 +255,7 @@ class ProcessCommunicator():
                         elif software_component.execution_type == \
                                 "default":
                             state_machine.send(
-                                exchange_data.parent_state +
+                                exchange_data.message +
                                 ".execute_program.success")
                             if state_machine.wsconn.get_is_connected():
                                 # print state_machine.interpreter.configuration
