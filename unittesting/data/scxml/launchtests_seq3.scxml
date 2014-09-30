@@ -2,7 +2,7 @@
     <datamodel>
         <data id="environment">
             <variable val="/usr/bin" var="release_prefix" />
-            <variable val="/usr/lib/pkgconfig" var="pkg_config_path" />
+            <variable val="/usr/lib/pkgconfig" var="PKG_CONFIG_PATH" />
             <variable val="/vol/robocup/2013/" var="prefix" />
         </data>
         <data id="hosts">
@@ -38,6 +38,9 @@
     <transition event="unsatisfied_criteria" target="criteria_error">
         <log expr="'Received unsatisfied_criteria event!'" label="ERROR" />
     </transition>
+    <transition event="external_abortion" target="abortion_error">
+        <log expr="'Received unsatisfied_criteria event!'" label="ERROR" />
+    </transition>
     <transition event="execute_program.fail" target="execution_error">
         <log expr="'Recieved execution_error event!'" label="ERROR" />
     </transition>
@@ -56,7 +59,7 @@
                 <log expr="'Entering State: state_0'" label="INFO" />
                 <my_ns:execute_program value="timed-2" />
             </onentry>
-            <transition event="state_0.execute_program.success" target="state_0_1" />
+            <transition event="timed-2.execute_program.success" target="state_0_1" />
             <onexit>
                 <log expr="'Exiting State: state_0'" label="INFO" />
             </onexit>
@@ -66,7 +69,7 @@
                 <log expr="'Entering State: state_0_1'" label="INFO" />
                 <my_ns:execute_program value="timed-1" />
             </onentry>
-            <transition event="state_0_1.execute_program.success" target="pre_result_assessment_wait" />
+            <transition event="timed-1.execute_program.success" target="pre_result_assessment_wait" />
             <onexit>
                 <log expr="'Exiting State: state_0_1'" label="INFO" />
             </onexit>
@@ -98,7 +101,7 @@
                 <log expr="'Entering State: assessment_state_0'" label="INFO" />
                 <my_ns:execute_program value="timed-2" />
             </onentry>
-            <transition event="assessment_state_0.execute_program.success" target="assessment_state_0_1" />
+            <transition event="timed-2.execute_program.success" target="assessment_state_0_1" />
             <onexit>
                 <log expr="'Exiting State: assessment_state_0'" label="INFO" />
             </onexit>
@@ -108,7 +111,7 @@
                 <log expr="'Entering State: assessment_state_0_1'" label="INFO" />
                 <my_ns:execute_program value="timed-1" />
             </onentry>
-            <transition event="assessment_state_0_1.execute_program.success" target="assessment_pre_exit_test_wait" />
+            <transition event="timed-1.execute_program.success" target="assessment_pre_exit_test_wait" />
             <onexit>
                 <log expr="'Exiting State: assessment_state_0_1'" label="INFO" />
             </onexit>
@@ -135,6 +138,13 @@
         <onentry>
             <log expr="'execution_error state entered - Exiting!'" label="ERROR" />
             <my_ns:error value="executionFail" />
+        </onentry>
+        <transition target="exit_test" />
+    </state>
+    <state id="abortion_error">
+        <onentry>
+            <log expr="'execution_error state entered - Exiting!'" label="ERROR" />
+            <my_ns:error value="abortion" />
         </onentry>
         <transition target="exit_test" />
     </state>

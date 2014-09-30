@@ -61,7 +61,7 @@
                 <log expr="'Entering State: state_0'" label="INFO" />
                 <my_ns:execute_program value="a" />
             </onentry>
-            <transition event="state_0.execute_program.success" target="state_0_1" />
+            <transition event="a.execute_program.success" target="state_0_1" />
             <onexit>
                 <log expr="'Exiting State: state_0'" label="INFO" />
             </onexit>
@@ -71,7 +71,7 @@
                 <log expr="'Entering State: state_0_1'" label="INFO" />
                 <my_ns:execute_program value="b" />
             </onentry>
-            <transition event="state_0_1.execute_program.success" target="state_1" />
+            <transition event="b.execute_program.success" target="state_1" />
             <onexit>
                 <log expr="'Exiting State: state_0_1'" label="INFO" />
             </onexit>
@@ -163,7 +163,7 @@
                 <log expr="'Entering State: assessment_state_0'" label="INFO" />
                 <my_ns:execute_program value="a" />
             </onentry>
-            <transition event="assessment_state_0.execute_program.success" target="assessment_state_0_1" />
+            <transition event="a.execute_program.success" target="assessment_state_0_1" />
             <onexit>
                 <log expr="'Exiting State: assessment_state_0'" label="INFO" />
             </onexit>
@@ -173,7 +173,7 @@
                 <log expr="'Entering State: assessment_state_0_1'" label="INFO" />
                 <my_ns:execute_program value="b" />
             </onentry>
-            <transition event="assessment_state_0_1.execute_program.success" target="assessment_state_1" />
+            <transition event="b.execute_program.success" target="assessment_state_1" />
             <onexit>
                 <log expr="'Exiting State: assessment_state_0_1'" label="INFO" />
             </onexit>
