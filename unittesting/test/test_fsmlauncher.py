@@ -123,7 +123,7 @@ class Test(unittest.TestCase):
         self.assertNotEqual(sub_proc_ret_code, -9)
         self.assertNotEqual(sub_proc_ret_code, -15)
         self.assertNotEqual(sub_proc_ret_code, -2)
-        self.assertLess(duration, 14)
+        self.assertLess(duration, 15)
         self.assertGreater(duration, 10)
 
     def test_launch_fsmtest_5(self):
