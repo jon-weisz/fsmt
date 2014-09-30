@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 
 class CheckType(object):

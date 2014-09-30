@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.utils import seek_read
 from fsmtest.processobservation.process_observer import ProcessObserver

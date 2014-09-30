@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 import errno
 import eventlet
@@ -229,12 +229,12 @@ def write_fsm_diag(name, content):
 
 
 def make_zipfile(source, destination, compress=True):
-    '''
+    """
     Helper which allows to create a (compressed) zip file of a given folder.
     :param source: the folder to be compressed
     :param destination: the path to where the zip file should be written
     :param compress: optional switch to disable compression
-    '''
+    """
     if compress:
         compression_flag = zipfile.ZIP_DEFLATED
     else:
@@ -253,10 +253,10 @@ def make_zipfile(source, destination, compress=True):
 
 
 def mkdir_p(path):
-    '''
+    """
     Helper which realises the same functionality as mkdir -p
     :param path: path to be created
-    '''
+    """
     try:
         os.makedirs(path)
     except OSError as exc:  # Python >2.5

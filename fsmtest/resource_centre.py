@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,18 +28,16 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 import psutil
 
 
 class ResourceCentre:
-
-    '''
+    """
     Container class to gather information about the used resources of the
     FSMT program itself for profiling purposes.
-    '''
-
+    """
     def __init__(self, pid):
         """
         :param pid:
@@ -57,6 +55,7 @@ class ResourceCentre:
 
     def stop(self):
         """
+        TODO
         """
         self.exit = True
 
@@ -68,12 +67,13 @@ class ResourceCentre:
 
     def resource_counter(self):
         """
+        TODO
         """
         import eventlet
         p = self.proc
         while not self.exit:
             self.cycle += 1
-            cpu_consumption = p.get_cpu_percent(interval=0.5)
+            cpu_consumption = p.get_cpu_percent(interval=0.7)
             self.avg_cpu += cpu_consumption
             mem_consumption = p.get_memory_percent()
             threads = p.get_num_threads()
@@ -83,4 +83,4 @@ class ResourceCentre:
                 self.max_mem = mem_consumption
             if threads > self.max_thr:
                 self.max_thr = threads
-            eventlet.sleep(0.05)
+            eventlet.sleep(0.07)

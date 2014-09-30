@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,16 +28,17 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.exceptions.class_not_set_up_exception import \
     ClassNotSetUpException
 import eventlet
 import time
 
+
 ##########################################################################
 # So in theory this is quite simple:
-#    1. We start a worker for each software component (i.e a programm)
+#    1. We start a worker for each software component (i.e a program)
 #    2. Each worker waits for the observers (if any) to send their success/fail
 #    3. In case of having blocking ones, we WAIT for them before we send
 #       a success event to the state machine
@@ -45,20 +46,20 @@ import time
 
 
 class ProcessCommunicator():
-    '''
+    """
     Communicator class to allow inter-process communication.
 
     Note: Currently useless due to the use of eventlets. But it will be
     important once eventlets are removed from FSMT!
-    '''
+    """
 
     # Evil.
     eventlet.monkey_patch()
 
     def __init__(self):
-        '''
+        """
         Constructor.
-        '''
+        """
         self.log = None
         self.worker = []
         self.status = []
@@ -73,7 +74,6 @@ class ProcessCommunicator():
     def setup(self, state_machine_, all_program_executors_, log_):
         """
         Setup function setting all required variables etc.
-
         :param state_machine:
         :param all_program_executors:
         :param log:
@@ -137,9 +137,7 @@ class ProcessCommunicator():
                  " not start CTRL+C was hit before"),
                 software_component.name)
             status.append("(%s) never ran" % software_component.name)
-            # state_machine.send("wait.finish")
             state_machine.send("external_abortion")
-#            return 1
 
         # Abort if check_execution is false
         # If executionChecks DISABLED, we fire a SUCCESS
@@ -163,10 +161,9 @@ class ProcessCommunicator():
                 state_machine.block_diagram[
                     'content'] += software_component.parent_state + "-" + \
                     software_component.name + " -> "
-                # Return, because checkExec is disabled
+            # Return, because checkExec is disabled
             status.append("(%s) returned, check_execution == False" %
                           software_component.name)
-#            return 0
 
         # Log that we start and for how many observers we wait
         state_machine.log.debug(
@@ -176,7 +173,6 @@ class ProcessCommunicator():
         while number_of_observers_to_wait_for > 0:
             eventlet.sleep(0.02)
             # Check for gracefully exit, only works if observation is "True".
-
             if self.abort_sent:
                 state_machine.log.debug("Shutting down communication for %s",
                                         software_component.name)
@@ -258,7 +254,6 @@ class ProcessCommunicator():
                                 exchange_data.message +
                                 ".execute_program.success")
                             if state_machine.wsconn.get_is_connected():
-                                # print state_machine.interpreter.configuration
                                 message = \
                                     state_machine.wsconn.get_current_message()
                                 insert = state_machine.wsconn.get_inner_event()
@@ -296,27 +291,27 @@ class ProcessCommunicator():
                             software_component.name)
                         return 1
                 else:
-                    '''
+                    """
                     This is a special case: we have blocking and non-blocking
                     observers in this case. the blocking ones are all done
                     (or only some of them) and we already sent the success evnt
                     (or don't want to yet) as the non-blocking/other blocking
                     are not finished.
-                    '''
+                    """
                     if exchange_data.successful:
-                        '''
+                        """
                         Well, 2 situations here:
                         1. There are still blocking observers and we will wait
                            for those, too (== pass here)
                         2. All blocking ones are done and we all know it worked
                            already ... so no further event is needed
-                        '''
+                        """
                         pass
                     else:
-                        '''
+                        """
                             Now a non-blocking finished with an error...
                             so in this case we just send an error event.
-                        '''
+                        """
                         state_machine.send("unsatisfied_criteria")
                         status.append("unsatisfied_criteria %s" %
                                       software_component.name)

@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.log_factory import LogFactory
 import eventlet
@@ -68,7 +68,6 @@ class PTYLogWriter():
         self.log_file_name = _logfile
         self.is_setup = True
 
-    # Ex run
     def logger(self):
         """
         TODO
@@ -102,10 +101,10 @@ class PTYLogWriter():
                         data = os.read(self.process.master, 512)
                         if not data:
                             continue
-                        # so here was repr(data), from what i read this is not
-                        # really necessary here. so i changed it to str()
+                        # So here was repr(data), from what i read this is not
+                        # really necessary here. So I changed it to str()
                         # as repr() created silly single quotes around the
-                        # returned string.  -nkoester
+                        # returned string. --nkoester
                         a_file.write(str(data))
                         a_file.flush()
                         self.log.stream("%s Writing to log >> %s",

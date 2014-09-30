@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,17 +28,15 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 import eventlet
 
 
 class ExitWatcher(object):
-
-    '''
+    """
     Watcher for ctrl+c interception.
-    '''
-
+    """
     # Evil.
     eventlet.monkey_patch()
 

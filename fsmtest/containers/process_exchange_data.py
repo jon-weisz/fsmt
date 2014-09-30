@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,18 +28,17 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 
 class ProcessExchangeData():
-
-    '''
+    """
     Data object used as exchange data between processes.
-    '''
-
+    """
     def __init__(self):
         """
         Constructor.
+        TODO: Rename message to "name"
         """
         self.message = None
         self.successful = False

@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.exceptions.faulty_component_exception import \
     FaultyComponentException
@@ -48,11 +48,9 @@ import traceback
 
 
 class StateMachineWrapper(object):
-
-    '''
+    """
     Wrapper class for the PYSCXML state machine.
-    '''
-
+    """
     _instance = None
 
     datamodel = None
@@ -70,10 +68,10 @@ class StateMachineWrapper(object):
         return cls._instance
 
     def create_state_machine(self, path_to_scxml_file):
-        '''
-
+        """
+        TODO
         :param path_to_scxml_file:
-        '''
+        """
         self._statemachine = StateMachine(
             path_to_scxml_file, log_function=advanced_pyscxml_logfunction)
         self.datamodel = self._statemachine.datamodel
@@ -88,8 +86,8 @@ class StateMachineWrapper(object):
     def log_setup(self, log_, log_folder_, log_folder_fsm_,
                   log_folder_images_, log_folder_plots_, log_folder_videos_,
                   log_folder_data_, log_folder_logs_):
-        '''
-
+        """
+        TODO
         :param log:
         :param log_folder:
         :param log_folder_fsm:
@@ -98,7 +96,7 @@ class StateMachineWrapper(object):
         :param log_folder_videos:
         :param log_folder_data:
         :param log_folder_logs:
-        '''
+        """
         self.log = log_
         self.log_folder = log_folder_
         self.log_folder_fsm = log_folder_fsm_
@@ -109,17 +107,17 @@ class StateMachineWrapper(object):
         self.log_folder_logs = log_folder_logs_
 
     def send(self, name, data={}):
-        '''
+        """
         Wraps the send function of the PYSCXML state machine.
         :param name:
         :param data:
-        '''
+        """
         self._statemachine.send(name, data=data)
 
     def start(self):
-        '''
+        """
         Wraps the start function of the PYSCXML state machine.
-        '''
+        """
         self._statemachine.start()
 
 
@@ -128,6 +126,7 @@ all_program_executors = {}
 
 global negative_result
 negative_result = False
+
 global final_cleanup
 final_cleanup = False
 
@@ -135,6 +134,8 @@ global all_program_observers
 all_program_observers = []
 
 # Don't loose the following line or all hell breaks loose
+
+
 @custom_executable("de.unibi.citec.clf.fsmt")
 def custom_executable(node, something):
     """
@@ -146,7 +147,6 @@ def custom_executable(node, something):
 
     execution_tag = node.tag[1:].split("}")[1]
     component_name = node.get("value")
-#    state_machine = something.get('_x').get('self')
     state_machine = StateMachineWrapper()
     log = LogFactory().gl()
 

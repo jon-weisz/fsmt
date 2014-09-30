@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.log_factory import LogFactory
 import threading
@@ -174,11 +174,11 @@ class ProcessObserver(threading.Thread):
             self.state_machine.send("unsatisfied_criteria")
 
     def log_success(self, message=""):
-        '''
+        """
         Helper to log the success of an observer.
 
         :param message:
-        '''
+        """
         try:
             self.log.info("%s [%s] %s observer successful! %s",
                           self.process_executer.software_component.name,

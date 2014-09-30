@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.processobservation.process_observer import ProcessObserver
 import select
@@ -55,7 +55,7 @@ class ScreenstdoutObserver(ProcessObserver):
         """
         :return:
         """
-        '''
+        """
         self.log_start()
         print "screen_stdout case"
         self.log.error(
@@ -108,5 +108,5 @@ class ScreenstdoutObserver(ProcessObserver):
                 " for '%s'!" % (
                 self.get_my_name(), self.check_type.criteria))
             self.send_negative_result_to_pyscxml()
-        '''
+        """
         self.log.warning("Currently not implemented")

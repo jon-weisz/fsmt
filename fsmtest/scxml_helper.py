@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.containers.check_type import CheckType
 from fsmtest.exceptions.faulty_component_exception import \
@@ -44,7 +44,6 @@ def advanced_pyscxml_logfunction(label, msg):
     """
     Logging function for the PYSCXML framework to adjust the logging style to
     fit our corporate design.
-
     :param label:
     :param msg:
     :return:
@@ -197,23 +196,10 @@ def extract_execution_type(state_machine, node):
         elif new.tag[1:].split("}")[1] == "parallel":
             counter_name = "%s_parallelcount" % new.get('id')
             if execution_type == "default":
-                # TODO: investigate to make 100% sure that this is
-                # truly not requried anymore
-                # log.critical(
-                #     "A software component (%s) WITHIN a parallel tag does "+\
-                #     "either NOT hold a 'type' key or it is set to "+\
-                #     "'default'. Check your SCXML!" , node.get("value"))
                 pass
             if not counter_name in state_machine.datamodel:
-                state_machine.log.critical(
-           "If you see this log message, please write a bug " + \
-           "report and include the ziped log folder! Thanks!")
-            # TODO: see above, same here ...
-            # log.critical("The state machine datamodel does not have the " + \
-            #              "parallel counter key '%s'. This is bad. " + \
-            #              "Really bad. I will assume you forgot to add " + \
-            #              "it to your SXML and will create it with a " + \
-            #              "value of 0. Fingers crossed O.o" , counter_name)
+                state_machine.log.critical( "If you see this log message, please write a bug "
+                                            "report and include the zipped log folder! Thanks!")
                 state_machine.datamodel[counter_name] = 0
             break
     return execution_type, counter_name

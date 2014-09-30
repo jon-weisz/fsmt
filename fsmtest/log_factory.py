@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.utils import mkdir_p
 from logging import currentframe
@@ -42,9 +42,9 @@ import traceback
 
 
 class ColorLog(object):
-    '''
+    """
     Wrapper hook class to realise coloured terminal output for the log.
-    '''
+    """
     colormap = dict(
         debug=dict(color='grey', attrs=['bold']),
         info=dict(color='green'),
@@ -100,9 +100,9 @@ class ColorLog(object):
 
 class LogFactory(object):
 
-    '''
+    """
     Singlet factory to create a unified logger for the entire FSMT system.
-    '''
+    """
 
     _instance = None
     _isSetup  = False
@@ -126,7 +126,7 @@ class LogFactory(object):
                              log_to_file=True,
                              enable_stream=True,
                              logging_directory="/tmp/FSMtest/"):
-        '''
+        """
         Private function which sets up everything.
 
         :param use_colour_logging:
@@ -137,7 +137,7 @@ class LogFactory(object):
         :param log_to_file:
         :param enable_stream:
         :param logging_directory:
-        '''
+        """
 
         self._use_colour_logging = use_colour_logging
 
@@ -158,28 +158,26 @@ class LogFactory(object):
         }
 
         class SingleLevelFilter(logging.Filter):
-
-            '''
+            """
             A filter for the new level.
-            '''
-
+            """
             def __init__(self, passlevel, stream_level, reject):
-                '''
+                """
                 Constructor.
 
                 :param passlevel:
                 :param stream_level:
                 :param reject:
-                '''
+                """
                 self.passlevel = passlevel
                 self.reject = reject
                 self.stream_level = stream_level
 
             def filter(self, record):
-                '''
+                """
                 The filtering method.
                 :param record:
-                '''
+                """
                 if self.reject:
                     return (record.levelno > self.passlevel) \
                         and (record.levelno != self.stream_level)
@@ -295,7 +293,7 @@ class LogFactory(object):
             console_handler_STDERR.setFormatter(log_formatter)
             logger.addHandler(console_handler_STDERR)
 
-        # logging to file
+        # Logging to file
         if log_to_file:
             if not os.path.exists(logging_directory):
                 mkdir_p(logging_directory)
@@ -314,7 +312,7 @@ class LogFactory(object):
             file_handler.setFormatter(no_colour_log_formatter)
             logger.addHandler(file_handler)
 
-        # replace excepthook (allows to log exceptions and asserts :) )
+        # Replace excepthook (allows to log exceptions and asserts :) )
         def _replacement_excepthook(type, value, tracebk, thread=None):
             """Replacement for sys.excepthook."""
             # collect traceback info

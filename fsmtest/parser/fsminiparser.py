@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from optparse import OptionParser
 import types
@@ -38,7 +38,7 @@ import ConfigParser
 import xml.etree.ElementTree as ET
 import sys
 
-Tscxml_body = '''<?xml version="1.0" encoding="UTF-8"?>
+Tscxml_body = """<?xml version="1.0" encoding="UTF-8"?>
             <scxml  xmlns="http://www.w3.org/2005/07/scxml"
                     version="1.0" initial="initialise_test"
                     id="%(testName)s" xmlns:my_ns="%(namespace)s">
@@ -114,11 +114,11 @@ Tscxml_body = '''<?xml version="1.0" encoding="UTF-8"?>
                         <log label="INFO" expr="'Exiting State: exit_test'" />
                     </onexit>
                 </final>
-            </scxml>'''
+            </scxml>"""
 
 # Create raw nodes to be altered and inserted into the template
 # %(parallelCounters)s, %(environmentVariables)s, %(softwareComponents)s
-TdataModel = '''
+TdataModel = """
                 <datamodel>
                     %(parallelCounters)s
                     <data id="environment"> <!-- DEFINE ENVIRONMENT VARIABLES -->
@@ -132,13 +132,13 @@ TdataModel = '''
                     <data id="component_bundle"> <!-- DEFINE COMPONENTS -->
                         %(softwareComponents)s
                     </data> <!-- COMPONENTS DEFINED -->
-                </datamodel>'''
+                </datamodel>"""
 
 # %(name)s, %(value)s
-TenvironmentVariable = '''<variable var="%(name)s" val="%(value)s" />'''
+TenvironmentVariable = """<variable var="%(name)s" val="%(value)s" />"""
 
 # %(name)s, %(command)s, %(path)s, %(execution_host)s, %(check_execution)s
-TsoftwareComponent = '''
+TsoftwareComponent = """
                     <component val="%(name)s">
                         <command val="%(command)s"/>
                         <path val="%(path)s"/>
@@ -146,10 +146,10 @@ TsoftwareComponent = '''
                         <check_execution val="%(check_execution)s">
                             %(check_types)s
                         </check_execution>
-                    </component>'''
+                    </component>"""
 
 # %(name)s, %(command)s, %(path)s, %(execution_host)s, %(check_execution)s
-TsoftwareDefaultAssessmentComponent = '''
+TsoftwareDefaultAssessmentComponent = """
                     <component val="default">
                         <command val="ls $FSMFSM"/>
                         <path val="/bin/"/>
@@ -157,14 +157,14 @@ TsoftwareDefaultAssessmentComponent = '''
                         <check_execution val="True">
                             <check_type blocking="False" criteria="" ongoing="False" timeout="3" val="pid" />
                         </check_execution>
-                    </component>'''
+                    </component>"""
 
 # %(check_type)s, %(criteria)s, %(timeout)s, %(blocking)s, %(ongoingFlag)s
-Tcheck_type = '''
-                <check_type val="%(check_type)s" criteria="%(criteria)s" timeout="%(timeout)s" blocking="%(blocking)s" ongoing="%(ongoing)s"/>'''
+Tcheck_type = """
+                <check_type val="%(check_type)s" criteria="%(criteria)s" timeout="%(timeout)s" blocking="%(blocking)s" ongoing="%(ongoing)s"/>"""
 
 # %(name)s, %(componentToCall)s, %(target)s
-Tstate = '''
+Tstate = """
                 <state id="%(name)s">
                     <onentry>
                         <log label="INFO" expr="'Entering State: %(name)s'" />
@@ -174,10 +174,10 @@ Tstate = '''
                     <onexit>
                         <log label="INFO" expr="'Exiting State: %(name)s'" />
                     </onexit>
-                </state>'''
+                </state>"""
 
 # %(name)s, %(componentToCall)s, %(target)s
-Tstate_inParallel_finalTransition = '''
+Tstate_inParallel_finalTransition = """
                 <state id="%(name)s">
                     <onentry>
                         <log label="INFO" expr="'Entering State: %(name)s'" />
@@ -187,10 +187,10 @@ Tstate_inParallel_finalTransition = '''
                     <onexit>
                         <log label="INFO" expr="'Exiting State: %(name)s'" />
                     </onexit>
-                </state>'''
+                </state>"""
 
 # %(name)s, %(componentToCall)s
-Tstate_noTransition = '''
+Tstate_noTransition = """
                 <state id="%(name)s">
                     <onentry>
                         <log label="INFO" expr="'Entering State: %(name)s'" />
@@ -199,10 +199,10 @@ Tstate_noTransition = '''
                     <onexit>
                         <log label="INFO" expr="'Exiting State: %(name)s'" />
                     </onexit>
-                </state>'''
+                </state>"""
 
 # %(name)s, %(states)s, %(parallelVariableToIncrease)s
-Tsuper_state_noTransition = '''
+Tsuper_state_noTransition = """
                 <state id="%(name)s">
                     <onentry>
                         <log label="INFO" expr="'Entering State: %(name)s'" />
@@ -220,10 +220,10 @@ Tsuper_state_noTransition = '''
                     <onexit>
                         <log label="INFO" expr="'Exiting State: %(name)s'" />
                     </onexit>
-                </state>'''
+                </state>"""
 
 # %(name)s, %(componentToCall)s
-Tstate_noTransition_typeParallel = '''
+Tstate_noTransition_typeParallel = """
                 <state id="%(name)s">
                     <onentry>
                         <log label="INFO" expr="'Entering State: %(name)s'" />
@@ -232,10 +232,10 @@ Tstate_noTransition_typeParallel = '''
                     <onexit>
                         <log label="INFO" expr="'Exiting State: %(name)s'" />
                     </onexit>
-                </state>'''
+                </state>"""
 
 # %(name)s, %(parallelStates)s, %(numberOfParallelStates)s, %(target)s
-TparallelState = '''
+TparallelState = """
                 <parallel id="%(name)s"> <!-- PARALLEL START -->
                     <onentry>
                         <assign location="%(name)s_parallelcount" expr="0" />
@@ -252,10 +252,10 @@ TparallelState = '''
                         <log label="INFO" expr="'Exiting State: %(name)s (PARALLEL)'" />
                     </onexit>
 
-                </parallel> <!-- END PARALLEL -->'''
+                </parallel> <!-- END PARALLEL -->"""
 
 # %(name)s, %(parallelStates)s, %(numberOfParallelStates)s, %(parallelVariableToIncrease)s
-TparallelState_nested = '''
+TparallelState_nested = """
                 <parallel id="%(name)s"> <!-- PARALLEL START -->
                     <onentry>
                         <assign location="%(name)s_parallelcount" expr="0" />
@@ -273,14 +273,14 @@ TparallelState_nested = '''
                         <log label="INFO" expr="'Exiting State: %(name)s (PARALLEL)'" />
                     </onexit>
 
-                </parallel> <!-- END PARALLEL -->'''
+                </parallel> <!-- END PARALLEL -->"""
 
 
 # %(name)s
 TparallelCounter = '<data id="%(name)s_parallelcount" expr="0" />'
 
 # %(name)s %(time)s, %(target)s
-TwaitState = '''
+TwaitState = """
                 <state id="%(name)s"> <!-- COLLECT DATA -->
                     <onentry>
                         <log label="INFO" expr="'Entering State: Wait (collecting data for %(time)s seconds)'" />
@@ -290,7 +290,7 @@ TwaitState = '''
                     <onexit>
                         <log label="INFO" expr="'Exiting State: Wait (collected data for %(time)s seconds)'" />
                     </onexit>
-                </state> <!-- DATA COLLECTED -->'''
+                </state> <!-- DATA COLLECTED -->"""
 
 
 def get_tuples(config, section, options):
@@ -309,15 +309,12 @@ def get_tuple(config, section, option):
 ########################################################################
 # RECURSIVE PARALLEL STATE EXTRACTOR
 ########################################################################
-#
-# BUGS TO FIX:
-#    1. result assessment transition bug
-#    2. assessment via ini includation
-#
+
+
 def work_parallel_states(run_states_tmp, element, depth_counter,
                          nested_name_prefix, predecessor_variable_name,
                          general_name_prefix='', next_target_name=None):
-    '''
+    """
     Recursive function which will transform a given parallel software component
     order in ini notation (e.g. (a,b),[(c,d)],e) into SCXML notation.
     :param run_states_tmp:
@@ -326,7 +323,7 @@ def work_parallel_states(run_states_tmp, element, depth_counter,
     :param nested_name_prefix:
     :param predecessor_variable_name:
     :param next_target_name:
-    '''
+    """
     parallel_state_construct_final = ""
     all_parallel_states_final = ""
     parallel_counters_final = ""
@@ -337,13 +334,10 @@ def work_parallel_states(run_states_tmp, element, depth_counter,
         parallel_state_transition_name = general_name_prefix + \
             '%sstate_%d' % (nested_name_prefix, depth_counter)
     else:
-        # parallel_state_transition_name = '%s%d' % \
-        # (nested_name_prefix, depth_counter)
         parallel_state_transition_name = '%s' % nested_name_prefix
 
     for (a_parallel_element, i) in zip(element, range(0, len(element))):
         current_state_name = parallel_state_transition_name + "_pstate_%d" % i
-
         # Sequential listing
         if isinstance(a_parallel_element, types.TupleType):
             # %(name)s, %(states)s
@@ -390,7 +384,6 @@ def work_parallel_states(run_states_tmp, element, depth_counter,
             'numberOfParallelStates': str(len(element)),
             'parallelVariableToIncrease': predecessor_variable_name}
     parallel_state_construct_final += parallelState + '\n'
-    # %(name)s
     parallel_counters_final += TparallelCounter % {
         'name':
         parallel_state_transition_name} + '\n'
@@ -402,7 +395,7 @@ def work_parallel_states(run_states_tmp, element, depth_counter,
 
 def work_sequential_states(element, counter, final_target_name,
                            name_prefix=""):
-    '''
+    """
     Given a tuple of individual software components that are supposed to be run
     sequentially, this method creates the according scxml state structure. This
     includes the naming and transitioning from one to the next.
@@ -417,7 +410,7 @@ def work_sequential_states(element, counter, final_target_name,
                     removed.
     :param name_prefix: Optional. Prefix that is prepended before the state
                     names. Use this for nested naming to avoid name collisions.
-    '''
+    """
 
     result = ""
     in_parallel_mode = True if final_target_name is None else False
@@ -441,7 +434,7 @@ def work_sequential_states(element, counter, final_target_name,
                 (counter, i + 1)
                 # target_name = name_prefix + 'state_%d_%d' % (counter,i+1)
 
-        # Last sequential element within a prallel state (=no transition
+        # Last sequential element within a parallel state (=no transition
         # necessary)
         if in_parallel_mode and isLastElement:
             # %(name)s, %(componentToCall)s, %(target)s
@@ -461,12 +454,12 @@ def work_sequential_states(element, counter, final_target_name,
 
 
 def parse_ini_file(iniFileObject, output_path, silent=False):
-    '''
+    """
     Function for automated scxml generation from a given ini file.
 
     :param pathToINIFile: The path to the ini file.
     :param output_path: path to where the output is supposed to be written.
-    '''
+    """
 
     if not silent:
         print "\nWARNING: BETA Version"
@@ -483,8 +476,8 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
 
         run_order = config.get('run', 'run_order')
 
-        # namespace setting
-        # using this isntead of config.get('run', 'namespace')
+        # Namespace setting
+        # Using this isntead of config.get('run', 'namespace')
         namespace = "de.unibi.citec.clf.fsmt"
 
         # Unsafe but easy
@@ -510,8 +503,6 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
             environment_variables_final += \
                 TenvironmentVariable % {'name': aName,
                                         'value': name_val_pairs[aName]} + '\n'
-
-        # print 'environment_variables_final: ', environment_variables_final
 
         #======================================================================
         # SOFTWARE COMPONENT PARSING
@@ -550,6 +541,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
         #======================================================================
         # STATE PARSING
         #======================================================================
+
         def order_to_scxml_convert(order, state_name_prefix='',
                                    wait_duration=1,
                                    last_elem_target_name='result_assessment'):
@@ -568,7 +560,6 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
 
                 # Sequential
                 if isinstance(element, types.TupleType):
-                    # print "SEQ"
                     a, b = work_sequential_states(
                         element, state_counter, target_name,
                         name_prefix=state_name_prefix)
@@ -577,8 +568,6 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
 
                 # Parallel
                 elif isinstance(element, types.ListType):
-                    # print "CALL WITH :::: ", state_counter, "", "",
-                    # target_name
                     a, b, _, _ = work_parallel_states(
                         run_states_final, element, state_counter, "", "",
                         next_target_name=target_name,
@@ -613,6 +602,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
         #======================================================================
         # FINAL MERGE OF PARSED INFO
         #======================================================================
+
         # %(parallelCounters)s, %(environmentVariables)s,
         # %(softwareComponents)s
         data_model_final = TdataModel % {
@@ -661,12 +651,12 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
 
 
 def indent(element, level=0):
-    '''
+    """
     Allows pretty print (inplace!) for xml trees. just call
     indent(tree.getroot()).
     :param element: Root element of the tree.
     :param level: Level for indents.
-    '''
+    """
     i = "\n" + level * "    "
     if len(element):
         if not element.text or not element.text.strip():

@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,30 +28,29 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 
 class XUnitTestCase(object):
-
-    '''
+    """
     Class representing a xUnit test case. The XunitXml accepts
     these and uses them to create x xunit XML tree.
-    '''
+    """
 
     def __init__(self, name, contents, test_type=""):
-        '''
+        """
         Constructor.
 
         :param name:
         :param contents:
         :param test_type:
-        '''
+        """
         self.name = name
         self.contents = contents
         self.test_type = test_type
 
     def is_failure(self):
-        '''
+        """
         Allows to determine if a test case is a failure.
-        '''
+        """
         return self.test_type == "failure"

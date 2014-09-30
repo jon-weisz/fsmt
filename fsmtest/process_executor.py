@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.log_factory import LogFactory
 from fsmtest.pty_log_writer import PTYLogWriter
@@ -130,7 +130,7 @@ class ProcessExecutor():
         master, slave = pty.openpty()
 
         # Preparation for remote host execution
-        '''
+        """
         if self.software_component.host != "localhost":
             client = paramiko.SSHClient()
             # client.get_host_keys().add('ssh.example.com', 'ssh-rsa', key)
@@ -141,7 +141,7 @@ class ProcessExecutor():
             stdin, stdout, stderr =
                         client.exec_command(self.software_component.path +
                         self.software_component.command)
-        '''
+        """
         # Actually the lib 'fabric' seems to be more suitable for this! It re-
         # uses the paramiko lib in order to easily deploy commands via ssh.
         # The following line will make a remote call
@@ -177,7 +177,7 @@ class ProcessExecutor():
         #       stdout=slave_tee, stderr=slave_tee, bufsize=-1)
         # self.tee_process = tee
 
-        '''
+        """
         # We could also append more subprocess processing right here.
         # In case we need this some time.
         grep = subprocess.Popen(['grep', '.. include::'],
@@ -190,7 +190,7 @@ class ProcessExecutor():
                         stdout=subprocess.PIPE,
                         )
 
-        '''
+        """
 
         self.subprocess.master = master
         self.subprocess.slave = slave
@@ -212,34 +212,6 @@ class ProcessExecutor():
             self.software_component.pid,
             str(round((the_time - self.init_time), 3) * 1000))
 
-        '''
-        ####        Deprecated for now         ####
-        ###########################################
-        ##  Screen_stdout information grep part  ##
-        ###########################################
-        #  Requirements:
-        #  1. Start vdemo components with logging enabled (use -l before start)
-        #  2. Log path will be listed then...
-        #  3. The following loop will find the log path,
-        #     parse it and tell the according observer about its location
-        all_observers = itertools.chain(self.process_observers,
-                 self.blocking_process_observers)
-        for an_obs in all_observers:
-            if an_obs.type == ("screen_stdout"):
-                # Open the process output
-                with open(self.stdout_screen_file.name, 'r') as a_file:
-                    print "Setting log file for screen_stdout observer ..."
-                    while True:
-                        # Reduce CPU load a little ;)
-                        time.sleep(0.002)
-                        curLine = a_file.readline()
-                        # Find log file
-                        if "Logging to" in curLine:
-                            print " ... done!"
-                            an_obs.log_lile =
-                                curLine.replace("\n", "").split(" ")[2]
-                            break
-        '''
         # Make all the observers 'observe' the program by starting their
         # threads
         self.log.debug("(%s) Starting all observer threads" %

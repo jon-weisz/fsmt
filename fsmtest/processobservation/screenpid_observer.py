@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from fsmtest.processobservation.process_observer import ProcessObserver
 import subprocess
@@ -58,7 +58,7 @@ class ScreenpidObserver(ProcessObserver):
         """
         :return:
         """
-        '''
+        """
         self.log_start()
         t0 = time.time()
         # Work within the time frame or until we are told to stop/end
@@ -141,5 +141,5 @@ class ScreenpidObserver(ProcessObserver):
             self.log_failure("Timeout hit (==PID not found). "+
                 "Process %s is dead." % self.pe.software_component.name)
             self.send_negative_result_to_pyscxml()
-        '''
+        """
         self.log.warning("Currently not implemented")

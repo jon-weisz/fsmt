@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
@@ -44,14 +44,14 @@ class XunitXmlBuilder(object):
     """
 
     def __init__(self, testsuit_name, xml_path, test_cases=None):
-        '''
+        """
         Constructor.
 
         :param testsuit_name:
         :param test_cases:
         :param total_tests:
         :param total_failures:
-        '''
+        """
         self.testsuit_name = testsuit_name
 
         if test_cases:
@@ -63,17 +63,16 @@ class XunitXmlBuilder(object):
         self.failing_test_cases = self._get_failing_test_cases()
 
     def _get_failing_test_cases(self):
-        '''
+        """
         Internal helper to determine the number of failed tests.
-        '''
+        """
         return set([a_case for a_case in self.test_cases
                     if a_case.is_failure()])
 
     def _build_xunit_xml(self):
-        '''
+        """
         Creates a xml tree from a given testsuite name and testcase
-        '''
-
+        """
         total_tests = len(self.test_cases)
         total_failures = len(self.failing_test_cases)
         self.xml_root = ET.Element("testsuite",
@@ -95,18 +94,18 @@ class XunitXmlBuilder(object):
                 test_case_element.append(failure_element)
 
     def add_test_case(self, a_testcase):
-        '''
+        """
         Adds a testcase to the list of test cases. Duh! :D
         :param a_testcase:
-        '''
+        """
         self.test_cases.append(a_testcase)
 
     def get_xml_content(self, prettyForamt=True):
-        '''
+        """
         Returns the xUnit XML tree as a string.
 
         :param prettyForamt: Pretty pretty please with sugar on top!
-        '''
+        """
 
         self._build_xunit_xml()
 
@@ -117,10 +116,10 @@ class XunitXmlBuilder(object):
         return result
 
     def write_xml(self, xml_path=None):
-        '''
+        """
         Method to write the XML file.
         :param path: Override the path given in the setup.
-        '''
+        """
         if xml_path:
             self.xml_path = xml_path
 

@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,13 +28,13 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 
 class ClassNotSetUpException(Exception):
-    '''
+    """
     Raised when a class is called before it was set up.
-    '''
+    """
     def __init__(self, value):
         """
         :param value:

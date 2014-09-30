@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,9 +28,10 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 import os
+import pprint
 
 
 class SoftwareComponent(object):
@@ -62,8 +63,6 @@ class SoftwareComponent(object):
         """
         TODO
         """
-        import pprint
-
         pprint.pprint(self.__dict__)
         for a in self.check_types:
             pprint.pprint(a.__dict__)

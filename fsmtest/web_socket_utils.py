@@ -1,4 +1,4 @@
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -28,7 +28,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 from websocket import create_connection
 import sys
@@ -52,20 +52,6 @@ class WebSocketConnection():
         self.json_message = json.loads('{ "name": "fsmtest", "events": [] }')
         self.is_connected = False
         self.ws = None
-        # self.outer_event = {
-#            "name": "name",
-#            "time": "0",
-#            "state": "init",
-#            "component": "init" }
-        # self.inner_event = {
-#            "name": "eventname",
-#            "events": [ {
-#            "name": "eventname",
-#            "events": {
-#            "time": "0",
-#            "state": "init",
-#            "component": "init"
-#        } } ] }
         try:
             self.ws = create_connection("ws://localhost:8008/")
         except socket.error, e:
