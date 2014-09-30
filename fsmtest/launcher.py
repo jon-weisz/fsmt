@@ -270,9 +270,9 @@ class Launcher():
                     state_machine_wrapper.unsatisfied:
                 result = ""
                 if state_machine_wrapper.exit_grace:
-                    result += "CTRL+C detected... "
-                state_machine_wrapper.log.warning(
-                    "POSIX exit status: 1 %s ", result)
+                    result += "CTRL+C DETECTED...FSMT RUN ABORTED"
+                state_machine_wrapper.log.warning(result)
+                self.log.error(">> FSMT RUN ABORTED OR FAILED <<")
                 sys.exit(1)
             else:
                 self.log.info(">> FSMT RUN WAS SUCCESSFUL <<")

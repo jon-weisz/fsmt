@@ -73,7 +73,7 @@ class ResourceCentre:
         p = self.proc
         while not self.exit:
             self.cycle += 1
-            cpu_consumption = p.get_cpu_percent(interval=0.7)
+            cpu_consumption = p.get_cpu_percent(interval=0.6)
             self.avg_cpu += cpu_consumption
             mem_consumption = p.get_memory_percent()
             threads = p.get_num_threads()
@@ -83,4 +83,4 @@ class ResourceCentre:
                 self.max_mem = mem_consumption
             if threads > self.max_thr:
                 self.max_thr = threads
-            eventlet.sleep(0.07)
+            eventlet.sleep(0.06)
