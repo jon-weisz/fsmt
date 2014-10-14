@@ -1,10 +1,11 @@
+Version 0.16
+* Changed SCXML Event name to program-name instead of state_0_1, etc.
+* From this version on, you need to regenerate your SCXML files!
+
 Version 0.15
 * Minor bug fixes
 * Documentation
 * Open Source Release
-
-
-Version master
 * Removed ROS wrappers as they do not work as desired
 * Environment variables defined in the SCXML environment tag are now correctly 
   resolved during runtime can be used within components 

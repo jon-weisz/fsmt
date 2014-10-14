@@ -675,7 +675,7 @@ def indent(element, level=0):
 if __name__ == '__main__':
 
     parser = OptionParser(usage="Usage: %prog PATH_TO_INI_FILE",
-                          version="%prog 0.1")
+                          version="%prog 0.16")
 
     parser.add_option("-o", "--output",
                       action="store",
