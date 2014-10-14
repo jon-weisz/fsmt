@@ -70,7 +70,7 @@ class FSMTest:
 if __name__ == '__main__':
 
     parser = OptionParser(usage="Usage: %prog [options] PATH_TO_SCXML_FILE",
-                          version="%prog 0.16")
+                          version="%prog master")
     parser.add_option("-o", "--output",
                       action="store",
                       dest="output",
