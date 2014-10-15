@@ -95,9 +95,10 @@ setup(name="fsmtest",
       ],
 
       install_requires=[ 'Louie', 'termcolor',   'eventlet', 'suds',
-                         'restlib', 'lxml',  'nose==1.2.1', 'coverage', 'nosexcover',
-                         'pylint',  'setuptools-lint', 'psutil',
-                         'websocket-client', 'paramiko', 'pep8' ])
+                         'restlib', 'lxml',  'nose==1.2.1', 'coverage',
+                         'nosexcover', 'pylint',  'setuptools-lint',
+                         'psutil', 'websocket-client', 'paramiko',
+                         'setuptools-pep8' ])
 
 # Make scripts executable
 subprocess.call(["chmod -R ugo+x bin"], shell=True)
