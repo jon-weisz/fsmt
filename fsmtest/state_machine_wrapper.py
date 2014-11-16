@@ -294,7 +294,8 @@ def custom_executable(node, something):
 
         log_process_pids(all_program_executors, log)
         # Kill in reverse order, check this.
-        all_program_executors_sorted = sorted(all_program_executors.iterkeys(), reverse=True)
+        # Old approach. Did not work properly.
+        # all_program_executors_sorted = sorted(all_program_executors.iterkeys(), reverse=True)
         sorted_reverse = sorted(all_program_executors.items(), key=operator.itemgetter(1), reverse=True)
         log.debug("Executers Reverse Sort %s", sorted_reverse)
         for one_program_executor, name_value in sorted_reverse:
