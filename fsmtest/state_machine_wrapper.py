@@ -293,10 +293,10 @@ def custom_executable(node, something):
 
         log_process_pids(all_program_executors, log)
         # Kill in reverse order, check this.
-        log.debug("All Executers", all_program_executors)
+        log.debug("All Executers %s", all_program_executors)
         all_program_executors_sorted = sorted(all_program_executors.iterkeys(),
                                               reverse=True)
-        log.debug("All Executers Sorted", all_program_executors_sorted)
+        log.debug("All Executers Sorted %s", all_program_executors_sorted)
         for one_program_executor in all_program_executors_sorted:
             pid = one_program_executor.software_component.pid
             name = one_program_executor.software_component.name
