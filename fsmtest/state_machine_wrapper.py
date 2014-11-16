@@ -44,6 +44,7 @@ import multiprocessing
 import os
 import sys
 import time
+import operator
 import traceback
 
 
@@ -295,6 +296,8 @@ def custom_executable(node, something):
         # Kill in reverse order, check this.
         log.debug("All Executers %s", all_program_executors)
         all_program_executors_sorted = sorted(all_program_executors.iterkeys(), reverse=True)
+        sorted_x = sorted(all_program_executors.items(), key=operator.itemgetter(1))
+        log.debug("New Sort %s", sorted_x)
         log.debug("All Executers Sorted %s", all_program_executors_sorted)
         for one_program_executor in all_program_executors_sorted:
             pid = one_program_executor.software_component.pid
