@@ -296,10 +296,10 @@ def custom_executable(node, something):
         # Kill in reverse order, check this.
         log.debug("All Executers %s", all_program_executors)
         all_program_executors_sorted = sorted(all_program_executors.iterkeys(), reverse=True)
-        sorted_x = sorted(all_program_executors.iterkeys(), key=operator.itemgetter(1), reverse=True)
+        sorted_x = sorted(all_program_executors.items(), key=operator.itemgetter(1), reverse=True)
         log.debug("New Sort %s", sorted_x)
         log.debug("All Executers Sorted %s", all_program_executors_sorted)
-        for one_program_executor in all_program_executors_sorted:
+        for one_program_executor, name_value in sorted_x:
             pid = one_program_executor.software_component.pid
             name = one_program_executor.software_component.name
 
