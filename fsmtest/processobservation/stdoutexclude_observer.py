@@ -101,7 +101,7 @@ class StdoutexcludeObserver(ProcessObserver):
                     return 1
                 if self.check_type.criteria in log_lines:
                     t = time.time()
-                    self.log.warning(
+                    self.log.error(
                         "%s: '%s' was found in STDOUTEXCLUDE within %s s ",
                         name, criteria, t - t0)
                     self.success = False
@@ -126,7 +126,7 @@ class StdoutexcludeObserver(ProcessObserver):
                 return 1
             else:
                 self.log_success(
-                    "Hit timeout (%ds) while looking for '%s'.Good!" %
+                    "Hit timeout (%ds) while looking for '%s'. Good!" %
                     (self.check_type.timeout, criteria))
                 self.send_positive_result_to_pyscxml()
                 self.end_thread = True
@@ -153,7 +153,7 @@ class StdoutexcludeObserver(ProcessObserver):
                         return 1
                     if self.check_type.criteria in log_lines:
                         t = time.time()
-                        self.log.warning(
+                        self.log.error(
                             "%s: '%s' was found in STDOUTEXCLUDE within %s s ",
                             name, criteria, t - t0)
                         self.success = False

@@ -100,7 +100,7 @@ def end_process_and_children(pid, process, log):
         if ret_child == 0:
             log.debug("Children of %s are all gone" % pid)
         else:
-            log.debug("Error: Not all children of %s could be killed." % pid)
+            log.debug("Error: Not all children of %s could be killed" % pid)
 
         log.debug("Ending parent process %s now" % pid)
         is_gone = kill_pid(pid, log)
@@ -110,7 +110,7 @@ def end_process_and_children(pid, process, log):
         else:
             log.debug("Ended process %s successfully!" % str(pid))
     else:
-        log.debug("Process %s is already un-pollable. Doing nothing." % (pid))
+        log.debug("Process %s is already un-pollable. Doing nothing" % (pid))
 
 
 def kill_pid(pid, log):
@@ -171,7 +171,7 @@ def kill_child_processes(parent_pid, log, self_call=False):
     else:
         log.warning(
             ("Process %s is not running anymore, it probably already " +
-             "ended before a check for children could be done."),
+             "ended before a check for children could be done"),
             parent_pid)
 
     log.log(5, "Returning form kill child %s", parent_pid)

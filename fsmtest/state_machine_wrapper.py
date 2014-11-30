@@ -53,7 +53,6 @@ class StateMachineWrapper(object):
     Wrapper class for the PYSCXML state machine.
     """
     _instance = None
-
     datamodel = None
     _statemachine = None
 
@@ -64,8 +63,7 @@ class StateMachineWrapper(object):
         :return:
         """
         if not cls._instance:
-            cls._instance = super(StateMachineWrapper, cls).\
-                __new__(cls, *args, **kwargs)
+            cls._instance = super(StateMachineWrapper, cls).__new__(cls, *args, **kwargs)
         return cls._instance
 
     def create_state_machine(self, path_to_scxml_file):
@@ -73,8 +71,7 @@ class StateMachineWrapper(object):
         TODO
         :param path_to_scxml_file:
         """
-        self._statemachine = StateMachine(
-            path_to_scxml_file, log_function=advanced_pyscxml_logfunction)
+        self._statemachine = StateMachine(path_to_scxml_file, log_function=advanced_pyscxml_logfunction)
         self.datamodel = self._statemachine.datamodel
         self.interpreter = self._statemachine.interpreter
         self.exit_grace = False
@@ -84,9 +81,8 @@ class StateMachineWrapper(object):
             'ending': '}'
         }
 
-    def log_setup(self, log_, log_folder_, log_folder_fsm_,
-                  log_folder_images_, log_folder_plots_, log_folder_videos_,
-                  log_folder_data_, log_folder_logs_):
+    def log_setup(self, log_, log_folder_, log_folder_fsm_, log_folder_images_,
+                  log_folder_plots_, log_folder_videos_, log_folder_data_, log_folder_logs_):
         """
         TODO
         :param log:
@@ -101,11 +97,11 @@ class StateMachineWrapper(object):
         self.log = log_
         self.log_folder = log_folder_
         self.log_folder_fsm = log_folder_fsm_
-        self.log_folder_images = log_folder_images_
-        self.log_folder_plots = log_folder_plots_
-        self.log_folder_videos = log_folder_videos_
         self.log_folder_data = log_folder_data_
         self.log_folder_logs = log_folder_logs_
+        self.log_folder_plots = log_folder_plots_
+        self.log_folder_videos = log_folder_videos_
+        self.log_folder_images = log_folder_images_
 
     def send(self, name, data={}):
         """
@@ -135,16 +131,13 @@ global all_program_observers
 all_program_observers = []
 
 # Don't loose the following line or all hell breaks loose
-
-
 @custom_executable("de.unibi.citec.clf.fsmt")
 def custom_executable(node, something):
     """
     :param node:
     :param something:
     """
-    global all_program_executors, all_program_observers, negative_result, \
-        final_cleanup, websocket_connection
+    global all_program_executors, all_program_observers, negative_result, final_cleanup, websocket_connection
 
     execution_tag = node.tag[1:].split("}")[1]
     component_name = node.get("value")
@@ -167,9 +160,7 @@ def custom_executable(node, something):
                 state_machine.datamodel["component_bundle"],
                 state_machine)
             # Find execution type (normal vs. parallel)
-            execution_type, counter_name = extract_execution_type(
-                state_machine,
-                node)
+            execution_type, counter_name = extract_execution_type(state_machine, node)
             a_software_component.counter_name = counter_name
             a_software_component.execution_type = execution_type
             # Create communication pipes
@@ -230,7 +221,7 @@ def custom_executable(node, something):
             test_type="failure")
         state_machine.unsatisfied = True
         log.warning("Usage of execution tag 'emergency_exit' is deprecated. " +
-                    "Use error tag and description in value field instead.")
+                    "Use error tag and description in value field instead")
 
     elif execution_tag == "error":
         # Possible errors that can occur here:
@@ -306,12 +297,12 @@ def custom_executable(node, something):
             # for the return value of the GreenThread which has spawned the
             # subprocess
             log.debug("Closing log writer for %s (%s)", name, pid)
-            one_program_executor.ptylog_writer.close_logger()
+            one_program_executor.pty_log_writer.close_logger()
             logger_status = one_program_executor.pty_log_runner.wait()
             if logger_status != 0:
                 log.warning("Log writer closed with return code 1 >> Force Quit")
             else:
-                log.debug("Closing log writer done, status 0, Good.")
+                log.debug("Closing log writer done, status 0, Good")
 
             try:
                 log.info("Ending process %s [%s] and its children", name, pid)
@@ -320,7 +311,7 @@ def custom_executable(node, something):
                     one_program_executor.subprocess,
                     log)
             except Exception, e:
-                log.warning("Error killing %s [%s]: %s. Considering it already dead.",
+                log.warning("Error killing %s [%s]: %s. Considering it already dead",
                             name, pid, e)
 
             all_program_executors.pop(one_program_executor)

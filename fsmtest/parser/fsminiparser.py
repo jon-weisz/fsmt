@@ -283,12 +283,12 @@ TparallelCounter = '<data id="%(name)s_parallelcount" expr="0" />'
 TwaitState = """
                 <state id="%(name)s"> <!-- COLLECT DATA -->
                     <onentry>
-                        <log label="INFO" expr="'Entering State: Wait (collecting data for %(time)s seconds)'" />
+                        <log label="INFO" expr="'Entering State: Wait (Collecting data for %(time)s seconds)'" />
                         <send event="wait.finish" delay="'%(time)ss'" />
                     </onentry>
                     <transition event="wait.finish" target="%(target)s"/>
                     <onexit>
-                        <log label="INFO" expr="'Exiting State: Wait (collected data for %(time)s seconds)'" />
+                        <log label="INFO" expr="'Exiting State: Wait (Collected data for %(time)s seconds)'" />
                     </onexit>
                 </state> <!-- DATA COLLECTED -->"""
 
@@ -488,7 +488,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
 
         assessment_order = config.get('run', 'result_assessment_order')
         if not assessment_order:
-            print "WARNING: No assessment component has been set." + \
+            print "WARNING: No assessment component has been set" + \
                 " Creating a default \'ls\' component.\n"
             assessment_order = '(\'default\',),'
         assessment_order = eval('(' + assessment_order + ')')
@@ -576,9 +576,9 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
                     parallel_counters_final += b
                     state_counter += 1
                 else:
-                    print ("Order of software components is faulty." +
+                    print ("Order of software components is faulty" +
                            " Unknown element: %s | type: %s | in order : %s" +
-                           " | Exprected Tuple or List instead.") % \
+                           " | Exprected Tuple or List instead") % \
                         (element, str(type(element)), order)
                     sys.exit(-1)
 

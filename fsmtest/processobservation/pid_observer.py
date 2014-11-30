@@ -108,7 +108,7 @@ class PidObserver(ProcessObserver):
         else:
             t = time.time()
             self.log_failure(
-                "PID not found within %ds (TIMEOUT). Process is assumed dead." \
+                "PID not found within %ds (TIMEOUT). Process is assumed dead" \
                 % (t - t0))
             self.send_negative_result_to_pyscxml()
             self.end_thread = True

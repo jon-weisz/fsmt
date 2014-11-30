@@ -114,7 +114,7 @@ class StdoutObserver(ProcessObserver):
         if self.hit_timeout:
             if (time.time() - t0) < self.check_type.timeout:
                 self.log_cancel(("'%s' was ended BEFORE criteria was " +
-                                "found or timeout was reached.") %
+                                "found or timeout was reached") %
                                 component_name)
                 self.log.debug("Exiting STDOUT observer for '%s'",
                                component_name)
@@ -122,7 +122,7 @@ class StdoutObserver(ProcessObserver):
                 return 1
             else:
                 self.log_failure(
-                    "Hit timeout after %ds while searching for '%s'."
+                    "Hit timeout after %ds while searching for '%s'"
                     % (self.check_type.timeout, criteria))
                 self.send_negative_result_to_pyscxml()
                 self.log.debug("Exiting STDOUT observer for %s",
@@ -131,7 +131,5 @@ class StdoutObserver(ProcessObserver):
                 return 1
 
         if self.check_type.ongoing:
-            self.log.warning("Ongoing for STDOUT makes no sense, " +
-                             "because the criteria will/will not be found " +
-                             "during TIMEOUT period")
+            self.log.warning("Ongoing STDOUT observer defined")
         return 0

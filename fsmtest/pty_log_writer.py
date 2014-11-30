@@ -137,7 +137,7 @@ class PTYLogWriter():
 
             if self.un_poll_able:
                 self.log.error(
-                    "ERROR: Process %s became un-pollable Exiting.", self.name)
+                    "ERROR: Process %s became un-pollable Exiting", self.name)
                 a_file.close()
                 return 1
 

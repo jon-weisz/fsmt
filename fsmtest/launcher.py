@@ -88,36 +88,29 @@ class Launcher():
         #######################################################################
         if self.log_folder == "":
             self.log_folder = "/tmp/%s/fsmtesting/" % os.environ['USER']
+
         self.absolute_log_folder = self.log_folder
-        self.current_run_timestamp = str(time.strftime("%m-%d_%H%M%S",
-                                                       time.localtime()))
-        self.log_folder = os.path.join(self.log_folder,
-                                       self.current_run_timestamp)
+        self.current_run_timestamp = str(time.strftime("%m-%d_%H%M%S",time.localtime()))
+        self.log_folder = os.path.join(self.log_folder, self.current_run_timestamp)
         self.log_folder_fsm = os.path.join(self.log_folder, "fsm")
         self.log_folder_images = os.path.join(self.log_folder, "images")
         self.log_folder_plots = os.path.join(self.log_folder, "plots")
         self.log_folder_videos = os.path.join(self.log_folder, "videos")
         self.log_folder_data = os.path.join(self.log_folder, "data")
         self.log_folder_logs = os.path.join(self.log_folder, "logs")
-
-        self.state_xunit_xml_path = os.path.join(
-            self.log_folder,
-            "data",
-            "state_component_run_test.xml")
+        self.state_xunit_xml_path = os.path.join(self.log_folder, "data", "state_component_run_test.xml")
 
         if not os.path.exists(self.log_folder):
             try:
                 mkdir_p(self.log_folder)
                 mkdir_p(self.log_folder_logs)
             except Exception, e:
-                print "Error creating log folder(s) at %s! MSG: %s" % \
-                    (self.log_folder, e)
+                print "Error creating log folder(s) at %s! MSG: %s" % (self.log_folder, e)
                 sys.exit(1)
 
         # Sanity check
         if not os.access(self.log_folder, os.W_OK):
-            print "Exiting, logging path " + self.log_folder + " is not " + \
-                "writable or does not exist."
+            print "Exiting, logging path " + self.log_folder + " is not writable or does not exist"
             sys.exit(1)
 
         #######################################################################
@@ -252,22 +245,16 @@ class Launcher():
             self.log.info("Writing log archive to %s", destination)
             make_zipfile(source, destination)
 
-            self.log.info("Absolute runtime : %s seconds" %
-                          (time.time() - init_time))
+            self.log.info("Absolute runtime : %s seconds" % round((time.time() - init_time), 3))
 
             resource_centre.stop()
 
-            self.log.info("Maximum CPU usage: %s %%",
-                          resource_centre.max_cpu)
-            self.log.info("Average CPU usage: %s %%",
-                          resource_centre.get_average_cpu())
-            self.log.info("Maximum MEM usage: %s %%",
-                          resource_centre.max_mem)
-            self.log.info("Maximum CORES    : %s",
-                          resource_centre.max_thr)
+            self.log.info("Maximum CPU usage: %s %%", round(resource_centre.max_cpu, 3))
+            self.log.info("Average CPU usage: %s %%", round(resource_centre.get_average_cpu(), 3))
+            self.log.info("Maximum MEM usage: %s %%", round(resource_centre.max_mem, 3))
+            self.log.info("Maximum CORES    : %s", resource_centre.max_thr)
 
-            if state_machine_wrapper.exit_grace or \
-                    state_machine_wrapper.unsatisfied:
+            if state_machine_wrapper.exit_grace or state_machine_wrapper.unsatisfied:
                 result = ""
                 if state_machine_wrapper.exit_grace:
                     result += "CTRL+C DETECTED...FSMT RUN ABORTED"
@@ -277,6 +264,5 @@ class Launcher():
             else:
                 self.log.info(">> FSMT RUN WAS SUCCESSFUL <<")
         else:
-            self.log.error(
-                "You need to call setup() before calling the run() method!")
+            self.log.error("You need to call setup() before calling the run() method!")
             sys.exit(1)
