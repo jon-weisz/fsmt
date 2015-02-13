@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -30,7 +30,7 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 import string
 import random
@@ -39,64 +39,63 @@ import sys
 
 
 class MassiveOutTimed:
+	def __init__(self, duration="-1", when="10", size_=80):
+		"""
+		:param duration : Amount of time for the component to run in seconds,
+		defaults to infinity
+		"""
+		self.name = "MassiveOutPut"
+		self.run_duration = duration
+		self.event = int(when)
+		self.size = size_
+		print "MO init with dur %d event %d and size %d" % \
+			  (self.run_duration, self.event, self.size)
 
-    def __init__(self, duration="-1", when="10", size_=80):
-        """
-        :param duration : Amount of time for the component to run in seconds,
-        defaults to infinity
-        """
-        self.name = "MassiveOutPut"
-        self.run_duration = duration
-        self.event = int(when)
-        self.size = size_
-        print "MO init with dur %d event %d and size %d" % \
-            (self.run_duration, self.event, self.size)
-
-    def out_generator(self,
-                      chars=string.ascii_uppercase + string.digits):
-        """
-        :rtype : A very long random string
-        """
-        return ''.join(random.choice(chars) for x in range(self.size))
+	def out_generator(self,
+					  chars=string.ascii_uppercase + string.digits):
+		"""
+		:rtype : A very long random string
+		"""
+		return ''.join(random.choice(chars) for x in range(self.size))
 
 
 if __name__ == '__main__':
 
-    if len(sys.argv) == 3:
-        dur = sys.argv[1]
-        whe = sys.argv[2]
-        mo = MassiveOutTimed(duration=int(dur), when=int(whe))
-    elif len(sys.argv) == 4:
-        dur = sys.argv[1]
-        whe = sys.argv[2]
-        size = sys.argv[3]
-        mo = MassiveOutTimed(duration=int(dur), when=int(whe), size_=int(size))
-    else:
-        mo = MassiveOutTimed()
-    start = time.time()
-    line = 0
-    if mo.run_duration == "-1":
-        while True:
-            if (time.time() - start) > mo.event:
-                print line
-                print ("Running forever")
-                print mo.__class__
-                print "FINDME"
-                print mo.out_generator(
-                                       "ABCDEFGHIJKLMNOPQRSZUVWXYZ-.,><#*1234567890")
-                time.sleep(0.2)
-                line += 1
-            time.sleep(0.1)
-    else:
-        while (time.time() - start) < mo.run_duration:
-            if (time.time() - start) > mo.event:
-                print line
-                print "Running for %s" % str(time.time() - start)
-                print mo.__class__
-                print "FINDME"
-                print mo.out_generator(
-                                       "ABCDEFGHIJKLMNOPQRSZUVWXYZ-.,><#*1234567890")
-                line += 1
-                time.sleep(0.2)
-            else:
-                time.sleep(0.1)
+	if len(sys.argv) == 3:
+		dur = sys.argv[ 1 ]
+		whe = sys.argv[ 2 ]
+		mo = MassiveOutTimed(duration=int(dur), when=int(whe))
+	elif len(sys.argv) == 4:
+		dur = sys.argv[ 1 ]
+		whe = sys.argv[ 2 ]
+		size = sys.argv[ 3 ]
+		mo = MassiveOutTimed(duration=int(dur), when=int(whe), size_=int(size))
+	else:
+		mo = MassiveOutTimed()
+	start = time.time()
+	line = 0
+	if mo.run_duration == "-1":
+		while True:
+			if (time.time() - start) > mo.event:
+				print line
+				print ("Running forever")
+				print mo.__class__
+				print "FINDME"
+				print mo.out_generator(
+					"ABCDEFGHIJKLMNOPQRSZUVWXYZ-.,><#*1234567890")
+				time.sleep(0.2)
+				line += 1
+			time.sleep(0.1)
+	else:
+		while (time.time() - start) < mo.run_duration:
+			if (time.time() - start) > mo.event:
+				print line
+				print "Running for %s" % str(time.time() - start)
+				print mo.__class__
+				print "FINDME"
+				print mo.out_generator(
+					"ABCDEFGHIJKLMNOPQRSZUVWXYZ-.,><#*1234567890")
+				line += 1
+				time.sleep(0.2)
+			else:
+				time.sleep(0.1)

@@ -30,124 +30,106 @@ Authors: Florian Lier, Norman Koester
 
 """
 
-from fsmtest.log_factory import LogFactory
-import eventlet
 import os
 import select
+import eventlet
+from fsmtest.log_factory import LogFactory
 
 
 class PTYLogWriter():
+	eventlet.monkey_patch()
 
-    eventlet.monkey_patch()
+	def __init__(self, name):
+		"""
+		:param name:
+		"""
+		self.name = name
+		self.process = None
+		self.is_setup = False
+		self.logfile = None
+		self.un_poll_able = False
+		self.log_file_name = None
+		self.log = LogFactory().get_logger()
+		self.terminate = False
 
-    def __init__(self, name):
-        """
-        :param name:
-        """
-        self.name = name
-        self.process = None
-        self.is_setup = False
-        self.logfile = None
-        self.un_poll_able = False
-        self.log_file_name = None
-        self.log = LogFactory().get_logger()
-        self.terminate = False
+	def close_logger(self):
+		"""
+		:param _close:
+		"""
+		self.terminate = True
 
-    def close_logger(self):
-        """
-        :param _close:
-        """
-        self.terminate = True
+	def setup(self, _process, _logfile):
+		"""
+		:param _process:
+		:param _logfile:
+		"""
+		self.process = _process
+		self.log_file_name = _logfile
+		self.is_setup = True
 
-    def setup(self, _process, _logfile):
-        """
-        :param _process:
-        :param _logfile:
-        """
-        self.process = _process
-        self.log_file_name = _logfile
-        self.is_setup = True
+	def logger(self):
+		"""
+		TODO
+		"""
+		if self.is_setup:
+			try:
+				a_file = open(self.log_file_name, "w+")
+				self.logfile = a_file
+			except IOError as e:
+				self.log.error("Exception in log file reader of %s, cannot read the file %s", self.name, self.log_file_name)
+				a_file.close()
+				return 1
 
-    def logger(self):
-        """
-        TODO
-        """
-        if self.is_setup:
-            try:
-                a_file = open(self.log_file_name, "w+")
-                self.logfile = a_file
-            except IOError as e:
-                self.log.error(
-                    "Exception in log file reader of %s, " +
-                    "cannot read the file %s",
-                    self.name, self.log_file_nameg)
-                a_file.close()
-                return 1
+			self.log.info("%s log %s", self.name, self.log_file_name)
 
-            self.log.info("%s log %s",
-                          self.name, self.log_file_name)
+			try:
+				# Log while the process is alive, if not, stop logging.
+				while self.process.poll() is None:
+					# Checks if there is any data on the pty
+					ready, _, _ = select.select([ self.process.master ], [ ], [ ], 0.1)
+					if ready:
+						# This line actually reads from the pty
+						data = os.read(self.process.master, 512)
+						if not data:
+							continue
+						# So here was repr(data), from what i read this is not
+						# really necessary here. So I changed it to str()
+						# as repr() created silly single quotes around the
+						# returned string. --nkoester
+						a_file.write(str(data))
+						a_file.flush()
+						self.log.stream("%s Writing to log >> %s", self.name, str(data))
 
-            try:
-                # Log while the process is alive, if not, stop logging.
-                # TODO: is this necessary?!
-                while self.process.poll() is None:
-                    # Reduce CPU load a little ;)
-                    eventlet.sleep(0.2)
-                    # Checks if there is any data on the pty
-                    ready, _, _ = select.select([self.process.master],
-                                                [], [], 0.1)
-                    if ready:
-                        # This line actually reads from the pty
-                        data = os.read(self.process.master, 512)
-                        if not data:
-                            continue
-                        # So here was repr(data), from what i read this is not
-                        # really necessary here. So I changed it to str()
-                        # as repr() created silly single quotes around the
-                        # returned string. --nkoester
-                        a_file.write(str(data))
-                        a_file.flush()
-                        self.log.stream("%s Writing to log >> %s",
-                                        self.name, str(data))
+					elif self.process.poll() is not None:
+						self.log.info("%s Became un-pollable (exited) while reading...OK.", self.name)
+						self.un_poll_able = True
+						a_file.close()
+						return 0
+					if self.terminate:
+						break
+					# Reduce CPU Load
+					eventlet.sleep(0.008)
 
-                    elif self.process.poll() is not None:
-                        self.log.debug("%s Process unpollable - exiting " +
-                                       "& returning 1!", self.name)
+			except IOError as e:
+				self.log.error("Exception in log file reader of %s, probably the process pipe is dead? %s", self.name, format(e.errno, e.strerror))
+				a_file.close()
+				return 1
 
-                        self.un_poll_able = True
-                        a_file.close()
-                        return 1
-                    if self.terminate:
-                        break
+			except RuntimeError as e:
+				self.log.error("ERROR: In log file reader of %s is %s", (self.name, e))
+				a_file.close()
+				return 1
 
-            except IOError as e:
-                self.log.error(
-                    "Exception in log file reader of %s, " +
-                    "probably the process pipe is dead? %s",
-                    self.name, format(e.errno, e.strerror))
-                a_file.close()
-                return 1
+			if self.un_poll_able:
+				self.log.error("ERROR: Process %s is un-pollable - Exiting", self.name)
+				a_file.close()
+				return 1
 
-            except RuntimeError as e:
-                self.log.error(
-                    "Runtime Error: In log file reader of %s is %s",
-                    (self.name, e))
-                a_file.close()
-                return 1
+			if self.terminate:
+				self.log.debug("%s Internal terminate flag set - Exiting & Returning 0!", self.name)
+				a_file.close()
+				return 0
 
-            if self.un_poll_able:
-                self.log.error(
-                    "ERROR: Process %s became un-pollable Exiting", self.name)
-                a_file.close()
-                return 1
-
-            if self.terminate:
-                self.log.debug("%s Internal terminate flag set - " +
-                               "exiting & returning 0!", self.name)
-                a_file.close()
-                return 0
-
-        else:
-            self.log.error("%s ERROR: Log writer has not been " +
-                           "setup properly!", self.name)
-            return 1
+		else:
+			self.log.error("%s ERROR: Log writer has not been setup properly!", self.name)
+			return 1

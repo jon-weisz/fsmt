@@ -1,3 +1,10 @@
+Version 0.17
+* Performance Improvements
+* Faster log reader
+* Fixed Exception in STDOUT observer (component name not defined)
+* Improved Debug Messages
+* Added Softlink feature to latest run of a test (zip and xml file)
+
 Version 0.16
 * Changed SCXML Event name to program-name instead of state_0_1, etc.
 * From this version on, you need to regenerate your SCXML files!

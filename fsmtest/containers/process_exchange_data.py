@@ -32,28 +32,29 @@ Authors: Florian Lier, Norman Koester
 
 
 class ProcessExchangeData():
-    """
-    Data object used as exchange data between processes.
-    """
-    def __init__(self):
-        """
-        Constructor.
-        TODO: Rename message to "name"
-        """
-        self.message = None
-        self.successful = False
-        self.pid = "None"
-        self.counter_name = ""
-        self.execution_type = "default"
-        self.sender_id = ""
-        self.parent_state = None
-        self.type = "unset"
+	"""
+	Data object used as exchange data between processes.
+	"""
 
-    def info_to_string(self):
-        """
-        :return:
-        """
-        a = ""
-        for key, value in self.__dict__.iteritems():
-            a += "%s: %s, " % (key, value)
-        return a
+	def __init__(self):
+		"""
+		Constructor.
+		TODO: Rename message to "name"
+		"""
+		self.message = None
+		self.successful = False
+		self.pid = "None"
+		self.counter_name = ""
+		self.execution_type = "default"
+		self.sender_id = ""
+		self.parent_state = None
+		self.type = "unset"
+
+	def info_to_string(self):
+		"""
+		:return:
+		"""
+		a = ""
+		for key, value in self.__dict__.iteritems():
+			a += "%s: %s, " % (key, value)
+		return a

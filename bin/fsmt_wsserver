@@ -13,9 +13,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Copyright (c) 2011-2013, Sylvain Hellegouarch
-#  All rights reserved.
+# All rights reserved.
 
-#  Redistribution and use in source and binary forms, with or without
+# Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions are met:
 #
 #  * Redistributions of source code must retain the above copyright notice,
@@ -43,11 +43,11 @@
 
 from datetime import datetime
 import threading
+import hashlib
 import signal
 import socket
 import base64
 import select
-import hashlib
 import time
 import sys
 import re
@@ -68,11 +68,12 @@ Sec-WebSocket-Version: 13\r\n\
 
 # For testing purpose, simple response from server:
 def serverCallback(final, opcode, masked, maskKey, payloadLength, payloadData):
-    return unmask(payloadData, maskKey)
+	return unmask(payloadData, maskKey)
 
 
 def fsmStatus(message):
-    return message
+	return message
+
 
 # Utilities functions:
 
@@ -80,28 +81,32 @@ def fsmStatus(message):
 
 
 def printAsBinary(data):
-    print " ".join([bin(ord(c)) for c in data])
+	print " ".join([ bin(ord(c)) for c in data ])
+
 
 # Yet another one
 
 
 def printAsBinary2(data):
-    print " ".join([bin(c) for c in data])
+	print " ".join([ bin(c) for c in data ])
+
 
 # Generate the answer key for the handshake using the key sent from the client
 
 
 def generateAnswerKey(key):
-    return base64.b64encode(hashlib.sha1(key + MAGIC_STRING).digest())
+	return base64.b64encode(hashlib.sha1(key + MAGIC_STRING).digest())
+
 
 # Extract the key from the handshake
 
 
 def get_key_from_handshake(hs):
-    r = re.compile("(.*?)Sec\-WebSocket-Key: (.*?)\r?\n(.*?)")
-    m = r.search(hs)
-    key = m.group(2)
-    return key
+	r = re.compile("(.*?)Sec\-WebSocket-Key: (.*?)\r?\n(.*?)")
+	m = r.search(hs)
+	key = m.group(2)
+	return key
+
 
 # Decompose the binary frame sent from a client into the different part of the frame:
 # final: true/false. Flag saying if the current frame was the last of the message or not
@@ -115,90 +120,92 @@ def get_key_from_handshake(hs):
 
 
 def decomposeFrame(rawFrame):
-    dbg = True
+	dbg = True
 
-    if dbg:
-        print 'Entering decomposeFrame.'
-    frame = [ord(c) for c in rawFrame]
-    if not frame:
-        return None, None, None, None, None, None
+	if dbg:
+		print 'Entering decomposeFrame.'
+	frame = [ ord(c) for c in rawFrame ]
+	if not frame:
+		return None, None, None, None, None, None
 
-    if dbg:
-        # print 'FrameToIntegers: ', frame
-        pass
+	if dbg:
+		# print 'FrameToIntegers: ', frame
+		pass
 
-    maskKey = None
+	maskKey = None
 
-    if ((frame[0] & 0b10000000) >> 7) == 1:  # keeping only the first bit
-        final = True
-    else:
-        final = False
+	if ((frame[ 0 ] & 0b10000000) >> 7) == 1:  # keeping only the first bit
+		final = True
+	else:
+		final = False
 
-    if dbg:
-        print 'Final: ', final
+	if dbg:
+		print 'Final: ', final
 
-    opcode = frame[0] & 0b01111111  # masking the first bit
+	opcode = frame[ 0 ] & 0b01111111  # masking the first bit
 
-    if dbg:
-        print 'Opcode: ', opcode
+	if dbg:
+		print 'Opcode: ', opcode
 
-    if ((frame[1] & 0b10000000) >> 7) == 1:  # keeping only the first bit
-        masked = True
-    else:
-        masked = False
+	if ((frame[ 1 ] & 0b10000000) >> 7) == 1:  # keeping only the first bit
+		masked = True
+	else:
+		masked = False
 
-    if dbg:
-        print 'Masked data? ', masked
+	if dbg:
+		print 'Masked data? ', masked
 
-    payloadLength = frame[1] & 0b01111111  # masking the first bit
+	payloadLength = frame[ 1 ] & 0b01111111  # masking the first bit
 
-    payloadDataStartIndex = 2
+	payloadDataStartIndex = 2
 
-    # then the payloadLength is on 16 bits in the Extended Payload part
-    if payloadLength == 126:
-        # 2 bytes interpreted as 16 bits (2 bytes) unsigned integer
-        payloadLength = (frame[2] << 8) + frame[3]
-        payloadDataStartIndex += 2
-    # then the payloadLength is on 64 bits in the Extended Payload part
-    elif payloadLength == 127:
-        i = 1
-        payloadLength = 0
-        payloadDataStartIndex += 8
-        while i < (PAYLOADLENGTH_MAX_EXT_N_BITS + 1):
-            payloadLength += frame[1 + i] << (
-                8 * (PAYLOADLENGTH_MAX_EXT_N_BITS - i))  # 2 bytes interpreted as 64 bits (8 bytes) unsigned integer
-            i += 1
+	# then the payloadLength is on 16 bits in the Extended Payload part
+	if payloadLength == 126:
+		# 2 bytes interpreted as 16 bits (2 bytes) unsigned integer
+		payloadLength = (frame[ 2 ] << 8) + frame[ 3 ]
+		payloadDataStartIndex += 2
+	# then the payloadLength is on 64 bits in the Extended Payload part
+	elif payloadLength == 127:
+		i = 1
+		payloadLength = 0
+		payloadDataStartIndex += 8
+		while i < (PAYLOADLENGTH_MAX_EXT_N_BITS + 1):
+			payloadLength += frame[ 1 + i ] << (
+				8 * (PAYLOADLENGTH_MAX_EXT_N_BITS - i))  # 2 bytes interpreted as 64 bits (8 bytes) unsigned integer
+			i += 1
 
-    if dbg:
-        print 'payloadLength: ', payloadLength
+	if dbg:
+		print 'payloadLength: ', payloadLength
 
-    if masked:
-        i = 0
-        maskKey = []
-        while i < MASKKEY_N_BITS:
-            # << (8*(MASKKEY_N_BITS-i-1)))
-            maskKey.append(frame[payloadDataStartIndex + i])
-            i += 1
-        payloadDataStartIndex += 4
+	if masked:
+		i = 0
+		maskKey = [ ]
+		while i < MASKKEY_N_BITS:
+			# << (8*(MASKKEY_N_BITS-i-1)))
+			maskKey.append(frame[ payloadDataStartIndex + i ])
+			i += 1
+		payloadDataStartIndex += 4
 
-    if dbg:
-        # print 'maskKey: ', maskKey
-        pass
+	if dbg:
+		# print 'maskKey: ', maskKey
+		pass
 
-    i = 0
-    payloadData = []
-    # for all the remaining bytes, we concatenate and store in as the
-    # payLoadData
-    while i < payloadLength:
-        payloadData.append(
-            frame[payloadDataStartIndex + i])  # << (8*(payloadLength-i-1))) # same tip as for payloadLength, see above
-        i += 1
+	i = 0
+	payloadData = [ ]
+	# for all the remaining bytes, we concatenate and store in as the
+	# payLoadData
+	while i < payloadLength:
+		payloadData.append(
+			frame[
+				payloadDataStartIndex + i ])  # << (8*(payloadLength-i-1))) # same tip as for payloadLength, see above
+		i += 1
 
-    if dbg:
-        pass
-        # print 'payloadData: ', payloadData
+	if dbg:
+		pass
+		# print 'payloadData: ', payloadData
 
-    return (final, opcode, masked, maskKey, payloadLength, payloadData)
+	return (final, opcode, masked, maskKey, payloadLength, payloadData)
+
 
 # Create the frame to sent to the client for sending a string message "data"
 # It uses the final flag each time and always the "text" opcode. You can customize the function if you need...
@@ -206,256 +213,254 @@ def decomposeFrame(rawFrame):
 
 
 def composeTxtFrame(data):
-    bytes = bytearray()
-    bytes.append(0b10000001)
-    header = 0b100000010
-    payloadLength = len(data)
-    payloadLengthNOfBits = 4
-    if payloadLength > 65535:  # 2^16-1
-        NBYTESOFPLLENGTH = 8
-        payloadLengthNOfBits += NBYTESOFPLLENGTH
-        bytes.append(127 + 0)
-        i = 0
-        while i < NBYTESOFPLLENGTH:
-            bytes.append(
-                (payloadLength >> (8 * (NBYTESOFPLLENGTH - i - 1))) & 255)
-            i += 1
-    elif payloadLength > 125:
-        print 'Coding payloadLength on 16 bits'
-        NBYTESOFPLLENGTH = 2
-        payloadLengthNOfBits += 16
-        bytes.append(126 + 0)
-        i = 0
-        dbgarr = bytearray()
-        while i < NBYTESOFPLLENGTH:
-            shift = (8 * (NBYTESOFPLLENGTH - i - 1))
-            print 'Shifting of', shift
-            b = (payloadLength >> shift) & 255
-            dbgarr.append(b)
-            bytes.append(b)
-            i += 1
-        print 'payloadLength coded as: '
-        printAsBinary2(dbgarr)
-    else:
-        bytes.append(payloadLength + 0)
-    for c in data:
-        bytes.append(c)
-    return bytes
+	bytes = bytearray()
+	bytes.append(0b10000001)
+	header = 0b100000010
+	payloadLength = len(data)
+	payloadLengthNOfBits = 4
+	if payloadLength > 65535:  # 2^16-1
+		NBYTESOFPLLENGTH = 8
+		payloadLengthNOfBits += NBYTESOFPLLENGTH
+		bytes.append(127 + 0)
+		i = 0
+		while i < NBYTESOFPLLENGTH:
+			bytes.append(
+				(payloadLength >> (8 * (NBYTESOFPLLENGTH - i - 1))) & 255)
+			i += 1
+	elif payloadLength > 125:
+		print 'Coding payloadLength on 16 bits'
+		NBYTESOFPLLENGTH = 2
+		payloadLengthNOfBits += 16
+		bytes.append(126 + 0)
+		i = 0
+		dbgarr = bytearray()
+		while i < NBYTESOFPLLENGTH:
+			shift = (8 * (NBYTESOFPLLENGTH - i - 1))
+			print 'Shifting of', shift
+			b = (payloadLength >> shift) & 255
+			dbgarr.append(b)
+			bytes.append(b)
+			i += 1
+		print 'payloadLength coded as: '
+		printAsBinary2(dbgarr)
+	else:
+		bytes.append(payloadLength + 0)
+	for c in data:
+		bytes.append(c)
+	return bytes
 
 
 def unmask(data, maskKey):
-    dbg = False
-    if dbg:
-        print 'Entering unmask'
-        print 'Data:', data
-        print 'MaskKey:', maskKey
-    if data is None or maskKey is None:
-        return ''
-    unmasked = ''
-    i = 0
-    for c in data:
-        if dbg:
-            print bin(c)
-            print bin(maskKey[i % MASKKEY_N_BITS])
-            print c ^ maskKey[i % MASKKEY_N_BITS]
-        unmasked += chr(c ^ maskKey[i % MASKKEY_N_BITS])
-        i += 1
-    return unmasked
+	dbg = False
+	if dbg:
+		print 'Entering unmask'
+		print 'Data:', data
+		print 'MaskKey:', maskKey
+	if data is None or maskKey is None:
+		return ''
+	unmasked = ''
+	i = 0
+	for c in data:
+		if dbg:
+			print bin(c)
+			print bin(maskKey[ i % MASKKEY_N_BITS ])
+			print c ^ maskKey[ i % MASKKEY_N_BITS ]
+		unmasked += chr(c ^ maskKey[ i % MASKKEY_N_BITS ])
+		i += 1
+	return unmasked
 
 
 class FsmServer:
+	def __init__(self, port, callback):
+		self.port = port
+		self.s = FsmSocket()
+		# The actual callback function
+		self.treatmentCallback = fsmStatus
+		self.current_data = ""
 
-    def __init__(self, port, callback):
-        self.port = port
-        self.s = FsmSocket()
-        # The actual callback function
-        self.treatmentCallback = fsmStatus
-        self.current_data = ""
+	def start(self):
+		# Set the socket callback
+		self.s.setCallback(self.onConnect)
+		self.s.listen(self.port)
 
-    def start(self):
-        # Set the socket callback
-        self.s.setCallback(self.onConnect)
-        self.s.listen(self.port)
+	def end(self):
+		self.s.end()
 
-    def end(self):
-        self.s.end()
-
-    # Socket callback
-    def onConnect(self, conn, addr, stop):
-        # Just for the handshake
-        sock = FsmSocket(conn)
-        if stop:
-            conn.close()
-            return
-        dbg = True
-        if dbg:
-            pass
-            # print 'Server callback called !'
-        header = ''
-        handshake_success = False
-        try:
-            while True:
-                if handshake_success == False:
-                    header += sock.recv_end('\r\n\r\n')
-                    if not header:
-                        break
-                    if dbg:
-                        print ""
-                        print 'GET Header: '
-                        print header
-                    handshake = HANDSHAKE.replace(
-                        '{1}', generateAnswerKey(get_key_from_handshake(header)))
-                    sock.sendall(handshake)
-                    if dbg:
-                        print ""
-                        print 'ANSWER Header: '
-                        print handshake
-                    handshake_success = True
-                    if dbg:
-                        print 'Handshake finished'
-                else:
-                    try:
-                        data = conn.recv(16384)
-                    except socket.error, e:
-                        print "Connection reset"
-                        break
-                    t1 = datetime.now()
-                    if not data:
-                        print 'Host disconnected.'
-                        break
-                    if int(sys.getsizeof(data)) > 16384:
-                        print 'Data will not be evaluated packet size > 16384 byte'
-                        return
-                    if dbg:
-                        # print 'Data read from ', addr, ': ', data
-                        # printAsBinary(data)
-                        print 'Frame decomposition:'
-                    t12 = datetime.now()
-                    final, opcode, masked, maskKey, payloadLength, payloadData = decomposeFrame(
-                        data)
-                    rec_data = unmask(payloadData, maskKey)
-                    if dbg:
-                        print 'decomposeFrame() took', ((t12 - datetime.now()).microseconds), 'us'
-                        print 'Unmasking:', rec_data
-                    if rec_data.count("fsmtest") > 0:
-                        self.current_data = rec_data
-                    if rec_data.count("update_request") > 0:
-                        toSend = self.treatmentCallback(self.current_data)
-                    else:
-                        toSend = ""
-                    if dbg:
-                        print 'Length of data to send:', len(toSend)
-                    if dbg:
-                        t13 = datetime.now()
-                    send = composeTxtFrame(toSend + '\r\n\r\n')
-                    if dbg:
-                        print 'composeTxtFrame() took', ((t13 - datetime.now()).microseconds), 'us'
-                    if dbg:
-                        # print send
-                        pass
-                    try:
-                        conn.sendall(send)
-                    except socket.error, e:
-                        print e
-                        break
-        except socket.error, e:
-            print "Client unexpectedly closed"
-            return
-        print 'Connection closed to', addr
-        conn.close()
+	# Socket callback
+	def onConnect(self, conn, addr, stop):
+		# Just for the handshake
+		sock = FsmSocket(conn)
+		if stop:
+			conn.close()
+			return
+		dbg = True
+		if dbg:
+			pass
+			# print 'Server callback called !'
+		header = ''
+		handshake_success = False
+		try:
+			while True:
+				if handshake_success == False:
+					header += sock.recv_end('\r\n\r\n')
+					if not header:
+						break
+					if dbg:
+						print ""
+						print 'GET Header: '
+						print header
+					handshake = HANDSHAKE.replace(
+						'{1}', generateAnswerKey(get_key_from_handshake(header)))
+					sock.sendall(handshake)
+					if dbg:
+						print ""
+						print 'ANSWER Header: '
+						print handshake
+					handshake_success = True
+					if dbg:
+						print 'Handshake finished'
+				else:
+					try:
+						data = conn.recv(16384)
+					except socket.error, e:
+						print "Connection reset"
+						break
+					t1 = datetime.now()
+					if not data:
+						print 'Host disconnected.'
+						break
+					if int(sys.getsizeof(data)) > 16384:
+						print 'Data will not be evaluated packet size > 16384 byte'
+						return
+					if dbg:
+						# print 'Data read from ', addr, ': ', data
+						# printAsBinary(data)
+						print 'Frame decomposition:'
+					t12 = datetime.now()
+					final, opcode, masked, maskKey, payloadLength, payloadData = decomposeFrame(
+						data)
+					rec_data = unmask(payloadData, maskKey)
+					if dbg:
+						print 'decomposeFrame() took', ((t12 - datetime.now()).microseconds), 'us'
+						print 'Unmasking:', rec_data
+					if rec_data.count("fsmtest") > 0:
+						self.current_data = rec_data
+					if rec_data.count("update_request") > 0:
+						toSend = self.treatmentCallback(self.current_data)
+					else:
+						toSend = ""
+					if dbg:
+						print 'Length of data to send:', len(toSend)
+					if dbg:
+						t13 = datetime.now()
+					send = composeTxtFrame(toSend + '\r\n\r\n')
+					if dbg:
+						print 'composeTxtFrame() took', ((t13 - datetime.now()).microseconds), 'us'
+					if dbg:
+						# print send
+						pass
+					try:
+						conn.sendall(send)
+					except socket.error, e:
+						print e
+						break
+		except socket.error, e:
+			print "Client unexpectedly closed"
+			return
+		print 'Connection closed to', addr
+		conn.close()
 
 
 class FsmSocket:
+	def __init__(self, sock=None, p=None):
 
-    def __init__(self, sock=None, p=None):
+		self.stop = False
+		self.conn = None
+		self.addr = None
+		if sock is None:
+			self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			print 'Connect (new socket)'
+		else:
+			print 'Connect (re-using existing socket)'
+			self.s = sock
+		if p is not None:
+			self.p = p
 
-        self.stop = False
-        self.conn = None
-        self.addr = None
-        if sock is None:
-            self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            print 'Connect (new socket)'
-        else:
-            print 'Connect (re-using existing socket)'
-            self.s = sock
-        if p is not None:
-            self.p = p
+	def connect(self, host, port=None):
+		if port is None and self.p is not None:
+			self.s.connect(host, self.p)
+		else:
+			self.s.connect(host, port)
 
-    def connect(self, host, port=None):
-        if port is None and self.p is not None:
-            self.s.connect(host, self.p)
-        else:
-            self.s.connect(host, port)
+	def setCallback(self, callback):
+		self.callback = callback
 
-    def setCallback(self, callback):
-        self.callback = callback
+	def end(self):
+		self.stop = True
+		try:
+			self.s.close()
+			# self.s.shutdown(socket.SHUT_RDWR)
+		except socket.error, e:
+			print "Catched Exception in end() %s" % e
 
-    def end(self):
-        self.stop = True
-        try:
-            self.s.close()
-            # self.s.shutdown(socket.SHUT_RDWR)
-        except socket.error, e:
-            print "Catched Exception in end() %s" % e
+	def listen(self, port=None):
+		if port is not None:
+			self.p = port
+		self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+		self.s.bind(('', self.p))
+		self.s.listen(1024)
+		while not self.stop:
+			time.sleep(0.01)
+			# This blocks until a connection is made
+			try:
+				rr, rw, err = select.select([ self.s ], [ ], [ ], 1)
+			except select.error, e:
+				return
+			if rr:
+				try:
+					self.conn, self.addr = self.s.accept()
+				except socket.error, e:
+					print "Catched Exception in listen() %s" % e
+					return
+				t = threading.Thread(target=self.callback,
+									 args=(self.conn, self.addr, self.stop))
+				t.daemon = True
+				t.start()
 
-    def listen(self, port=None):
-        if port is not None:
-            self.p = port
-        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.s.bind(('', self.p))
-        self.s.listen(1024)
-        while not self.stop:
-            time.sleep(0.01)
-            # This blocks until a connection is made
-            try:
-                rr, rw, err = select.select([self.s], [], [], 1)
-            except select.error, e:
-                return
-            if rr:
-                try:
-                    self.conn, self.addr = self.s.accept()
-                except socket.error, e:
-                    print "Catched Exception in listen() %s" % e
-                    return
-                t = threading.Thread(target=self.callback,
-                                     args=(self.conn, self.addr, self.stop))
-                t.daemon = True
-                t.start()
+	def recv_end(self, end):
+		total_data = [ ]
+		data = ''
+		while True:
+			data = self.s.recv(8192)
+			if end in data:
+				total_data.append(data[ :data.find(end) ])
+				break
+			total_data.append(data)
+			if len(total_data) > 1:
+				# Check if end_of_data was split
+				last_pair = total_data[ -2 ] + total_data[ -1 ]
+				if end in last_pair:
+					total_data[ -2 ] = last_pair[ :last_pair.find(end) ]
+					total_data.pop()
+					break
+		return ''.join(total_data)
 
-    def recv_end(self, end):
-        total_data = []
-        data = ''
-        while True:
-            data = self.s.recv(8192)
-            if end in data:
-                total_data.append(data[:data.find(end)])
-                break
-            total_data.append(data)
-            if len(total_data) > 1:
-                # Check if end_of_data was split
-                last_pair = total_data[-2] + total_data[-1]
-                if end in last_pair:
-                    total_data[-2] = last_pair[:last_pair.find(end)]
-                    total_data.pop()
-                    break
-        return ''.join(total_data)
-
-    def sendall(self, data):
-        self.s.sendall(data)
+	def sendall(self, data):
+		self.s.sendall(data)
 
 
 if __name__ == '__main__':
 
-    print '>> FSMTEST WEB SOCKET SERVER STARTS'
-    server = FsmServer(8008, serverCallback)
+	print '>> FSMTEST WEB SOCKET SERVER STARTS'
+	server = FsmServer(8008, serverCallback)
 
-    def signal_handler(signal, frame):
-        print "\n\nYou pressed CTRL+C! We are trying to __gracefully__ terminate the server <3\n\n"
-        server.end()
+	def signal_handler(signal, frame):
+		print "\n\nYou pressed CTRL+C! We are trying to __gracefully__ terminate the server <3\n\n"
+		server.end()
 
-    signal.signal(signal.SIGINT, signal_handler)
-    try:
-        server.start()
-    except socket.error, e:
-        print "Catched Exception start() %s" % e
-    print '>> FSMTEST WEB SOCKET SERVER ENDS'
+	signal.signal(signal.SIGINT, signal_handler)
+	try:
+		server.start()
+	except socket.error, e:
+		print "Catched Exception start() %s" % e
+	print '>> FSMTEST WEB SOCKET SERVER ENDS'

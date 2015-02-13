@@ -30,8 +30,8 @@ Authors: Florian Lier, Norman Koester
 
 """
 
-from setuptools import setup, find_packages
 import subprocess
+from setuptools import setup, find_packages
 
 version = "master"
 filename = "master"
@@ -48,13 +48,11 @@ setup(name="fsmtest",
 
       author="Florian Lier and Norman Koester",
 
-      author_email="flier[at]techfak.uni-bielefeld.de and " +
-                   "nkoester[at]techfak.uni-bielefeld.de",
+      author_email="flier[at]techfak.uni-bielefeld.de and nkoester[at]techfak.uni-bielefeld.de",
 
-      url="https://projects.cit-ec.uni-bielefeld.de/projects/svd/" +
-          "wiki/State-Chart-Testing",
+      url="http://opensource.cit-ec.de/projects/fsmt",
 
-      download_url="https://projects.cit-ec.uni-bielefeld.de/projects/svd",
+      download_url="http://opensource.cit-ec.de/projects/fsmt",
 
       packages=find_packages(exclude=["*.tests",
                                       "*.tests.*",
@@ -68,10 +66,8 @@ setup(name="fsmtest",
                "bin/fsmt_exouttimed",
                "bin/fsmt_exlockouttimed",
                "bin/fsmt_wsserver",
-               "bin/fsmt_validation",
-               "configuration/morse/tools/morse_ros_atrv/recordangles.sh",
-               "configuration/morse/tools/morse_ros_atrv/recordangles_path.sh",
-               "configuration/morse/tools/morse_ros_atrv/sendangles.sh"],
+               "bin/fsmt_validation"],
+
       package_data={'fsmtest': ['configuration/*']},
 
       include_package_data=True,

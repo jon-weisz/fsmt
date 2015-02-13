@@ -34,41 +34,41 @@ import eventlet
 
 
 class ExitWatcher(object):
-    """
-    Watcher for ctrl+c interception.
-    """
-    # Evil.
-    eventlet.monkey_patch()
+	"""
+	Watcher for ctrl+c interception.
+	"""
+	# Evil.
+	eventlet.monkey_patch()
 
-    def __init__(self, state_machine_):
-        """
-        :param state_machine:
-        """
-        self.state_machine = state_machine_
-        self.close_exit_watcher = False
-        self.state_machine.log.debug("Emergency Exit Watcher initialised")
+	def __init__(self, state_machine_):
+		"""
+		:param state_machine:
+		"""
+		self.state_machine = state_machine_
+		self.close_exit_watcher = False
+		self.state_machine.log.debug("Emergency Exit Watcher initialised")
 
-    def close(self, end):
-        """
-        :param end:
-        """
-        self.close_exit_watcher = end
+	def close(self, end):
+		"""
+		:param end:
+		"""
+		self.close_exit_watcher = end
 
-    def do_watch(self):
-        """
-        Watches for the
-        """
-        while self.close_exit_watcher is False:
-            if self.state_machine.exit_grace:
-                self.state_machine.send("external_abortion")
-                # self.state_machine.send("wait.finish")
-                self.state_machine.log.debug(
-                    "CTRL+C detected - Closing Exit Watcher")
-                self.close_exit_watcher = True
-                break
-            if self.close_exit_watcher:
-                self.state_machine.log.debug(
-                    "Closing Exit Watcher, called close")
-                break
-            else:
-                eventlet.sleep(0.1)
+	def do_watch(self):
+		"""
+		Watches for the
+		"""
+		while self.close_exit_watcher is False:
+			if self.state_machine.exit_grace:
+				self.state_machine.send("external_abortion")
+				# self.state_machine.send("wait.finish")
+				self.state_machine.log.debug(
+					"CTRL+C detected - Closing Exit Watcher")
+				self.close_exit_watcher = True
+				break
+			if self.close_exit_watcher:
+				self.state_machine.log.debug(
+					"Closing Exit Watcher, called close")
+				break
+			else:
+				eventlet.sleep(0.1)

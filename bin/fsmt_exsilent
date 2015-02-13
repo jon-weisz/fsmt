@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-'''
+"""
 
 This file is part of FINITE STATE MACHINE BASED TESTING.
 
@@ -30,38 +30,37 @@ Excellence Initiative.
 Authors: Florian Lier, Norman Koester
 <flier, nkoester>@techfak.uni-bielefeld.de
 
-'''
+"""
 
 import time
 import sys
 
 
 class Silent:
+	"""
 
-    '''
+	"""
 
-    '''
-
-    def __init__(self, duration="-1"):
-        """
-        :param duration : Amount of time for the component to run in seconds,
-        defaults to infinity
-        """
-        self.name = "Silent"
-        self.run_duration = duration
+	def __init__(self, duration="-1"):
+		"""
+		:param duration : Amount of time for the component to run in seconds,
+		defaults to infinity
+		"""
+		self.name = "Silent"
+		self.run_duration = duration
 
 
 if __name__ == '__main__':
 
-    if len(sys.argv) > 1:
-        dur = sys.argv[1]
-        si = Silent(int(dur))
-    else:
-        si = Silent()
-    start = time.time()
-    if si.run_duration == "-1":
-        while True:
-            time.sleep(0.1)
-    else:
-        while (time.time() - start) < si.run_duration:
-            time.sleep(0.1)
+	if len(sys.argv) > 1:
+		dur = sys.argv[ 1 ]
+		si = Silent(int(dur))
+	else:
+		si = Silent()
+	start = time.time()
+	if si.run_duration == "-1":
+		while True:
+			time.sleep(0.1)
+	else:
+		while (time.time() - start) < si.run_duration:
+			time.sleep(0.1)

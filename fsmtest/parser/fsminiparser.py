@@ -30,11 +30,12 @@ Authors: Florian Lier, Norman Koester
 
 """
 
-from optparse import OptionParser
+
 import types
 import StringIO
 import traceback
 import ConfigParser
+from optparse import OptionParser
 import xml.etree.ElementTree as ET
 import sys
 
@@ -674,8 +675,7 @@ def indent(element, level=0):
 
 if __name__ == '__main__':
 
-    parser = OptionParser(usage="Usage: %prog PATH_TO_INI_FILE",
-                          version="%prog master")
+    parser = OptionParser(usage="Usage: %prog PATH_TO_INI_FILE", version="%prog master")
 
     parser.add_option("-o", "--output",
                       action="store",
@@ -688,6 +688,6 @@ if __name__ == '__main__':
 
     if len(args) != 1:
         parser.print_help()
-        parser.error("Wrong number of arguments, RTFM!")
+        parser.error("Wrong number of arguments...")
 
     parse_ini_file(open(args[0]), options.output)

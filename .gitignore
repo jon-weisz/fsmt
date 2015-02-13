@@ -1,9 +1,13 @@
-dist
-build
 documentation/build
-.idea
-.project
 .pydevproject
+coverage.xml
+nosetests.xml
+.project
 .DS_Store
+.coverage
+output
+build
+.idea
 *.egg
 *.pyc
+dist
