@@ -35,68 +35,68 @@ import pprint
 
 
 class SoftwareComponent(object):
-	def __init__(self):
-		"""
-		TODO
-		"""
-		self.name = "None"
-		self.command = "None"
-		self.path = "None"
-		self.host = "localhost"
-		self.check_types = [ ]
-		self.pid = "None"
-		self.counter_name = ""
-		self.parent_state = "None"
-		self.execution_type = "default"
-		self.check_execution = False
-		self.identifier = id(self)
-		self.environment = None
+    def __init__(self):
+        """
+        TODO
+        """
+        self.name = "None"
+        self.command = "None"
+        self.path = "None"
+        self.host = "localhost"
+        self.check_types = []
+        self.pid = "None"
+        self.counter_name = ""
+        self.parent_state = "None"
+        self.execution_type = "default"
+        self.check_execution = False
+        self.identifier = id(self)
+        self.environment = None
 
-	def add_check_type(self, check_type):
-		"""
-		:param check_type:
-		"""
-		self.check_types.append(check_type)
+    def add_check_type(self, check_type):
+        """
+        :param check_type:
+        """
+        self.check_types.append(check_type)
 
-	def print_info(self):
-		"""
-		TODO
-		"""
-		pprint.pprint(self.__dict__)
-		for a in self.check_types:
-			pprint.pprint(a.__dict__)
+    def print_info(self):
+        """
+        TODO
+        """
+        pprint.pprint(self.__dict__)
+        for a in self.check_types:
+            pprint.pprint(a.__dict__)
 
-	def get_complete_executable_path_with_arguments(self):
-		if self.environment:
-			os.environ = self.environment
-		return os.path.expandvars(os.path.join(self.path, self.command))
+    def get_complete_executable_path_with_arguments(self):
+        if self.environment:
+            os.environ = self.environment
+        return os.path.expandvars(os.path.join(self.path, self.command))
 
-	def path_and_command_is_valid(self):
-		"""
-		:return:
-		"""
-		if self.command is None:
-			return False
-		if self.path is None:
-			return False
-		if not os.path.exists(
-				self.get_complete_executable_path_with_arguments().split()[ 0 ]):
-			return False
-		return True
+    def path_and_command_is_valid(self):
+        """
+        :return:
+        """
+        if self.command is None:
+            return False
+        if self.path is None:
+            return False
+        if not os.path.exists(
+                self.get_complete_executable_path_with_arguments().split()[0]):
+            return False
+        return True
 
-	def _contains(self, list_, filter_):
-		"""
-		:param list:
-		:param filter:
-		:return:
-		"""
-		for x in list_:
-			if filter_(x):
-				return True
-		return False
+    def _contains(self, list_, filter_):
+        """
+        :param list:
+        :param filter:
+        :return:
+        """
+        for x in list_:
+            if filter_(x):
+                return True
+        return False
 
-	def has_blocking_observers(self):
-		"""
-		:return:
-		"""
-		return self._contains(self.check_types, lambda x: x.blocking)
+    def has_blocking_observers(self):
+        """
+        :return:
+        """
+        return self._contains(self.check_types, lambda x: x.blocking)

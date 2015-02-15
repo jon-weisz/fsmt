@@ -39,73 +39,73 @@ from websocket import create_connection
 
 
 class WebSocketConnection():
-	def __init__(self):
-		"""
-		TODO
-		"""
-		self.random_string = ''.join(
-			random.choice(string.ascii_uppercase + string.digits)
-			for x in range(8)
-		)
-		# self.raw_message = json.loads('{ "name": "fsmtest", "events": [] }')
-		self.json_message = json.loads('{ "name": "fsmtest", "events": [] }')
-		self.is_connected = False
-		self.ws = None
-		try:
-			self.ws = create_connection("ws://localhost:8008/")
-		except socket.error, e:
-			pass
-		if not self.ws is None:
-			self.is_connected = True
+    def __init__(self):
+        """
+        TODO
+        """
+        self.random_string = ''.join(
+            random.choice(string.ascii_uppercase + string.digits)
+            for x in range(8)
+        )
+        # self.raw_message = json.loads('{ "name": "fsmtest", "events": [] }')
+        self.json_message = json.loads('{ "name": "fsmtest", "events": [] }')
+        self.is_connected = False
+        self.ws = None
+        try:
+            self.ws = create_connection("ws://localhost:8008/")
+        except socket.error, e:
+            pass
+        if not self.ws is None:
+            self.is_connected = True
 
-	def set_current_message(self, update):
-		self.json_message = update
+    def set_current_message(self, update):
+        self.json_message = update
 
-	def get_current_message(self):
-		return self.json_message
+    def get_current_message(self):
+        return self.json_message
 
-	def get_raw_message(self):
-		return json.loads('{ "name": "fsmtest", "events": [] }')
+    def get_raw_message(self):
+        return json.loads('{ "name": "fsmtest", "events": [] }')
 
-	def get_outer_event(self):
-		return {
-		"name": "name",
-		"time": "0",
-		"state": "init",
-		"component": "init"
-		}
+    def get_outer_event(self):
+        return {
+            "name": "name",
+            "time": "0",
+            "state": "init",
+            "component": "init"
+        }
 
-	def get_inner_event(self):
-		return {
-		"name": "eventname",
-		"events": [ {
-					"name": "eventname",
-					"time": "0",
-					"state": "init",
-					"component": "init"
-					} ]
-		}
+    def get_inner_event(self):
+        return {
+            "name": "eventname",
+            "events": [{
+                           "name": "eventname",
+                           "time": "0",
+                           "state": "init",
+                           "component": "init"
+                       }]
+        }
 
-	def get_is_connected(self):
-		"""
-		:return:
-		"""
-		return self.is_connected
+    def get_is_connected(self):
+        """
+        :return:
+        """
+        return self.is_connected
 
-	def end(self):
-		"""
-		TODO
-		"""
-		self.ws.close()
+    def end(self):
+        """
+        TODO
+        """
+        self.ws.close()
 
-	def send_update(self):
-		"""
-		TODO
-		"""
-		if self.is_connected:
-			if int(sys.getsizeof(json.dumps(self.json_message)) < 16384):
-				self.ws.send(json.dumps(self.json_message))
-			else:
-				print "Warning: Web Socket Message too big > 16384 byte"
-		else:
-			print "Warning, not connected to Web Socket server"
+    def send_update(self):
+        """
+        TODO
+        """
+        if self.is_connected:
+            if int(sys.getsizeof(json.dumps(self.json_message)) < 16384):
+                self.ws.send(json.dumps(self.json_message))
+            else:
+                print "Warning: Web Socket Message too big > 16384 byte"
+        else:
+            print "Warning, not connected to Web Socket server"

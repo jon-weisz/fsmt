@@ -39,22 +39,22 @@ import os
 
 if __name__ == '__main__':
 
-	parser = OptionParser(usage="Usage: %prog PATH_TO_INI_FILE", version="%prog master")
+    parser = OptionParser(usage="Usage: %prog PATH_TO_INI_FILE", version="%prog master")
 
-	parser.add_option("-o", "--output",
-					  action="store",
-					  dest="output",
-					  default="/tmp/output.scxml",
-					  help="Set output path, the default is: [/tmp/output.scxml]")
+    parser.add_option("-o", "--output",
+                      action="store",
+                      dest="output",
+                      default="/tmp/output.scxml",
+                      help="Set output path, the default is: [/tmp/output.scxml]")
 
-	(options, args) = parser.parse_args()
+    (options, args) = parser.parse_args()
 
-	if len(args) != 1:
-		parser.print_help()
-		print "\n\n"
-		parser.error("Wrong number of arguments given, please see documentation for further information.")
+    if len(args) != 1:
+        parser.print_help()
+        print "\n\n"
+        parser.error("Wrong number of arguments given, please see documentation for further information.")
 
-	if not os.path.exists(args[ 0 ]):
-		parser.error("The provided INI file at '%s' does not exist!") % args[ 0 ]
+    if not os.path.exists(args[0]):
+        parser.error("The provided INI file at '%s' does not exist!") % args[0]
 
-	fsminiparser.parse_ini_file(open(args[ 0 ]), options.output)
+    fsminiparser.parse_ini_file(open(args[0]), options.output)

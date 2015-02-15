@@ -38,28 +38,25 @@ import getpass
 
 if __name__ == '__main__':
 
-	parser = OptionParser(usage="Usage: %prog PATH_TO_SCXML_FILE",
-						  version="%prog master")
+    parser = OptionParser(usage="Usage: %prog PATH_TO_SCXML_FILE",
+                          version="%prog master")
 
-	parser.add_option("-o", "--output",
-					  action="store",
-					  dest="output",
-					  default="/tmp/" + getpass.getuser() +
-							  "/fsmt_validation/",
-					  help="Set output folder for result files, the default is: [/tmp/$USER/fsmt_validation/]")
+    parser.add_option("-o", "--output",
+                      action="store",
+                      dest="output",
+                      default="/tmp/" + getpass.getuser() + "/fsmt_validation/",
+                      help="Set output folder for result files, the default is: [/tmp/$USER/fsmt_validation/]")
 
-	parser.add_option("-r", "--runs",
-					  action="store",
-					  dest="runs",
-					  default=50,
-					  help="Set the number of runs to test FSMT timings " + \
-						   "with the given SCXML, " +
-						   "the default is: [50]")
+    parser.add_option("-r", "--runs",
+                      action="store",
+                      dest="runs",
+                      default=50,
+                      help="Set the number of runs to test FSMT timings with the given SCXML, the default is: [50]")
 
-	(options, args) = parser.parse_args()
+    (options, args) = parser.parse_args()
 
-	if len(args) != 1:
-		parser.print_help()
-		parser.error("Wrong number of arguments...")
+    if len(args) != 1:
+        parser.print_help()
+        parser.error("Wrong number of arguments...")
 
-	test_fsmt_functionality(args[ 0 ], options.runs, options.output)
+    test_fsmt_functionality(args[0], options.runs, options.output)

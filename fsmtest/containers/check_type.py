@@ -32,13 +32,13 @@ Authors: Florian Lier, Norman Koester
 
 
 class CheckType(object):
-	def __init__(self):
-		"""
-		TODO
-		"""
-		self.type = ""
-		self.criteria = ""
-		self.timeout = 0
-		self.blocking = False
-		self.ongoing = False
-		self.id = ""
+    def __init__(self):
+        """
+        TODO
+        """
+        self.type = ""
+        self.criteria = ""
+        self.timeout = 0
+        self.blocking = False
+        self.ongoing = False
+        self.id = ""

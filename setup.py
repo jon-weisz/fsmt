@@ -40,10 +40,13 @@ setup(name="fsmtest",
 
       version=filename,
 
-      description="A generic and configurable state machine based process to support automated system testing on a functional level",
+      description="A generic and configurable state machine based process to support automated system testing on a "
+                  "functional level",
 
-      long_description="This framework introduces a generic and configurable state machine based process: Finite State Machine"+
-                       "Testing to automate environment setup, system bootstrapping, functional system tests, result assessment,"+
+      long_description="This framework introduces a generic and configurable state machine based process: Finite "
+                       "State Machine" +
+                       "Testing to automate environment setup, system bootstrapping, functional system tests, "
+                       "result assessment," +
                        "exit and clean-up strategy.",
 
       author="Florian Lier and Norman Koester",
@@ -58,15 +61,8 @@ setup(name="fsmtest",
                                       "*.tests.*",
                                       "tests.*",
                                       "tests"]),
-      scripts=["bin/fsmt",
-               "bin/fsmt_iniparser",
-               "bin/fsmt_exout",
-               "bin/fsmt_exsilent",
-               "bin/fsmt_exchild",
-               "bin/fsmt_exouttimed",
-               "bin/fsmt_exlockouttimed",
-               "bin/fsmt_wsserver",
-               "bin/fsmt_validation"],
+
+      scripts=["bin/fsmt", "bin/fsmt_iniparser"],
 
       package_data={'fsmtest': ['configuration/*']},
 
@@ -90,11 +86,11 @@ setup(name="fsmtest",
           'Topic :: Text Processing :: Markup :: XML'
       ],
 
-      install_requires=[ 'Louie', 'termcolor',   'eventlet', 'suds',
-                         'restlib', 'lxml',  'nose==1.2.1', 'coverage',
-                         'nosexcover', 'pylint',  'setuptools-lint',
-                         'psutil', 'websocket-client', 'paramiko',
-                         'setuptools-pep8' ])
+      install_requires=['Louie', 'termcolor', 'eventlet', 'suds',
+                        'restlib', 'lxml', 'nose==1.2.1', 'coverage',
+                        'nosexcover', 'pylint', 'setuptools-lint',
+                        'psutil', 'websocket-client', 'paramiko',
+                        'setuptools-pep8'])
 
 # Make scripts executable
 subprocess.call(["chmod -R ugo+x bin"], shell=True)

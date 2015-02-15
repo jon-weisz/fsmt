@@ -37,22 +37,22 @@ import subprocess
 
 
 class Children:
-	"""
+    """
 
-	"""
+    """
 
-	def __init__(self, number=4):
-		self.number = number
-		self.spawn(self.number)
+    def __init__(self, number=4):
+        self.number = number
+        self.spawn(self.number)
 
-	def spawn(self, _number):
-		for i in range(_number):
-			cmd = [ 'fsmexsilent' ]
-			print "Openend child #%d" % i
-			_ = subprocess.Popen(cmd)
+    def spawn(self, _number):
+        for i in range(_number):
+            cmd = ['fsmexsilent']
+            print "Openend child #%d" % i
+            _ = subprocess.Popen(cmd)
 
 
 if __name__ == '__main__':
-	c = Children()
-	while True:
-		time.sleep(1)
+    c = Children()
+    while True:
+        time.sleep(1)

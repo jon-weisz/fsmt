@@ -39,77 +39,77 @@ import os
 
 
 class FSMTest:
-	"""
-	Launcher class.
-	"""
+    """
+    Launcher class.
+    """
 
-	def __init__(self, options, args):
-		"""
-		Constructor.
-		:param options:
-		:param args:
-		"""
-		self.options = options
-		self.args = args
-		self.fsm_launcher = None
+    def __init__(self, _options, _args):
+        """
+        Constructor.
+        :param options:
+        :param args:
+        """
+        self.options = _options
+        self.args = _args
+        self.fsm_launcher = None
 
-	def run(self):
-		self.fsm_launcher = Launcher(self.options.loglevel,
-									 self.options.logfilelevel,
-									 self.options.output,
-									 self.options.disable_termcolor,
-									 self.args)
-		self.fsm_launcher.setup()
-		self.fsm_launcher.run()
+    def run(self):
+        self.fsm_launcher = Launcher(self.options.loglevel,
+                                     self.options.logfilelevel,
+                                     self.options.output,
+                                     self.options.disable_termcolor,
+                                     self.args)
+        self.fsm_launcher.setup()
+        self.fsm_launcher.run()
 
 
 if __name__ == '__main__':
 
-	parser = OptionParser(usage="Usage: %prog [options] PATH_TO_SCXML_FILE",
-						  version="%prog master")
-	parser.add_option("-o", "--output",
-					  action="store",
-					  dest="output",
-					  default="/tmp/" + getpass.getuser() + "/fsmt/",
-					  help=
-					  "Set the logging path in which a subfolder \
-					  $timestamp is created fo logging purposes, \
-					  the default is: [/tmp/$USER/fsmt/]")
+    parser = OptionParser(usage="Usage: %prog [options] PATH_TO_SCXML_FILE",
+                          version="%prog master")
+    parser.add_option("-o", "--output",
+                      action="store",
+                      dest="output",
+                      default="/tmp/" + getpass.getuser() + "/fsmt/",
+                      help=
+                      "Set the logging path in which a subfolder \
+                      $timestamp is created fo logging purposes, \
+                      the default is: [/tmp/$USER/fsmt/]")
 
-	parser.add_option("-l", "--loglevel",
-					  action="store",
-					  dest="loglevel",
-					  default="INFO",
-					  help=
-					  "Set logging level for console output, \
-					  Default: INFO, Available: [STREAM,DEBUG,INFO," +
-					  "WARNING,CRITICAL,ERROR]")
+    parser.add_option("-l", "--loglevel",
+                      action="store",
+                      dest="loglevel",
+                      default="INFO",
+                      help=
+                      "Set logging level for console output, \
+                      Default: INFO, Available: [STREAM,DEBUG,INFO," +
+                      "WARNING,CRITICAL,ERROR]")
 
-	parser.add_option("-k", "--fileloglevel",
-					  action="store",
-					  dest="logfilelevel",
-					  default="STREAM",
-					  help=
-					  "Set logging level _only_ for the log file, \
-					  Default: STREAM, Available: [STREAM,DEBUG,INFO," +
-					  "WARNING,CRITICAL,ERROR]")
+    parser.add_option("-k", "--fileloglevel",
+                      action="store",
+                      dest="logfilelevel",
+                      default="STREAM",
+                      help=
+                      "Set logging level _only_ for the log file, \
+                      Default: STREAM, Available: [STREAM,DEBUG,INFO," +
+                      "WARNING,CRITICAL,ERROR]")
 
-	parser.add_option("-c", "--nocolour",
-					  action="store_true",
-					  dest="disable_termcolor",
-					  default=False,
-					  help=
-					  "Disables colouring for terminal log output")
+    parser.add_option("-c", "--nocolour",
+                      action="store_true",
+                      dest="disable_termcolor",
+                      default=False,
+                      help=
+                      "Disables colouring for terminal log output")
 
-	(options, args) = parser.parse_args()
+    (options, args) = parser.parse_args()
 
-	if len(args) != 1:
-		parser.print_help()
-		print "\n\n"
-		parser.error("Wrong number of arguments given, please see documentation for further information.")
+    if len(args) != 1:
+        parser.print_help()
+        print "\n\n"
+        parser.error("Wrong number of arguments given, please see documentation for further information.")
 
-	if not os.path.exists(args[ 0 ]):
-		parser.error("The provided SCXML file at '%s' does not exist!") % args[ 0 ]
+    if not os.path.exists(args[0]):
+        parser.error("The provided SCXML file at '%s' does not exist!") % args[0]
 
-	fsmTest = FSMTest(options, args[ 0 ])
-	fsmTest.run()
+    fsmTest = FSMTest(options, args[0])
+    fsmTest.run()

@@ -36,23 +36,24 @@ from fsmtest.parser import fsminiparser
 
 
 class Test(unittest.TestCase):
-	def setUp(self):
-		pass
+    def setUp(self):
+        pass
 
-	def tearDown(self):
-		pass
+    def tearDown(self):
+        pass
 
-	def test_parse_ini_file(self):
-		print "------------------" + os.getcwd()
-		for i in range(1, 5):
-			cur_ini_file_str = '../data/ini/iniparser_cfg%s.ini' % str(i)
-			cur_ini_file = open(cur_ini_file_str, 'r')
-			cur_test_file_name = '/tmp/output_test_cfg%s.scxml' % str(i)
-			cur_test_file_name_target = '../data/scxml/reference_output_cfg%s.scxml' % str(i)
-			fsminiparser.parse_ini_file(cur_ini_file, cur_test_file_name,
-										silent=True)
-			self.assertMultiLineEqual("".join(open(cur_test_file_name, 'r').readlines()), "".join(open(cur_test_file_name_target, 'r').readlines()))
+    def test_parse_ini_file(self):
+        print "------------------" + os.getcwd()
+        for i in range(1, 5):
+            cur_ini_file_str = '../data/ini/iniparser_cfg%s.ini' % str(i)
+            cur_ini_file = open(cur_ini_file_str, 'r')
+            cur_test_file_name = '/tmp/output_test_cfg%s.scxml' % str(i)
+            cur_test_file_name_target = '../data/scxml/reference_output_cfg%s.scxml' % str(i)
+            fsminiparser.parse_ini_file(cur_ini_file, cur_test_file_name,
+                                        silent=True)
+            self.assertMultiLineEqual("".join(open(cur_test_file_name, 'r').readlines()),
+                                      "".join(open(cur_test_file_name_target, 'r').readlines()))
 
 
 if __name__ == "__main__":
-	unittest.main()
+    unittest.main()

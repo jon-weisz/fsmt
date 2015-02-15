@@ -41,104 +41,100 @@ import getpass
 
 
 class LockfileMassiveOutTimed():
-	"""
-	Extended version of the massive out timed which also creates a lockfile.
-	"""
+    """
+    Extended version of the massive out timed which also creates a lockfile.
+    """
 
-	def __init__(self, lockfile_path="", duration="-1", when="10"):
-		"""
-		constructor.
+    def __init__(self, lockfile_path="", duration="-1", when="10"):
+        """
+        :param duration : Amount of time for the component to run in seconds,
+        defaults to infinity
+        """
 
-		:param duration : Amount of time for the component to run in seconds,
-		defaults to infinity
-		"""
+        if lockfile_path is "":
+            self.lockfile_path = "/tmp/.lockfile_" + getpass.getuser()
+        else:
+            self.lockfile_path = lockfile_path
 
-		if lockfile_path is "":
-			self.lockfile_path = "/tmp/.lockfile_" + getpass.getuser()
-		else:
-			self.lockfile_path = lockfile_path
+        if os.path.exists(self.lockfile_path):
+            # With force as we want to test this!
+            print "Old lockfile detected at %s - removing" % \
+                  self.lockfile_path
+            os.remove(self.lockfile_path)
 
-		if os.path.exists(self.lockfile_path):
-			# With force as we want to test this!
-			print "Old lockfile detected at %s - removing" % \
-				  self.lockfile_path
-			os.remove(self.lockfile_path)
+            # This is the friendly method but will not allow to keep track of
+            # the lock file...
+            # counter = 0
+            # while os.path.exists(self.lockfile_path + "_" + str(counter)):
+            # counter += 1
+            # self.lockfile_path = self.lockfile_path + "_" + str(counter)
 
-			# This is the friendly method but will not allow to keep track of
-			# the lock file...
-			# counter = 0
-			# while os.path.exists(self.lockfile_path + "_" + str(counter)):
-			# counter += 1
-			# self.lockfile_path = self.lockfile_path + "_" + str(counter)
+        self.lockfile = None
 
-		self.lockfile = None
+        self.name = "MassiveOutPut"
+        self.run_duration = duration
+        self.event = int(when)
 
-		self.name = "MassiveOutPut"
-		self.run_duration = duration
-		self.event = int(when)
+        print ("LockfileMassiveOutTimed init finished with lockfile_path: %s, duration: %s, when: %d" %
+               (self.lockfile_path, self.run_duration, self.event))
 
-		print ("LockfileMassiveOutTimed init finished with lockfile_path:" + \
-			   " %s, duration: %s, when: %d" %
-			   (self.lockfile_path, self.run_duration, self.event))
+    def run(self):
+        """
+        Run dos run.
+        """
+        start = time.time()
+        self.lockfile = open(self.lockfile_path, "w")
+        print "time of lockfile creation: ", start
+        line = 0
+        if mo.run_duration == "-1":
+            while True:
+                if (time.time() - start) > mo.event:
+                    print line
+                    print ("Running forever")
+                    print mo.__class__
+                    print "FINDME"
+                    print mo.out_generator(80,
+                                           "ABCDEFGHIJKLMNOPQRSZUVWXYZ-.,><#*1234567890")
+                    time.sleep(0.2)
+                    line += 1
+                time.sleep(0.1)
+        else:
+            while (time.time() - start) < mo.run_duration:
+                if (time.time() - start) > mo.event:
+                    print line
+                    print "Running for %s" % str(time.time() - start)
+                    print mo.__class__
+                    print "FINDME"
+                    print mo.out_generator(80,
+                                           "ABCDEFGHIJKLMNOPQRSZUVWXYZ-.,><#*1234567890")
+                    line += 1
+                    time.sleep(0.2)
+                else:
+                    time.sleep(0.1)
 
-	def run(self):
-		"""
-		Run dos run.
-		"""
-		start = time.time()
-		self.lockfile = open(self.lockfile_path, "w")
-		print "time of lockfile creation: ", start
-		line = 0
-		if mo.run_duration == "-1":
-			while True:
-				if (time.time() - start) > mo.event:
-					print line
-					print ("Running forever")
-					print mo.__class__
-					print "FINDME"
-					print mo.out_generator(80,
-										   "ABCDEFGHIJKLMNOPQRSZUVWXYZ-.,><#*1234567890")
-					time.sleep(0.2)
-					line += 1
-				time.sleep(0.1)
-		else:
-			while (time.time() - start) < mo.run_duration:
-				if (time.time() - start) > mo.event:
-					print line
-					print "Running for %s" % str(time.time() - start)
-					print mo.__class__
-					print "FINDME"
-					print mo.out_generator(80,
-										   "ABCDEFGHIJKLMNOPQRSZUVWXYZ-.,><#*1234567890")
-					line += 1
-					time.sleep(0.2)
-				else:
-					time.sleep(0.1)
+        self.lockfile.close()
+        os.remove(self.lockfile_path)
+        print "time of lockfile deletion: ", time.time()
 
-		self.lockfile.close()
-		os.remove(self.lockfile_path)
-		print "time of lockfile deletion: ", time.time()
+    def out_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
+        """
+        Creates a random string.
 
-	def out_generator(self, size=6,
-					  chars=string.ascii_uppercase + string.digits):
-		"""
-		Creates a random string.
-
-		:rtype : A very long random string
-		"""
-		return ''.join(random.choice(chars) for x in range(size))
+        :rtype : A very long random string
+        """
+        return ''.join(random.choice(chars) for x in range(size))
 
 
 if __name__ == '__main__':
-	if len(sys.argv) == 3:
-		dur = sys.argv[ 1 ]
-		whe = sys.argv[ 2 ]
-		mo = LockfileMassiveOutTimed("", int(dur), int(whe))
-	elif len(sys.argv) == 4:
-		dur = sys.argv[ 1 ]
-		whe = sys.argv[ 2 ]
-		lockfile_path = sys.argv[ 3 ]
-		mo = LockfileMassiveOutTimed(lockfile_path, int(dur), int(whe))
-	else:
-		mo = LockfileMassiveOutTimed()
-	mo.run()
+    if len(sys.argv) == 3:
+        dur = sys.argv[1]
+        whe = sys.argv[2]
+        mo = LockfileMassiveOutTimed("", int(dur), int(whe))
+    elif len(sys.argv) == 4:
+        dur = sys.argv[1]
+        whe = sys.argv[2]
+        lockfile_path = sys.argv[3]
+        mo = LockfileMassiveOutTimed(lockfile_path, int(dur), int(whe))
+    else:
+        mo = LockfileMassiveOutTimed()
+    mo.run()
