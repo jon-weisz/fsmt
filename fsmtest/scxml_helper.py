@@ -146,12 +146,11 @@ def extract_software_component(component_name,
     if "" in [a_software_component.command,
               a_software_component.path,
               a_software_component.host]:
-
         raise FaultyComponentException(
-             ("Triplet command ('%s'), path ('%s'), host ('%s') is wrong, " +
+            ("Triplet command ('%s'), path ('%s'), host ('%s') is wrong, " +
              "check SCXML! This will cause unpredictable behaviour!"),
-             a_software_component.command, a_software_component.path,
-             a_software_component.host)
+            a_software_component.command, a_software_component.path,
+            a_software_component.host)
 
     if not a_software_component.path_and_command_is_valid():
         raise FaultyComponentException(
@@ -164,13 +163,11 @@ def extract_software_component(component_name,
 
     if a_software_component.check_execution is False:
         log.warning(
-            "check_execution is disabled for component %s!" + \
-            " A crash will be undetected!", component_name)
+            "Execution checks are disabled for component %s!", component_name)
 
     if a_software_component.check_execution is True and len(a_software_component.check_types) == 0:
         log.warning(
-            "There are no execution checks defined for component %s!" +
-            " A crash will be undetected!", component_name)
+            "No execution checks defined for component %s!", component_name)
 
     return a_software_component
 
@@ -195,8 +192,6 @@ def extract_execution_type(state_machine, node):
             if execution_type == "default":
                 pass
             if not counter_name in state_machine.datamodel:
-                state_machine.log.critical( "If you see this log message, please write a bug "
-                                            "report and include the zipped log folder! Thanks!")
                 state_machine.datamodel[counter_name] = 0
             break
     return execution_type, counter_name

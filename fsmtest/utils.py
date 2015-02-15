@@ -145,7 +145,8 @@ def kill_child_processes(parent_pid, log, self_call=False):
     :return:
     """
     result = 0
-    log.log(5, "called kill children of %s - self_call:%s", parent_pid, str(self_call))
+    log.log(5, "called kill children of %s - self_call:%s",
+            parent_pid, str(self_call))
 
     if os.path.exists("/proc/%s" % parent_pid):
         a_process = psutil.Process(int(parent_pid))
