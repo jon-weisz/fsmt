@@ -37,7 +37,8 @@ class ExitWatcher(object):
     """
     Watcher for ctrl+c interception.
     """
-    # Evil.
+
+    # Evil. See: http://eventlet.net/doc/basic_usage.html#eventlet.monkey_patch
     eventlet.monkey_patch()
 
     def __init__(self, state_machine_):

@@ -51,7 +51,7 @@ class ProcessCommunicator():
     important once eventlets are removed from FSMT!
     """
 
-    # Evil.
+    # Evil. See: http://eventlet.net/doc/basic_usage.html#eventlet.monkey_patch
     eventlet.monkey_patch()
 
     def __init__(self):

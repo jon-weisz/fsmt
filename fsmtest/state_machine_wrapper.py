@@ -30,20 +30,20 @@ Authors: Florian Lier, Norman Koester
 
 """
 
-from fsmtest.exceptions.faulty_component_exception import FaultyComponentException
 from fsmtest.log_factory import LogFactory
 from fsmtest.process_executor import ProcessExecutor
-from fsmtest.scxml_helper import advanced_pyscxml_logfunction, extract_software_component, extract_execution_type
-from fsmtest.utils import update_environment_setup, log_process_pids, end_process_and_children, write_fsm_file, \
-    write_fsm_diag
-from fsmtest.containers.xunit_test_case import XUnitTestCase
 from scxml.pyscxml import StateMachine, custom_executable
-import multiprocessing
+from fsmtest.containers.xunit_test_case import XUnitTestCase
+from fsmtest.exceptions.faulty_component_exception import FaultyComponentException
+from fsmtest.scxml_helper import advanced_pyscxml_logfunction, extract_software_component, extract_execution_type
+from fsmtest.utils import update_environment_setup, log_process_pids, end_process_and_children, write_fsm_file, write_fsm_diag
+
 import os
 import sys
 import time
 import operator
 import traceback
+import multiprocessing
 
 
 class StateMachineWrapper(object):

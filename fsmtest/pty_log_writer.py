@@ -37,6 +37,8 @@ from fsmtest.log_factory import LogFactory
 
 
 class PTYLogWriter():
+
+    # Evil. See: http://eventlet.net/doc/basic_usage.html#eventlet.monkey_patch
     eventlet.monkey_patch()
 
     def __init__(self, name):

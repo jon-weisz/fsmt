@@ -49,6 +49,8 @@ from fsmtest.processobservation.stdoutexclude_observer import StdoutexcludeObser
 
 
 class ProcessExecutor():
+
+    # Evil. See: http://eventlet.net/doc/basic_usage.html#eventlet.monkey_patch
     eventlet.monkey_patch()
 
     def __init__(self, process_pipe_, software_component_, environment_map_, log_folder_, init_time_, state_machine_):
