@@ -30,10 +30,13 @@ Concept
 -------
 
 .. image:: img/fsmt_concept_1.jpg
+    :width: 600 px
 
 .. image:: img/fsmt_concept_2.jpg
+    :width: 600 px
 
 .. image:: img/fsmt_concept_3.jpg
+    :width: 600 px
 
 
 Further Information, Talks, and Paper
