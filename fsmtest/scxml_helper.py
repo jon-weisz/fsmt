@@ -141,8 +141,7 @@ def extract_software_component(component_name,
                             new_check_type.id = hash(new_check_type)
                             a_software_component.add_check_type(new_check_type)
                 else:
-                    raise FaultyComponentException(
-                       "Unknown tag in %s software component!", component_name)
+                    raise FaultyComponentException("Unknown tag in %s software component!", component_name)
 
     if "" in [a_software_component.command,
               a_software_component.path,
@@ -151,8 +150,8 @@ def extract_software_component(component_name,
         raise FaultyComponentException(
              ("Triplet command ('%s'), path ('%s'), host ('%s') is wrong, " +
              "check SCXML! This will cause unpredictable behaviour!"),
-            a_software_component.command, a_software_component.path,
-            a_software_component.host)
+             a_software_component.command, a_software_component.path,
+             a_software_component.host)
 
     if not a_software_component.path_and_command_is_valid():
         raise FaultyComponentException(
@@ -168,8 +167,7 @@ def extract_software_component(component_name,
             "check_execution is disabled for component %s!" + \
             " A crash will be undetected!", component_name)
 
-    if a_software_component.check_execution is True and \
-        len(a_software_component.check_types) == 0:
+    if a_software_component.check_execution is True and len(a_software_component.check_types) == 0:
         log.warning(
             "There are no execution checks defined for component %s!" +
             " A crash will be undetected!", component_name)
