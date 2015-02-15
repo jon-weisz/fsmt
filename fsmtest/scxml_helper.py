@@ -120,8 +120,8 @@ def extract_software_component(component_name,
                                 else new_check_type.type
                             new_check_type.criteria = \
                                 a_check_type.get('criteria') \
-                                    if a_check_type.get('criteria') is not None \
-                                    else new_check_type.criteria
+                                if a_check_type.get('criteria') is not None \
+                                else new_check_type.criteria
                             new_check_type.timeout = float(
                                 a_check_type.get('timeout')) \
                                 if a_check_type.get('timeout') is not None \
@@ -141,13 +141,15 @@ def extract_software_component(component_name,
                             new_check_type.id = hash(new_check_type)
                             a_software_component.add_check_type(new_check_type)
                 else:
-                    raise FaultyComponentException("Unknown tag in %s software component!", component_name)
+                    raise FaultyComponentException(
+                       "Unknown tag in %s software component!", component_name)
 
     if "" in [a_software_component.command,
               a_software_component.path,
               a_software_component.host]:
+
         raise FaultyComponentException(
-            ("Triplet command ('%s'), path ('%s'), host ('%s') is wrong, " +
+             ("Triplet command ('%s'), path ('%s'), host ('%s') is wrong, " +
              "check SCXML! This will cause unpredictable behaviour!"),
             a_software_component.command, a_software_component.path,
             a_software_component.host)
@@ -163,11 +165,14 @@ def extract_software_component(component_name,
 
     if a_software_component.check_execution is False:
         log.warning(
-            "Execution checks are disabled for component %s!", component_name)
+            "check_execution is disabled for component %s!" + \
+            " A crash will be undetected!", component_name)
 
-    if a_software_component.check_execution is True and len(a_software_component.check_types) == 0:
+    if a_software_component.check_execution is True and \
+        len(a_software_component.check_types) == 0:
         log.warning(
-            "No execution checks defined for component %s!", component_name)
+            "There are no execution checks defined for component %s!" +
+            " A crash will be undetected!", component_name)
 
     return a_software_component
 
@@ -192,6 +197,8 @@ def extract_execution_type(state_machine, node):
             if execution_type == "default":
                 pass
             if not counter_name in state_machine.datamodel:
+                state_machine.log.critical( "If you see this log message, please write a bug "
+                                            "report and include the zipped log folder! Thanks!")
                 state_machine.datamodel[counter_name] = 0
             break
     return execution_type, counter_name

@@ -62,6 +62,7 @@ class ProcessExecutor():
         :param environment_map:
         :param log_folder:
         """
+
         self.subprocess = None
         self.logger_runner = None
         self.pty_log_writer = None
