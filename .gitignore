@@ -4,6 +4,7 @@ coverage.xml
 nosetests.xml
 .project
 .DS_Store
+.settings
 .coverage
 output
 build
@@ -11,3 +12,4 @@ build
 *.egg
 *.pyc
 dist
+*~
