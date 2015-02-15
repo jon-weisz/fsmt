@@ -145,7 +145,8 @@ class ProcessExecutor():
         #
         # import fabric.operations
         # x = open('/tmp/test','w')
-        # answer = fabric.operations.run("source /vol/sandbox_flobi/setup.bash && /vol/sandbox_flobi/fsmt/bin/fsmt_exouttimed 4 1", stdout=x, stderr=x)
+        # answer = fabric.operations.run("source /vol/sandbox_flobi/setup.bash
+        # && /vol/sandbox_flobi/fsmt/bin/fsmt_exouttimed 4 1", stdout=x, stderr=x)
         #
         # This seems easy and straight forward. it even makes the PTY writer
         # obsolete.
