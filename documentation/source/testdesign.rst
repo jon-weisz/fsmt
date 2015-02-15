@@ -104,6 +104,8 @@ listed and described in detail.
 Describes the name of the component. This has to be used in the ``order`` option within the **run** section.
 The name does not necessarily have to be the same as the command, you are free to choose.
 
+.. note:: Important: Component names must be **UNIQUE**
+
 ::
 
 	command = xeyes
