@@ -102,7 +102,7 @@ listed and described in detail.
 	name = xeyes
 	
 Describes the name of the component. This has to be used in the ``order`` option within the **run** section.
-The name does not necessarily have to be the same as the command, you are free to choose.
+The name does not necessarily have to be the same as the command, you are free to choose. Component names **MUST BE UNIQUE**
 
 ::
 
