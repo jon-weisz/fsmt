@@ -119,15 +119,15 @@ def kill_pid(pid, log):
     """
     p = psutil.Process(int(pid))
     if p.is_running():
-        log.info("---> Sending SIGINT to %s (%s)", p.name, p.pid)
+        log.info("---* Sending SIGINT to %s (%s)", p.name, p.pid)
         p.send_signal(signal.SIGINT)
         eventlet.sleep(0.5)
     if p.is_running():
-        log.info("----> Sending SIGTERM to %s (%s)", p.name, p.pid)
+        log.info("----* Sending SIGTERM to %s (%s)", p.name, p.pid)
         p.send_signal(signal.SIGTERM)
         eventlet.sleep(0.5)
     if p.is_running():
-        log.info("-----> Sending SIGKILL to %s", p.name)
+        log.info("-----* Sending SIGKILL to %s", p.name)
         p.kill()
         eventlet.sleep(0.5)
 

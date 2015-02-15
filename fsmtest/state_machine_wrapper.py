@@ -282,7 +282,7 @@ def custom_executable(node, something):
                 log.debug("Closing log writer done, status 0, Good")
 
             try:
-                log.info("Ending process %s [%s] and its children", name, pid)
+                log.info("Ending process %s [%s] and its children", str(name), str(pid))
                 end_process_and_children(pid, one_program_executor.subprocess, log)
             except Exception, e:
                 log.warning("Error killing %s [%s]: %s. Considering it already dead", str(name), str(pid), str(e))
