@@ -277,7 +277,7 @@ def custom_executable(node, something):
             one_program_executor.pty_log_writer.close_logger()
             logger_status = one_program_executor.pty_log_runner.wait()
             if logger_status != 0:
-                log.warning("Log writer closed with return code 1 >> Force Quit")
+                log.warning("Log writer was closed >> Force Quit")
             else:
                 log.debug("Closing log writer done, status 0, Good")
 
