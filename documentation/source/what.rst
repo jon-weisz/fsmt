@@ -32,12 +32,12 @@ Concept
 .. image:: img/fsmt_concept_1.jpg
     :width: 600 px
 
-<br />
+
 
 .. image:: img/fsmt_concept_2.jpg
     :width: 600 px
 
-<br />
+
 
 .. image:: img/fsmt_concept_3.jpg
     :width: 600 px
