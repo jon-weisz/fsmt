@@ -120,8 +120,8 @@ def extract_software_component(component_name,
                                 else new_check_type.type
                             new_check_type.criteria = \
                                 a_check_type.get('criteria') \
-                                if a_check_type.get('criteria') is not None \
-                                else new_check_type.criteria
+                                    if a_check_type.get('criteria') is not None \
+                                    else new_check_type.criteria
                             new_check_type.timeout = float(
                                 a_check_type.get('timeout')) \
                                 if a_check_type.get('timeout') is not None \

@@ -35,7 +35,6 @@ import pprint
 
 
 class SoftwareComponent(object):
-
     def __init__(self):
         """
         TODO
