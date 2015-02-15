@@ -7,6 +7,7 @@ Version 0.17
 * Switched from mixed indent to spaces only
 * Dropped 79 chars line width, as defined by pep-8 coding standards, to improve readability (pep tests will fail)
 * Removed fsmt-*-tools from installation since they are only used during unit testing
+* Updated Documentation
 
 Version 0.16
 * Changed SCXML Event name to program-name instead of state_0_1, etc.
