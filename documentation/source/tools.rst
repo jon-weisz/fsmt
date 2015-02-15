@@ -1,11 +1,10 @@
 Tools
-===============
+=====
 
 ``fsmt`` already comes with a few handy tools. In the following, we will list 
-and explain all of them. The installation prefix of the tool depends on the prefix you set 
-during installation of ``fsmt``. In this case, we will assume ``/usr/local``, 
-so the tools are installed in ``/usr/local/bin``. The acronym "rx" stands for 
-Ros eXample component, "ex" for Example eXecution component.
+and explain all of them. For instance, "rx" stands for ROS example component,
+"ex" for example execution component. Tools can be found in the **fsmt/bin/**
+folder.
 
 * **fsmt_exchild** This component only spawns child processes. It takes one 
   argument: number of child processes to spawn. 
@@ -51,7 +50,7 @@ Ros eXample component, "ex" for Example eXecution component.
 
 
 Visualisation
------------------
+-------------
 
 In order to visualise started components and timings, or to remotely observe 
 the test, you need to start the fsmt web socket server (in a separate console)::
@@ -64,8 +63,7 @@ Timings, indicated using the "@" sign are in seconds
 
 .. image:: img/vis-1.png
 
-.. note:: There 
-	is no websocket protocol standard at the moment. We implemented Version 13 
+.. note:: There is no websocket protocol standard at the moment. We implemented Version 13
 	which works well with chromium Version 28.0.1500.71. In case you don't see any 
 	output (or null) please try another browser. We will work on this issue.
 
@@ -97,7 +95,7 @@ The result will look somewhat similar to this:
 .. image:: img/block-diag.png
 
 
-State Machine execution result in xUnit
+State Machine execution Result in xUnit
 ---------------------------------------
 
 If you want to include the results of the execution of a FSMT run in your **CI** 
@@ -124,8 +122,8 @@ The result of an erroneous run could for example look like this::
     </testsuite>
 
 
-Verification of execution order, timing and general functionality 
--------------------------------------------------------------------------
+Verification of Execution Order, Timing and General Functionality
+------------------------------------------------------------------
 
 If you want to verify the correctness of your state machine in terms of 
 execution order, component start/end/duration timing, and general long-term
@@ -157,10 +155,9 @@ A typical call will look like this::
 	  L__ Finished - FSMT ran for 10.571s
 
 
-.. note:: All output of the called ``fsmt`` instance is hidden! 
-	So make sure your ``SCXML`` is actually working before using the functionality 
-	tester. However, the output/logging files of **each** ``fsmt`` run are also 
-	written to the logging directory as described below.
+.. note:: All output of the called ``fsmt`` instance is hidden! So make sure your ``SCXML`` is
+	actually working before using the functionality tester. However, the output/logging files
+	of **each** ``fsmt`` run are also written to the logging directory as described below.
 
 
 The results of the ``fsmt_validation`` component are by default written 

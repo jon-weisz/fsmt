@@ -1,5 +1,5 @@
-FSMT unit tests
-============================================================
+FSMT Unit Tests
+===============
 
 This section is a short gathered description of all included unit tests on the 
 entire FSMT application. It consists of simple ``iniparsing`` tests and 
@@ -56,8 +56,8 @@ PID          STDOUT     STDEXCLUDE    LOCKFILE    test
 
 
 
-INI parsing tests
-----------------------------------------------------------
+INI Parsing Tests
+-----------------
 
 Iniparsertest cfg 1 (sequential + parallel)
     - converts to a test scxml that launches 2 components
@@ -84,7 +84,7 @@ Iniparsertest cfg 4 (sequential + parallel[sequential & single] + sequential)
     - tested sequence: ('a',),[('a','b'),('a',)],('b',)
 
 
-FSMT launch tests
+FSMT Launch Tests
 ----------------------------------------------------------
 
 Launchtest seq 1 (pid test)

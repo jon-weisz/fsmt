@@ -8,8 +8,7 @@ to invoke the ``fsmt_iniparser``::
 
     $ fsmt_iniparser [/path/to/ini_file.ini]
 
-Optionally, one can also define the output (default is /tmp/output.scxml) via 
-the switch ``-o``::
+Optionally, one can also define the output (default is /tmp/output.scxml) via the switch ``-o``::
 
     $ fsmt_iniparser -o [/some/path/a_test_file.scxml] [/path/to/a_test_file.ini]
 
@@ -17,12 +16,10 @@ Again, you can find various examples in the ``configuration`` folder. Anyway,
 in the remainder of this chapter, we will explain most of the features and 
 their implications.
 
+INI File Notation
+-----------------
 
-INI file notation
--------------------
-
-The required notation of the ini file is as follows (taken from the 
-stdtools.ini example)::
+The required notation of the ini file is as follows (taken from the stdtools.ini example)::
 
     [environment]
     prefix = /vol/robocup/2013/
@@ -71,17 +68,15 @@ stdtools.ini example)::
 * Except for the ``criteria`` option, all inputs are removed of leading and trailing white spaces
 
 Step by Step descriptions
------------------------------------------------
-In the following subsections, each section of the ``ini`` file notation is 
-explained in detail. Please reade these carefully before creating an ``ini`` 
-file to avoid errors in ``fsmt`` execution.
+-------------------------
+In the following subsections, each section of the ``ini`` file notation is explained in detail. Please read these
+carefully before creating an ``ini`` file to avoid errors in ``fsmt`` execution.
 
 Step by Step: ENVIRONMENT
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The description of environment variables is pretty straight forward. Simply 
-add an ``option`` and value pair for each environment variable you would like  
-to be set when launching components:: 
+The description of environment variables is pretty straight forward. Simply add an ``option`` and value pair for each
+environment variable you would like to be set when launching components::
 
     prefix = /usr/local/sbin/
     PATH = $PATH:/vol/robocup2013/bin/
@@ -97,7 +92,7 @@ to be set when launching components::
 			 
 		 
 Step by Step: COMPONENT
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 
 In the following, each ``option`` of a **[component-n]** section is separately 
 listed and described in detail.
@@ -106,9 +101,8 @@ listed and described in detail.
 
 	name = xeyes
 	
-Describes the name of the component. This has to be used in the ``order`` 
-option within the **run** section. The name does not necessarily have to be 
-the same as the command, you are free to choose.   
+Describes the name of the component. This has to be used in the ``order`` option within the **run** section.
+The name does not necessarily have to be the same as the command, you are free to choose.
 
 ::
 
@@ -126,8 +120,7 @@ Absolute path to the command, please append a trailing slash.
 
 	path = $component_path   
     
-You may instead also use environment variables (also those defined in the 
-**[environment]** section)
+You may instead also use environment variables (also those defined in the **[environment]** section)
 
 ::
 
@@ -135,7 +128,7 @@ You may instead also use environment variables (also those defined in the
 
 The host on which the command will be run. 
 
-.. note:: Important: This feature is not yet supported in FSMT but will be in 
+.. note:: Important: This feature is **not yet supported** in FSMT but will be in
 		future versions. Anyway, localhost is currently **required** for successful 
 		``fsmt`` execution
 
@@ -146,24 +139,21 @@ The host on which the command will be run.
 Switch to toggle the use of all execution checks provided by ``fsmt``. Often, 
 it doesn't make sense to disable checks, so we recommend to leave this 
 setting to ``True``. If you set check_execution to ``False`` ``fsmt`` will run 
-through each state not caring about whether a component has been started 
-successfully or not
+through each state not caring about whether a component has been started successfully or not
 
 
 Step by Step: OBSERVERS
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 
-This section explains the observers that are used in order to monitor component 
-execution. If the ``check_execution`` switch is set to "True", at least one 
-observer has to be defined.
+This section explains the observers that are used in order to monitor component execution. If the ``check_execution``
+switch is set to "True", at least one observer has to be defined.
 
-Currently, the following observers are available: ``pid``, ``lockfile``, 
-``stdout``, and ``stdoutexclude``.
+Currently, the following observers are available: ``pid``, ``lockfile``, ``stdout``, and ``stdoutexclude``.
 
-* ``pid``: checks for the existence of a process (using ``psutils``)
-* ``lockfile``: check for the existence of a *lockfile* in the file system (e.g. ``.spread`` file of spread deamon) 
-* ``stdout``: checks whether a given string is found in the ``stdout`` of a component
-* ``stdoutexclude``: checks weather a string appears in the ``stdout`` of a component, if it finds the string, execution is
+* ``pid``: Checks for the existence of a process (using ``psutils``)
+* ``lockfile``: Check for the existence of a *lockfile* in the file system (e.g. ``.spread`` file of spread deamon)
+* ``stdout``: Checks whether a given string is found in the ``stdout`` of a component
+* ``stdoutexclude``: Checks weather a string appears in the ``stdout`` of a component, if it finds the string, execution is
   aborted. For instance, you could search for ``error while starting robot``
 
 A basic example::
@@ -185,8 +175,7 @@ or double quotes.
     criteria = 
 
 The timeout defines the time (in seconds) until a certain success criteria has 
-to be found. If the timeout is hit, the observer is regarded unsuccessful and 
-``fsmt`` execution is aborted.::
+to be found. If the timeout is hit, the observer is regarded unsuccessful and ``fsmt`` execution is aborted.::
 
     timeout = 2
 
@@ -206,16 +195,16 @@ reported as "started successfully".::
 
     ongoing = False
 
-.. note:: Currently, there is no ``restart-on-death`` option. This will be 
+.. note:: Currently, there is no ``restart-on-death`` option. This might be
 		  implemented in future versions.
 
 Step by Step: USING MULTIPLE OBSERVERS
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 It is possible to define multiple observers (even of the same type), by simply 
 listing all elements in a **comma** separated list. It is important to note that 
 even if no criteria are necessary, still a comma has to be put to allow correct 
-parsing.
+parsing. You must configure the criteria ``column-wise``, so pid,stdout,stdout would be: ,something,something
 
 ::
 
@@ -224,12 +213,11 @@ parsing.
     timeout = 2, 4, 20
     blocking = False, True, False
     ongoing = True, False, False
-    criteria = ,Initialization complete,Late Initialization complete
+    criteria = ,Initialization complete, Late Initialization complete
     
 
 Step by Step: RUN    
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+^^^^^^^^^^^^^^^^^
 
 In the following, each option of the run section is separately listed and described in detail.
 
@@ -275,7 +263,7 @@ Lastly, ``result_assessment_execution_duration`` works idetical th the
 
 
 More on RUN ORDERS
-"""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""
 
 The way how and when individual components are launched is determined by the 
 ``order`` option in the **run** section. Simply listing the names (in single 
@@ -288,8 +276,8 @@ Used control mechanism are:
 * Square brackets (i.e '[]') hold elements which are executed in **parallel**
 
 .. note:: It is important that single elements in square brackets 
-	  (parallel execution) have to be inside a round bracket 'tuple' (which means 
-	  they need to have round brackets and a trailing ",").
+	  (parallel execution) have to be inside a round bracket 'tuple'
+	  (which means they need to have round brackets and a trailing ",").
 
 
 For example::

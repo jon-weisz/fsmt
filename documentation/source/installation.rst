@@ -11,14 +11,14 @@ In order to use ``fsmt`` you require:
 
 Install setuptools if not yet installed::
 
-    $ sudo apt-get install python-setuptools
+    $ sudo apt-get install python-setuptools python-sphinx
 
 
-In general, these are all the steps required to install ``fsmt``. You might
+In general, these are allsteps required to install ``fsmt``. You might
 change the installation prefix to any prefix you want. For anything below "/"
-(root) you will obviously need **root** permissions for installation. For
-**/home/$USER** (see below) you can omit the sudo command, but you will have
-to change the paths accordingly.
+you will, obviously, need **root** permissions for installation. For
+**/home/$USER** (see below) you can omit the *sudo* command, but you will have
+to change the (python) paths accordingly.
 
 So, if you for example want to install into a sandbox in ``~/sandbox/``, 
 you have to do::
@@ -32,11 +32,11 @@ you have to do::
 
 You can check the installed requirements in the setup.py, they are automatically 
 installed via setuptools. However, it is noteworthy that PySCXML is **required**.
-You nned to install it separately from GIT::
+You need to install it separately from GIT::
 
     $ cd ~/sandbox/src
     $ mkdir pyscxml && cd pyscxml
-    $ git clone https://github.com/jroxendal/PySCXML.git .
+    $ git clone https://github.com/warp1337/PySCXML.git .
     $ export PYTHONPATH=~/sandbox/python2.7/site-packages:$PYTHONPATH
     $ python setup.py install --prefix=~/sandbox/
 
@@ -51,7 +51,7 @@ example, you can call a standard test from the sources::
 		  for details. 
 
 
-Build the documentation
+Build the Documentation
 ------------------------
 
 Actually, build **this** documentation::
@@ -64,10 +64,9 @@ You can then find the documentation at::
     ~/sandbox/src/fsmt/documentation/build/
 
 
-ROS based examples
+ROS Based Examples
 ---------------------
 
 In order to use ROS based examples, please install ROS first::
 
-   $ sudo apt-get install ros-groovy-desktop-full ros-groovy-pr2-common ros-groovy-pr2-mechanism-msgs \
-   ros-groovy-pr2-controllers ros-groovy-rxtools
+   $ sudo apt-get install ros-indigo-desktop-full ros-indigo-pr2-common ros-indigo-pr2-mechanism-msgs ros-indigo-pr2-controllers ros-indigo-rxtools
