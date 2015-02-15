@@ -32,20 +32,20 @@ Authors: Florian Lier, Norman Koester
 
 
 class ClassNotSetUpException(Exception):
-	"""
-	Raised when a class is called before it was set up.
-	"""
+    """
+    Raised when a class is called before it was set up.
+    """
 
-	def __init__(self, value):
-		"""
-		:param value:
-		"""
-		# Call the base class constructor with the parameters it needs
-		Exception.__init__(self, value)
-		self.value = value
+    def __init__(self, value):
+        """
+        :param value:
+        """
+        # Call the base class constructor with the parameters it needs
+        Exception.__init__(self, value)
+        self.value = value
 
-	def __str__(self):
-		"""
-		:return:
-		"""
-		return repr(self.value)
+    def __str__(self):
+        """
+        :return:
+        """
+        return repr(self.value)
