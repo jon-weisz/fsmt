@@ -95,14 +95,14 @@ def end_process_and_children(pid, process, log):
     :param log:
     """
     if process.poll() is None:
-        log.debug("Before killing, look for children of %s..." % (pid))
+        log.debug("Before killing, look for children of %s..." % str(pid))
         ret_child = kill_child_processes(pid, log)
         if ret_child == 0:
             log.debug("Children of %s are all gone" % pid)
         else:
-            log.debug("Error: Not all children of %s could be killed" % pid)
+            log.debug("Error: Not all children of %s could be killed" % str(pid))
 
-        log.debug("Ending parent process %s now" % pid)
+        log.debug("Ending parent process %s now" % str(pid))
         is_gone = kill_pid(pid, log)
 
         if is_gone > 0:
@@ -119,15 +119,15 @@ def kill_pid(pid, log):
     """
     p = psutil.Process(int(pid))
     if p.is_running():
-        log.debug("---> Sending SIGINT to %s (%s)", p.name, p.pid)
+        log.info("---* Sending SIGINT to %s (%s)", p.name, p.pid)
         p.send_signal(signal.SIGINT)
         eventlet.sleep(0.5)
     if p.is_running():
-        log.debug("----> Sending SIGTERM to %s (%s)", p.name, p.pid)
+        log.info("----* Sending SIGTERM to %s (%s)", p.name, p.pid)
         p.send_signal(signal.SIGTERM)
         eventlet.sleep(0.5)
     if p.is_running():
-        log.debug("-----> Sending SIGKILL to %s", p.name)
+        log.info("-----* Sending SIGKILL to %s", p.name)
         p.kill()
         eventlet.sleep(0.5)
 
