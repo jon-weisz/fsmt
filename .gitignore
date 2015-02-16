@@ -1,4 +1,4 @@
-unittesting/coverage
+unittesting/test/coverage
 documentation/build
 .pydevproject
 coverage.xml
