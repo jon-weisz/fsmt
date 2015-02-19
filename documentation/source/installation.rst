@@ -44,11 +44,13 @@ You need to install it separately from GIT::
 Once everything is installed and your environment variables ``PYTHONPATH`` and 
 ``PATH`` are set, you can easily call ``fsmt`` with a configuration file. For 
 example, you can call a standard test from the sources::
-    
+
+    $ sudo apt-get install x11-apps evince
+
     $ fsmt ~/sandbox/src/fsmt/configuration/std/stdtools.scxml
 
 .. note:: There are several tools alongside ``fsmt``. Please see :doc:`tools` 
-		  for details. 
+		  for details.
 
 
 Build the Documentation
