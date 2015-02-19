@@ -241,8 +241,8 @@ class Launcher():
             # 'Softlink' latest ZIP Archive and xUnit XML file
             up_dir = self.log_base
             current_file_name = os.path.basename(self.path_to_scxml_file[:])
-            current_xunit = up_dir + current_file_name + "-latest.zip"
-            current_zip = up_dir + current_file_name + "-xunit.xml"
+            current_zip = up_dir + current_file_name + "-latest.zip"
+            current_xunit = up_dir + current_file_name + "-xunit.xml"
             subprocess.call(["ln", "-sf", str(self.state_xunit_xml_path), current_zip])
             subprocess.call(["ln", "-sf", str(destination), current_xunit])
             self.log.info("Softlink latest xUnit %s", str(current_xunit))
