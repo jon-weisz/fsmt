@@ -67,8 +67,7 @@ class LockfileObserver(ProcessObserver):
                 self.file_was_found = True
 
         if not self.file_was_found:
-            self.log_failure("No lock file was found for %s at %s! Aborting!") % (
-                component_name, self.check_type.criteria)
+            self.log_failure("No lock file was found for %s at %s! Aborting!" % (component_name, self.check_type.criteria))
             self.send_negative_result_to_pyscxml()
             return 1
         else:
