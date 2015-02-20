@@ -170,12 +170,12 @@ class ProcessCommunicator():
                 try:
                     exchange_data = communication_pipe.recv()
                 except EOFError, e:
-                    #self.log.error("Process communication died: EOFError: %s", str(e))
+                    self.log.error("Process communication died: EOFError: %s", str(e))
                     state_machine.unsatisfied = True
                     state_machine.send("unsatisfied_criteria")
                     return 1
                 except Exception, e:
-                    #self.log.error("Process communication died: %s", str(e))
+                    self.log.error("Process communication died: %s", str(e))
                     state_machine.unsatisfied = True
                     state_machine.send("unsatisfied_criteria")
                     return 1
