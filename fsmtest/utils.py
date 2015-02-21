@@ -168,7 +168,7 @@ def kill_child_processes(parent_pid, log, self_call=False):
                     p.pid, parent_pid)
                 result += kill_child_processes(p.pid, log, self_call=True)
     else:
-        log.warning(("Process %s and children is/are already dead.", parent_pid))
+        log.warning("Process %s and children is/are already dead.", parent_pid)
 
     log.log(5, "Returning form kill child %s", parent_pid)
     return result
