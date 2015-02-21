@@ -94,7 +94,7 @@ class StdoutexcludeObserver(ProcessObserver):
                     return 1
                 if self.check_type.criteria in log_lines:
                     t = time.time()
-                    self.log_failure("'%s' was found in STDOUTEXCLUDE within %.2fms" % (criteria, ((t - t0) * 1000)))
+                    self.log_failure("'%s' was found within %.2fms" % (criteria, ((t - t0) * 1000)))
                     self.success = False
                     self.send_negative_result_to_pyscxml()
                     self.log.debug("Exiting STDOUTEXCLUDE observer for %s", component_name)
@@ -137,7 +137,7 @@ class StdoutexcludeObserver(ProcessObserver):
                         return 1
                     if self.check_type.criteria in log_lines:
                         t = time.time()
-                        self.log_failure("'%s' was found in STDOUTEXCLUDE within %.2fms" % (criteria, ((t - t0) * 1000)))
+                        self.log_failure("'%s' was found within %.2fms" % (criteria, ((t - t0) * 1000)))
                         self.success = False
                         self.send_negative_result_to_pyscxml()
                         self.log.debug("Exiting STDOUTEXCLUDE observer for %s", component_name)
