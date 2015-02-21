@@ -127,7 +127,7 @@ class ProcessExecutor():
             self.subprocess = subprocess.Popen(
                 "exec " + self.software_component.get_complete_executable_path_with_arguments(),
                 shell=True, stdin=slave, stdout=slave, stderr=slave,
-                bufsize=4096, executable='/bin/bash', env=self.environment_map)
+                bufsize=8192, executable='/bin/bash', env=self.environment_map)
 
             self.subprocess.master = master
             self.subprocess.slave = slave

@@ -92,10 +92,8 @@ class PTYLogWriter():
                     ready, _, _ = select.select([self.process.master], [], [], 0.1)
                     if ready:
                         # This line actually reads from the pty
-                        data = os.read(self.process.master, 4096)
+                        data = os.read(self.process.master, 8192)
                         if not data:
-                            # Reduce CPU Load
-                            # eventlet.sleep(0.001)
                             continue
                         # So here was repr(data), from what i read this is not
                         # really necessary here. So I changed it to str()
@@ -113,7 +111,7 @@ class PTYLogWriter():
                     if self.terminate:
                         break
                     # Reduce CPU Load
-                    eventlet.sleep(0.002)
+                    eventlet.sleep(0.001)
 
             except IOError as e:
                 self.log.error("Exception in log file reader of %s, probably the process pipe is dead? %s", self.name,
