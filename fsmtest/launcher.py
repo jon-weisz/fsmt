@@ -235,7 +235,7 @@ class Launcher():
             # Zipping it all up
             source = self.log_folder
             destination = (self.log_folder + ".zip")
-            self.log.info("Writing log archive to %s", destination)
+            # self.log.info("Writing log archive to %s", destination)
             make_zipfile(source, destination)
 
             # 'Softlink' latest ZIP Archive and xUnit XML file
