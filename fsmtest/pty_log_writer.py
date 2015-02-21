@@ -92,7 +92,7 @@ class PTYLogWriter():
                     ready, _, _ = select.select([self.process.master], [], [], 0.1)
                     if ready:
                         # This line actually reads from the pty
-                        data = os.read(self.process.master, 512)
+                        data = os.read(self.process.master, 1024)
                         if not data:
                             continue
                         # So here was repr(data), from what i read this is not
