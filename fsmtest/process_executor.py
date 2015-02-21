@@ -153,13 +153,12 @@ class ProcessExecutor():
             for an_observer in itertools.chain(self.process_observers, self.blocking_process_observers):
                 an_observer.process_exchange_data.pid = str(self.software_component.pid)
                 an_observer.name = self.software_component.name + "-" + self.software_component.pid
-                self.log.debug("(%s) %s Observer starts now", str(an_observer.check_type.type).upper(), self.software_component.name)
+                self.log.debug("(%s) %s Observer starts now", str(an_observer.check_type.type).upper(),
+                               self.software_component.name)
                 an_observer.start()
 
             # DO NOT CHANGE THIS!
             sub_proc_ret_code = self.subprocess.wait()
-            self.log.debug(
-                (self.software_component.name, len(self.process_observers) + len(self.blocking_process_observers)))
 
             # Give it some time to write what is left
             time.sleep(0.2)
@@ -168,7 +167,6 @@ class ProcessExecutor():
             self.pty_log_writer.close_logger()
 
             # However, we wait for it to write whatever is left
-            self.log.debug("(%s) waiting for PTY Logger now", self.software_component.name)
             _ = self.pty_log_runner.wait()
 
             # Now we can end all observers in case the subprocess had some 'convincing' last argument which

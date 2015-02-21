@@ -94,6 +94,8 @@ class PTYLogWriter():
                         # This line actually reads from the pty
                         data = os.read(self.process.master, 1024)
                         if not data:
+                            # Reduce CPU Load
+                            eventlet.sleep(0.001)
                             continue
                         # So here was repr(data), from what i read this is not
                         # really necessary here. So I changed it to str()
