@@ -113,7 +113,7 @@ class PTYLogWriter():
                     if self.terminate:
                         break
                     # Reduce CPU Load
-                    eventlet.sleep(0.008)
+                    eventlet.sleep(0.002)
 
             except IOError as e:
                 self.log.error("Exception in log file reader of %s, probably the process pipe is dead? %s", self.name,
