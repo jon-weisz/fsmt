@@ -92,7 +92,7 @@ class PTYLogWriter():
                     ready, _, _ = select.select([self.process.master], [], [], 0.1)
                     if ready:
                         # This line actually reads from the pty
-                        data = os.read(self.process.master, 1024)
+                        data = os.read(self.process.master, 4096)
                         if not data:
                             # Reduce CPU Load
                             eventlet.sleep(0.001)
