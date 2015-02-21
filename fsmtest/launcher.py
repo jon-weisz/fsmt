@@ -245,8 +245,8 @@ class Launcher():
             current_zip = up_dir + current_file_name + "-latest.zip"
             current_xunit = up_dir + current_file_name + "-latest-xunit.xml"
             subprocess.call(["ln", "-sf", self.log_folder, current_run])
-            subprocess.call(["ln", "-sf", str(self.state_xunit_xml_path), current_zip])
-            subprocess.call(["ln", "-sf", str(destination), current_xunit])
+            subprocess.call(["ln", "-sf", str(self.state_xunit_xml_path), current_xunit])
+            subprocess.call(["ln", "-sf", str(destination), current_zip])
             self.log.info("Softlink latest RUN %s", str(current_run))
             self.log.info("Softlink latest XUnit %s", str(current_xunit))
             self.log.info("Softlink latest ZIP archive %s", str(current_zip))
