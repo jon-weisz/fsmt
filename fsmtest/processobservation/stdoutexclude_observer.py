@@ -95,8 +95,7 @@ class StdoutexcludeObserver(ProcessObserver):
                 if self.check_type.criteria in log_lines:
                     t = time.time()
                     self.log.error(
-                        "%s: '%s' was found in STDOUTEXCLUDE within %s s ",
-                        name, criteria, t - t0)
+                        "%s: '%s' was found in STDOUTEXCLUDE within %.2fms", name, criteria, ((t - t0) * 1000))
                     self.success = False
                     self.send_negative_result_to_pyscxml()
                     self.log.debug("Exiting STDOUTEXCLUDE observer for %s", component_name)
