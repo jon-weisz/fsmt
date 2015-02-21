@@ -95,7 +95,7 @@ class PTYLogWriter():
                         data = os.read(self.process.master, 4096)
                         if not data:
                             # Reduce CPU Load
-                            eventlet.sleep(0.001)
+                            # eventlet.sleep(0.001)
                             continue
                         # So here was repr(data), from what i read this is not
                         # really necessary here. So I changed it to str()
