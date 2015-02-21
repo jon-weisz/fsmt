@@ -153,8 +153,7 @@ class ProcessExecutor():
             for an_observer in itertools.chain(self.process_observers, self.blocking_process_observers):
                 an_observer.process_exchange_data.pid = str(self.software_component.pid)
                 an_observer.name = self.software_component.name + "-" + self.software_component.pid
-                self.log.debug("(%s) %s Observer starts now", str(an_observer.check_type.type).upper(),
-                               self.software_component.name)
+                self.log.debug("(%s) %s Observer starts now", str(an_observer.check_type.type).upper(), self.software_component.name)
                 an_observer.start()
 
             # DO NOT CHANGE THIS!
@@ -179,8 +178,7 @@ class ProcessExecutor():
                 an_observer.join()
                 self.log.debug("(%s) Observer %s is done!", self.software_component.name, an_observer.name)
 
-            self.log.info("%s [%s] quit, return code %s", self.software_component.name, self.software_component.pid,
-                          sub_proc_ret_code)
+            self.log.info("%s [%s] quit, return code %s", self.software_component.name, self.software_component.pid, sub_proc_ret_code)
 
             # Close the ProcessCommunicator for the pipe too
             self.parent_pipe.close()
