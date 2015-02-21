@@ -234,8 +234,7 @@ class ProcessCommunicator():
                                 "-" + \
                                 software_component.name
                         else:
-                            state_machine.log.error("The execution type %s is unknown!",
-                                                    software_component.execution_type)
+                            state_machine.log.error("The execution type %s is unknown!", software_component.execution_type)
                             state_machine.send("unsatisfied_criteria")
                             status.append("(%s) returned, unknown execution" % software_component.name)
                             return 1
@@ -282,7 +281,7 @@ class ProcessCommunicator():
             self.abort_sent = True
             wait_status = worker.wait()
             if wait_status > 0:
-                self.log.info(("Communication worker #%d " + "was force closed"), _id)
+                # self.log.info(("Communication worker #%d " + "was force closed"), _id)
                 worker.kill()
             else:
                 self.log.debug(("Communication worker #%d " + "closed successfully"), _id)
