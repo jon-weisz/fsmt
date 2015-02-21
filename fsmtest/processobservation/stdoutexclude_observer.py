@@ -116,7 +116,7 @@ class StdoutexcludeObserver(ProcessObserver):
                 log_file.close()
                 return 1
             else:
-                self.log_success("No '%s' within %ds. Good!" % (criteria, self.check_type.timeout))
+                self.log_success("no '%s' within %ds. Good!" % (criteria, self.check_type.timeout))
                 self.send_positive_result_to_pyscxml()
                 self.end_thread = True
         if self.check_type.ongoing:
