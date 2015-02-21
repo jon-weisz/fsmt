@@ -78,8 +78,7 @@ class PTYLogWriter():
                 a_file = open(self.log_file_name, "w+")
                 self.logfile = a_file
             except IOError as e:
-                self.log.error("Exception in log file reader of %s, cannot read the file %s", self.name,
-                               self.log_file_name)
+                self.log.error("Exception in log file reader of %s, cannot read the file %s", self.name, self.log_file_name)
                 a_file.close()
                 return 1
 
