@@ -127,7 +127,7 @@ def kill_pid(pid, log):
         p.send_signal(signal.SIGTERM)
         eventlet.sleep(0.5)
     if p.is_running():
-        log.info("-----* Sending SIGKILL to [%s] Wow.", p.name)
+        log.info("-----* Sending SIGKILL to %s [%s] Wow!", p.name, p.pid)
         p.kill()
         eventlet.sleep(0.5)
 
