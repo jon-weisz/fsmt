@@ -119,15 +119,15 @@ def kill_pid(pid, log):
     """
     p = psutil.Process(int(pid))
     if p.is_running():
-        log.info("---* Sending SIGINT to %s (%s)", p.name, p.pid)
+        log.info("---* Sending SIGINT to %s [%s]", p.name, p.pid)
         p.send_signal(signal.SIGINT)
         eventlet.sleep(0.5)
     if p.is_running():
-        log.info("----* Sending SIGTERM to %s (%s)", p.name, p.pid)
+        log.info("----* Sending SIGTERM to %s [%s]", p.name, p.pid)
         p.send_signal(signal.SIGTERM)
         eventlet.sleep(0.5)
     if p.is_running():
-        log.info("-----* Sending SIGKILL to %s", p.name)
+        log.info("-----* Sending SIGKILL to %s [%s] Wow!", p.name, p.pid)
         p.kill()
         eventlet.sleep(0.5)
 
@@ -145,8 +145,7 @@ def kill_child_processes(parent_pid, log, self_call=False):
     :return:
     """
     result = 0
-    log.log(5, "called kill children of %s - self_call:%s",
-            parent_pid, str(self_call))
+    log.log(5, "Called kill children of %s - self_call:%s", parent_pid, str(self_call))
 
     if os.path.exists("/proc/%s" % parent_pid):
         a_process = psutil.Process(int(parent_pid))
@@ -155,11 +154,11 @@ def kill_child_processes(parent_pid, log, self_call=False):
             if self_call:
                 log.log(
                     5,
-                    "child %s has no further children - end of recursion",
+                    "Child %s has no further children - end of recursion",
                     parent_pid)
                 result += kill_pid(parent_pid, log)
             else:
-                log.log(5, "no self call, no children, returning")
+                log.log(5, "No self call, no children, returning")
                 return 0
         else:
             log.log(5, "There are %d children" % len(proc_children))
@@ -169,10 +168,7 @@ def kill_child_processes(parent_pid, log, self_call=False):
                     p.pid, parent_pid)
                 result += kill_child_processes(p.pid, log, self_call=True)
     else:
-        log.warning(
-            ("Process %s is not running anymore, it probably already " +
-             "ended before a check for children could be done"),
-            parent_pid)
+        log.warning("Process %s and children is/are already dead.", parent_pid)
 
     log.log(5, "Returning form kill child %s", parent_pid)
     return result

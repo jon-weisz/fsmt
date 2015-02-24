@@ -94,9 +94,7 @@ class StdoutexcludeObserver(ProcessObserver):
                     return 1
                 if self.check_type.criteria in log_lines:
                     t = time.time()
-                    self.log.error(
-                        "%s: '%s' was found in STDOUTEXCLUDE within %s s ",
-                        name, criteria, t - t0)
+                    self.log_failure("'%s' was found within %.2fms" % (criteria, ((t - t0) * 1000)))
                     self.success = False
                     self.send_negative_result_to_pyscxml()
                     self.log.debug("Exiting STDOUTEXCLUDE observer for %s", component_name)
@@ -116,8 +114,7 @@ class StdoutexcludeObserver(ProcessObserver):
                 log_file.close()
                 return 1
             else:
-                self.log_success(
-                    "hit timeout (%ds) while looking for '%s'. Good!" % (self.check_type.timeout, criteria))
+                self.log_success("no '%s' within %ds. Good!" % (criteria, self.check_type.timeout))
                 self.send_positive_result_to_pyscxml()
                 self.end_thread = True
         if self.check_type.ongoing:
@@ -140,7 +137,7 @@ class StdoutexcludeObserver(ProcessObserver):
                         return 1
                     if self.check_type.criteria in log_lines:
                         t = time.time()
-                        self.log.error("%s: '%s' was found in STDOUTEXCLUDE within %s s ", name, criteria, t - t0)
+                        self.log_failure("'%s' was found within %.2fms" % (criteria, ((t - t0) * 1000)))
                         self.success = False
                         self.send_negative_result_to_pyscxml()
                         self.log.debug("Exiting STDOUTEXCLUDE observer for %s", component_name)

@@ -78,8 +78,7 @@ class PTYLogWriter():
                 a_file = open(self.log_file_name, "w+")
                 self.logfile = a_file
             except IOError as e:
-                self.log.error("Exception in log file reader of %s, cannot read the file %s", self.name,
-                               self.log_file_name)
+                self.log.error("Exception in log file reader of %s, cannot read the file %s", self.name, self.log_file_name)
                 a_file.close()
                 return 1
 
@@ -92,7 +91,7 @@ class PTYLogWriter():
                     ready, _, _ = select.select([self.process.master], [], [], 0.1)
                     if ready:
                         # This line actually reads from the pty
-                        data = os.read(self.process.master, 512)
+                        data = os.read(self.process.master, 8192)
                         if not data:
                             continue
                         # So here was repr(data), from what i read this is not
@@ -111,7 +110,7 @@ class PTYLogWriter():
                     if self.terminate:
                         break
                     # Reduce CPU Load
-                    eventlet.sleep(0.008)
+                    eventlet.sleep(0.001)
 
             except IOError as e:
                 self.log.error("Exception in log file reader of %s, probably the process pipe is dead? %s", self.name,

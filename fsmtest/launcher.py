@@ -235,17 +235,20 @@ class Launcher():
             # Zipping it all up
             source = self.log_folder
             destination = (self.log_folder + ".zip")
-            self.log.info("Writing log archive to %s", destination)
+            # self.log.info("Writing log archive to %s", destination)
             make_zipfile(source, destination)
 
             # 'Softlink' latest ZIP Archive and xUnit XML file
             up_dir = self.log_base
             current_file_name = os.path.basename(self.path_to_scxml_file[:])
+            current_run = up_dir + current_file_name + "-latest.run"
             current_zip = up_dir + current_file_name + "-latest.zip"
-            current_xunit = up_dir + current_file_name + "-xunit.xml"
-            subprocess.call(["ln", "-sf", str(self.state_xunit_xml_path), current_zip])
-            subprocess.call(["ln", "-sf", str(destination), current_xunit])
-            self.log.info("Softlink latest xUnit %s", str(current_xunit))
+            current_xunit = up_dir + current_file_name + "-latest-xunit.xml"
+            subprocess.call(["ln", "-sf", self.log_folder, current_run])
+            subprocess.call(["ln", "-sf", str(self.state_xunit_xml_path), current_xunit])
+            subprocess.call(["ln", "-sf", str(destination), current_zip])
+            self.log.info("Softlink latest RUN %s", str(current_run))
+            self.log.info("Softlink latest XUnit %s", str(current_xunit))
             self.log.info("Softlink latest ZIP archive %s", str(current_zip))
 
             self.log.info("Absolute runtime : %s seconds" % round((time.time() - init_time), 3))
