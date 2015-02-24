@@ -244,6 +244,8 @@ class Launcher():
             current_run = up_dir + current_file_name + "-latest.run"
             current_zip = up_dir + current_file_name + "-latest.zip"
             current_xunit = up_dir + current_file_name + "-latest-xunit.xml"
+            # Cleanup old link before creating new one
+            subprocess.call(["rm", "-f", current_run])
             subprocess.call(["ln", "-sfn", self.log_folder, current_run])
             subprocess.call(["ln", "-sf", str(self.state_xunit_xml_path), current_xunit])
             subprocess.call(["ln", "-sf", str(destination), current_zip])
