@@ -203,7 +203,7 @@ class Launcher():
             # Web Sockets
             # ws_connection = WebSocketConnection()
             # websocket_connection = ws_connection
-            # state_machine_wrapper.wsconn = ws_connection
+            # state_machine_wrapper.wsconn = None
 
             # This signal handler enables us to trap the CTRL+C command and
             # send a exit_grace aka statemachine.send(unsatisfied_criteria)

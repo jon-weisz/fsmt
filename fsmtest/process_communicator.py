@@ -212,7 +212,7 @@ class ProcessCommunicator():
                             state_machine.datamodel[software_component.counter_name] += 1
                         elif software_component.execution_type == "default":
                             state_machine.send(exchange_data.message + ".execute_program.success")
-                            if state_machine.wsconn.get_is_connected():
+                            '''if state_machine.wsconn.get_is_connected():
                                 message = state_machine.wsconn.get_current_message()
                                 insert = state_machine.wsconn.get_inner_event()
                                 insert["name"] = exchange_data.parent_state
@@ -227,7 +227,7 @@ class ProcessCommunicator():
                                                     }]
                                 message["events"].append(insert)
                                 state_machine.wsconn.set_current_mMessage(message)
-                                state_machine.wsconn.send_update()
+                                state_machine.wsconn.send_update()'''
                             state_machine.block_diagram['content'] += \
                                 " -> " + \
                                 exchange_data.parent_state + \
