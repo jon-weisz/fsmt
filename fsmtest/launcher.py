@@ -245,6 +245,7 @@ class Launcher():
             current_zip = up_dir + current_file_name + "-latest.zip"
             current_xunit = up_dir + current_file_name + "-latest-xunit.xml"
             # Cleanup old softlink before creating new one
+            print current_run
             subprocess.call(["rm", "-f", current_run])
             subprocess.call(["ln", "-sfn", self.log_folder, current_run])
             subprocess.call(["ln", "-sf", str(self.state_xunit_xml_path), current_xunit])
