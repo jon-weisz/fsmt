@@ -305,7 +305,7 @@ def custom_executable(node, something):
                            state_machine.block_diagram['ending'])
             log.debug("Blockdiag written to %s", trial_path + "/blockdiag.diag")
 
-            if state_machine.wsconn.get_is_connected():
+            '''if state_machine.wsconn.get_is_connected():
                 message = state_machine.wsconn.get_current_message()
                 insert = state_machine.wsconn.get_inner_event()
                 insert["name"] = "cleanup after fail"
@@ -319,7 +319,7 @@ def custom_executable(node, something):
                 ]
                 message["events"].append(insert)
                 state_machine.wsconn.set_current_message(message)
-                state_machine.wsconn.send_update()
+                state_machine.wsconn.send_update()'''
             state_machine.exit_watcher.close(True)
         else:
             log.log(5, "%s" % "\n\
@@ -355,7 +355,7 @@ def custom_executable(node, something):
                 log.debug("Blockdiag written to %s", trial_path + "/blockdiag.diag")
                 state_machine.exit_watcher.close(True)
 
-                if state_machine.wsconn.get_is_connected():
+                '''if state_machine.wsconn.get_is_connected():
                     message = state_machine.wsconn.get_current_message()
                     insert = state_machine.wsconn.get_inner_event()
                     insert["name"] = "cleanup"
@@ -370,7 +370,7 @@ def custom_executable(node, something):
                                         }]
                     message["events"].append(insert)
                     state_machine.wsconn.set_current_message(message)
-                    state_machine.wsconn.send_update()
+                    state_machine.wsconn.send_update()'''
             final_cleanup = True
 
     else:
