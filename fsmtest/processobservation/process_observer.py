@@ -205,7 +205,7 @@ class ProcessObserver(threading.Thread):
 
         :param message:
         """
-        self.log.warning("%s [%s] %s observer quit %s",
+        self.log.warning("%s [%s] %s observer %s",
                          self.process_executer.software_component.name,
                          str(self.process_executer.subprocess_pid),
                          str(self.check_type.type).upper(), message)

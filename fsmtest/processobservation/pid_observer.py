@@ -97,7 +97,7 @@ class PidObserver(ProcessObserver):
             self.log_success("PID was found in %sms" % str(((t - t0) * 1000))[:4])
         else:
             t = time.time()
-            self.log_failure("PID not found within %ds (TIMEOUT). Process is assumed dead" % (t - t0))
+            self.log_failure("PID was not found")
             self.send_negative_result_to_pyscxml()
             self.end_thread = True
             # This is the point of "no return" after this we will check for

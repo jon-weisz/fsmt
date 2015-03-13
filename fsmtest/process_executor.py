@@ -30,8 +30,10 @@ Authors: Florian Lier, Norman Koester
 
 """
 
+import os
 import pty
 import time
+import select
 import eventlet
 import itertools
 import subprocess
@@ -121,8 +123,6 @@ class ProcessExecutor():
             # Open a PTY for reading and writing to logfile
             master, slave = pty.openpty()
 
-            self.log.log(5, "This component lives in the following environment %s", self.environment_map)
-
             # Execute the command
             self.subprocess = subprocess.Popen(
                 "exec " + self.software_component.get_complete_executable_path_with_arguments(),
@@ -184,16 +184,102 @@ class ProcessExecutor():
             return sub_proc_ret_code
 
         else:
-            self.log.info("Distributed execution is in preparation please do not use any other hostname than "
-                          "localhost")
-            """
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ssh.connect("localhost")
+            # If we are on 'localhost' we use the native/faster approach of spawning local processes and logging in/out
+            # streams
+            if self.software_component.host != "localhost":
 
-            stdin, stdout, stderr = ssh.exec_command("echo $$ ; /bin/bash -l -c /usr/bin/gedit")
-            pid = stdout.readline()
-            print "PID of the remote process: " + pid
+                # Open a PTY for reading and writing to logfile
+                master, slave = pty.openpty()
 
-            ssh.close()
-            """
+                # Get the current user
+                u = os.getenv('USER')
+                # Get the desired host from ini/scxml file
+                host = self.software_component.host.strip()
+                # Predefined ssh command that opens a PTY
+                basic_ssh_cmd = "ssh -tt "+u+"@"+host+" ' echo $$; export DISPLAY=:0; exec "
+                # Build the complete command
+                ssh_cmd = basic_ssh_cmd + self.software_component.get_complete_executable_path_with_arguments()+" '"
+
+                # Execute the command
+                self.subprocess = subprocess.Popen(ssh_cmd, shell=True, stdin=slave, stdout=slave, stderr=slave,
+                                                   bufsize=8192, executable='/bin/bash', env=self.environment_map)
+
+                self.subprocess.master = master
+                self.subprocess.slave = slave
+
+                pid_found = False
+                inherit_pid = "NOTHING"
+                now = time.time()
+
+                while pid_found is False:
+                    time.sleep(1)
+                    self.log.info("--> [SSH] Waiting for connection to host %s " % host)
+                    try:
+                        # Checks if there is any data on the pty
+                        ready, _, _ = select.select([master], [], [], 0.1)
+                        # This line actually reads from the pty
+                        if ready:
+                                data = os.read(master, 5)
+                                if not data:
+                                    continue
+                                else:
+                                    if not pid_found:
+                                        tmp = data.strip()
+                                        if tmp.isdigit():
+                                            inherit_pid = int(tmp)
+                                            pid_found = True
+                                            self.log.info("--> [SSH] Connected to host %s " % host)
+                                            break
+                    except Exception, e:
+                        pass
+
+                self.pty_log_writer.setup(self.subprocess, self.log_file_name)
+                self.pty_log_runner = eventlet.spawn(self.pty_log_writer.logger)
+
+                # Remember its PID, the PID is a member of the POpen class
+                self.subprocess_pid = self.subprocess.pid
+                self.software_component.pid = str(self.subprocess_pid)
+
+                the_time = time.time()
+
+                self.log.info(
+                    ("--> [SSH] Launching " + "%s [%s] on host %s %sms since FSMT init"),
+                    self.software_component.name,
+                    str(inherit_pid), host,
+                    str(round((the_time - self.init_time), 3) * 1000))
+
+                # Make all the observers observe the program by starting their threads
+                self.log.debug("(%s) Starting all observer threads" % self.software_component.name)
+
+                for an_observer in itertools.chain(self.process_observers, self.blocking_process_observers):
+                    an_observer.process_exchange_data.pid = str(self.software_component.pid)
+                    an_observer.name = self.software_component.name + "-" + self.software_component.pid
+                    self.log.debug("(%s) %s Observer starts now", str(an_observer.check_type.type).upper(),
+                                   self.software_component.name)
+                    an_observer.start()
+
+                # DO NOT CHANGE THIS!
+                sub_proc_ret_code = self.subprocess.wait()
+
+                # Give it some time to write what is left
+                time.sleep(0.2)
+
+                # The subprocess terminated, we tell the PTY Logger to end it soon
+                self.pty_log_writer.close_logger()
+
+                # However, we wait for it to write whatever is left
+                _ = self.pty_log_runner.wait()
+
+                # Now we can end all observers in case the subprocess had some 'convincing' last argument which
+                # was written by the PTYlogger and will satisfy an observer
+                for an_observer in itertools.chain(self.process_observers, self.blocking_process_observers):
+                    an_observer.stop()
+                    an_observer.join()
+                    self.log.debug("(%s) Observer %s is done!", self.software_component.name, an_observer.name)
+
+                self.log.info("%s [%s] quit, return code %s", self.software_component.name, self.software_component.pid, sub_proc_ret_code)
+
+                # Close the ProcessCommunicator for the pipe too
+                self.parent_pipe.close()
+                # END DO NOT CHANGE THIS!
+                return sub_proc_ret_code
