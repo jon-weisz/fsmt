@@ -45,6 +45,7 @@ Additionally, a complete log is written into the logs folder. The default level 
 Once ``fsmt`` is finished, a ``ZIP`` archive of the entire ``fsmt`` run is created at ``/$log_path/fsmt/$TIMESTAMP.zip``,
 to allow you to easily share run information or report bugs/issues. Softlinks to the latest run are also created.
 
+
 Log Folder
 ----------
 
@@ -60,6 +61,14 @@ For your convenience, ``fsmt`` creates several log directories on startup. These
 The default_path for these files is ``/tmp/$USER/``, you can specify your own path using the "-o" option::
 
     fsmt -o ~/sandbox/logs/ configuration/std/stdtools.scxml
+
+
+The ``latest`` run will be available under, e.g.,::
+
+    16:40:49 [INFO]: Writing log archive to /tmp/$USERNAME/fsmt/$TIMESTAMP.zip
+    16:40:49 [INFO]: Softlink latest xUnit /tmp/$USERNAME/fsmt/$SCXML_FILENAME-xunit.xml
+    16:40:49 [INFO]: Softlink latest ZIP archive /tmp/$USERNAME/fsmt/$SCXML_FILENAME-latest.zip
+
 
 
 Environment Variables

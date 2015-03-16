@@ -11,7 +11,7 @@ of components is not verified, which might lead to subsequent errors during the 
 this knowledge about the test and its environment is implicit, often hidden in the actual implementation of the tailored
 test suite.
 
-To overcome these issues, this contribution introduces **a generic and configurable state-machine based process** to automate:
+To overcome these issues, this framework introduces **a generic, event-driven and configurable state-machine based process** to automate:
 
    * a) Environment setup
    * b) System bootstrapping

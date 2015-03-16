@@ -49,50 +49,35 @@ folder.
     fsmt_exlockouttimed 10 2 /path/of/lockfile/to/use/.lockfile_name    
 
 
-Visualisation
--------------
-
-In order to visualise started components and timings, or to remotely observe 
-the test, you need to start the fsmt web socket server (in a separate console)::
-
+.. Visualisation
+    -------------
+    In order to visualise started components and timings, or to remotely observe
+    the test, you need to start the fsmt web socket server (in a separate console)::
     fsmt_wsserver
-
-As soon as the server is started, you may open a web browser and open 
-``tools/fsmvis.html``. Now, start your test and you will see what is going on! 
-Timings, indicated using the "@" sign are in seconds
-
-.. image:: img/vis-1.png
-
-.. note:: There is no websocket protocol standard at the moment. We implemented Version 13
+    As soon as the server is started, you may open a web browser and open
+    ``tools/fsmvis.html``. Now, start your test and you will see what is going on!
+    Timings, indicated using the "@" sign are in seconds
+    .. image:: img/vis-1.png
+    .. note:: There is no websocket protocol standard at the moment. We implemented Version 13
 	which works well with chromium Version 28.0.1500.71. In case you don't see any 
 	output (or null) please try another browser. We will work on this issue.
-
-
-Visualisation with Block Diag
-------------------------------
-
-If you need another visualisation of the steps, which are reached within 
-``fsmt``, we provide you with the raw syntax of python-blockdiag.
-You can install blockdiag via pip or, on ubuntu, via::
-
+    Visualisation with Block Diag
+    ------------------------------
+    If you need another visualisation of the steps, which are reached within
+    ``fsmt``, we provide you with the raw syntax of python-blockdiag.
+    You can install blockdiag via pip or, on ubuntu, via::
     $ sudo apt-get install python-blockdiag
     or
     $ pip install blockdiag
-
-When your ``fsmt`` test is finished, you can find the following content in a 
-separated log file. For instance::
-
+    When your ``fsmt`` test is finished, you can find the following content in a
+    separated log file. For instance::
     blockdiag {
         initialise_state -> state_0-xeyes -> state_0_1-evince -> assessment_state_0-xeyes -> assessment_state_0_1-evince -> exit_state;
     }
-
-Now you just need to execute::
-
+    Now you just need to execute::
     $ blockdiag /path/to/block.diag
-
-The result will look somewhat similar to this:
-
-.. image:: img/block-diag.png
+    The result will look somewhat similar to this:
+    .. image:: img/block-diag.png
 
 
 State Machine execution Result in xUnit

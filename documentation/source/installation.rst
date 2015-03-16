@@ -3,7 +3,7 @@ Installation
 
 
 General Build Information
---------------------------------------
+--------------------------
 In order to use ``fsmt`` you require:
 
 * **Python 2.7.x** (Python 3.x is **not** supported)
@@ -20,6 +20,10 @@ you will, obviously, need **root** permissions for installation. For
 **/home/$USER** (see below) you can omit the *sudo* command, but you will have
 to change the (python) paths accordingly.
 
+
+FSMT
+----
+
 So, if you for example want to install into a sandbox in ``~/sandbox/``, 
 you have to do::
 
@@ -30,7 +34,11 @@ you have to do::
    $ export PATH=~/sandbox/bin:$PATH
    $ python setup.py install --prefix=~/sandbox --record installed_files.txt
 
-You can check the installed requirements in the setup.py, they are automatically 
+
+PySCXML
+-------
+
+You can check the installed requirements in the setup.py, they are automatically
 installed via setuptools. However, it is noteworthy that PySCXML is **required**.
 You need to install it separately from GIT::
 
@@ -41,7 +49,10 @@ You need to install it separately from GIT::
     $ python setup.py install --prefix=~/sandbox/
 
 
-Once everything is installed and your environment variables ``PYTHONPATH`` and 
+Quickstart
+-----------
+
+Once everything is installed and your environment variables ``PYTHONPATH`` and
 ``PATH`` are set, you can easily call ``fsmt`` with a configuration file. For 
 example, you can call a standard test from the sources::
 

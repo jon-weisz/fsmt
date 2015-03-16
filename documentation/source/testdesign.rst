@@ -130,9 +130,21 @@ You may instead also use environment variables (also those defined in the **[env
 
 The host on which the command will be run. 
 
-.. note:: Important: This feature is **not yet supported** in FSMT but will be in
-		future versions. Anyway, localhost is currently **required** for successful 
-		``fsmt`` execution
+::
+
+
+	execution_host = remote.host
+
+
+A remote (SSH) host on which the command will be run.
+
+.. note:: Important: If you decide to run your component on a remote machine, FSMT will open a SSH connection and execute
+          your component on the desired machine. If you state any other host than localhost, please make sure you have your
+          SSH client configured using SSH-key verification. If not configured correctly the your test will fail. SSH key-auth
+          is a **prerequisite** You should also configure your SSH connection with an empty passphrase (not recommended
+          in an insecure environment).
+
+          Help configuring your SSH setup: https://help.ubuntu.com/community/SSH/OpenSSH/Keys
 
 ::
 
@@ -160,7 +172,7 @@ Currently, the following observers are available: ``pid``, ``lockfile``, ``stdou
 
 A basic example::
 
-    ``check_type = pid``
+    check_type = pid
 
 The criteria that is supposed to be satisfied is handled via the ``citeria`` 
 option. This is especially important in case of a ``stdout``, or ``lockfile``
@@ -211,11 +223,11 @@ parsing. You must configure the criteria ``column-wise``, so pid,stdout,stdout w
 ::
 
     check_execution = True
-    check_type = pid, stdout, stdout
+    check_type = pid, stdout, stdoutexclude
     timeout = 2, 4, 20
     blocking = False, True, False
     ongoing = True, False, False
-    criteria = ,Initialization complete, Late Initialization complete
+    criteria = ,Initialization complete, Segmentation Fault
     
 
 Step by Step: RUN    
