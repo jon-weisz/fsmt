@@ -277,7 +277,7 @@ def custom_executable(node, something):
             one_program_executor.pty_log_writer.close_logger()
             logger_status = one_program_executor.pty_log_runner.wait()
             if logger_status != 0:
-                log.warning("Log writer was closed >> Force Quit")
+                log.debug("Log writer was closed >> Force Quit")
             else:
                 log.debug("Closing log writer done, status 0, Good")
 
@@ -285,7 +285,7 @@ def custom_executable(node, something):
                 log.info("Ending process %s [%s] and its children", str(name), str(pid))
                 end_process_and_children(pid, one_program_executor.subprocess, log)
             except Exception, e:
-                log.warning("Killing %s [%s]: It is already dead!", str(name), str(pid))
+                log.warning("Killing %s [%s]: Is already dead!", str(name), str(pid))
 
             all_program_executors.pop(one_program_executor)
 

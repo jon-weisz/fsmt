@@ -196,7 +196,7 @@ class ProcessExecutor():
                 # Get the desired host from ini/scxml file
                 host = self.software_component.host.strip()
                 # Predefined ssh command that opens a PTY
-                basic_ssh_cmd = "ssh -tt "+u+"@"+host+" ' echo $$; export DISPLAY=:0; exec "
+                basic_ssh_cmd = "ssh -tt -C "+u+"@"+host+" ' echo $$; export DISPLAY=:0; exec "
                 # Build the complete command
                 ssh_cmd = basic_ssh_cmd + self.software_component.get_complete_executable_path_with_arguments()+" '"
 
@@ -208,12 +208,18 @@ class ProcessExecutor():
                 self.subprocess.slave = slave
 
                 pid_found = False
-                inherit_pid = "NOTHING"
+                inherit_pid = -1
                 now = time.time()
 
-                while pid_found is False:
-                    time.sleep(1)
-                    self.log.info("--> [SSH] Waiting for connection to host %s " % host)
+
+                # We wait for the the SSH connection to be ready. If the connection attempt fails,
+                # the subprocess will have the PID -1 assigned. This will make the PID (STDOUT, ...)
+                # observer fail in any case. However, if the connection attempt is successful, the
+                # subprocess will be alive as long as the remote process lives, thus the monitored PID
+                # will be the one of the subprocess. This is _not_ perfect, but as a first approximation
+                # this works quite well.
+                while pid_found is False and time.time() - now < 10:
+                    self.log.info("[SSH] Waiting for connection to host %s ..." % host)
                     try:
                         # Checks if there is any data on the pty
                         ready, _, _ = select.select([master], [], [], 0.1)
@@ -226,26 +232,38 @@ class ProcessExecutor():
                                     if not pid_found:
                                         tmp = data.strip()
                                         if tmp.isdigit():
+                                            # We don't use this yet, but in later versions
+                                            # there will be a remote PID observer which will
+                                            # make use of the inherit_pid. For now, as described
+                                            # above the subprocess PID will serve for monitoring
+                                            # purposes.
                                             inherit_pid = int(tmp)
                                             pid_found = True
-                                            self.log.info("--> [SSH] Connected to host %s " % host)
+                                            self.log.info("[SSH] Connected to host %s " % host)
                                             break
                     except Exception, e:
                         pass
+                    time.sleep(1)
 
                 self.pty_log_writer.setup(self.subprocess, self.log_file_name)
                 self.pty_log_runner = eventlet.spawn(self.pty_log_writer.logger)
 
-                # Remember its PID, the PID is a member of the POpen class
-                self.subprocess_pid = self.subprocess.pid
-                self.software_component.pid = str(self.subprocess_pid)
+                # Remember its PID, the PID is a member of the POpen class, if no pid found,
+                # e.g., SSH process is stale. Set PID = -1 in order to make all observers fail.
+                if pid_found is False:
+                    self.subprocess_pid = str(inherit_pid)
+                    self.software_component.pid = str(inherit_pid)
+                else:
+                    # Remember its PID, the PID is a member of the POpen class
+                    self.subprocess_pid = self.subprocess.pid
+                    self.software_component.pid = str(self.subprocess_pid)
 
                 the_time = time.time()
 
                 self.log.info(
                     ("--> [SSH] Launching " + "%s [%s] on host %s %sms since FSMT init"),
                     self.software_component.name,
-                    str(inherit_pid), host,
+                    str(self.subprocess_pid), host,
                     str(round((the_time - self.init_time), 3) * 1000))
 
                 # Make all the observers observe the program by starting their threads

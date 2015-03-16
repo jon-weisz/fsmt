@@ -17,15 +17,16 @@
                     <check_type blocking="False" criteria="" ongoing="False" timeout="3" val="pid" />
                 </check_execution>
             </component>
-            <component val="gedit-1">
+            <component val="firefox">
                 <command val="firefox" />
                 <path val="/usr/bin/" />
                 <execution_host val="thorium" />
                 <check_execution val="True">
-                    <check_type blocking="True" criteria="" ongoing="False" timeout="10" val="pid" />
+                    <check_type blocking="True" criteria="" ongoing="False" timeout="3" val="pid" />
+                    <check_type blocking="True" criteria="GLib-CRITICAL" ongoing="False" timeout="5" val="stdout" />
                 </check_execution>
             </component>
-            <component val="gedit-2">
+            <component val="calc">
                 <command val="gnome-calculator" />
                 <path val="/usr/bin/" />
                 <execution_host val="thorium" />
@@ -57,9 +58,9 @@
         <state id="state_0">
             <onentry>
                 <log expr="'Entering State: state_0'" label="INFO" />
-                <my_ns:execute_program value="gedit-2" />
+                <my_ns:execute_program value="calc" />
             </onentry>
-            <transition event="gedit-2.execute_program.success" target="state_0_1" />
+            <transition event="calc.execute_program.success" target="state_0_1" />
             <onexit>
                 <log expr="'Exiting State: state_0'" label="INFO" />
             </onexit>
@@ -67,9 +68,9 @@
         <state id="state_0_1">
             <onentry>
                 <log expr="'Entering State: state_0_1'" label="INFO" />
-                <my_ns:execute_program value="gedit-1" />
+                <my_ns:execute_program value="firefox" />
             </onentry>
-            <transition event="gedit-1.execute_program.success" target="pre_result_assessment_wait" />
+            <transition event="firefox.execute_program.success" target="pre_result_assessment_wait" />
             <onexit>
                 <log expr="'Exiting State: state_0_1'" label="INFO" />
             </onexit>
@@ -99,9 +100,9 @@
         <state id="assessment_state_0">
             <onentry>
                 <log expr="'Entering State: assessment_state_0'" label="INFO" />
-                <my_ns:execute_program value="gedit-1" />
+                <my_ns:execute_program value="firefox" />
             </onentry>
-            <transition event="gedit-1.execute_program.success" target="assessment_state_0_1" />
+            <transition event="firefox.execute_program.success" target="assessment_state_0_1" />
             <onexit>
                 <log expr="'Exiting State: assessment_state_0'" label="INFO" />
             </onexit>
@@ -109,9 +110,9 @@
         <state id="assessment_state_0_1">
             <onentry>
                 <log expr="'Entering State: assessment_state_0_1'" label="INFO" />
-                <my_ns:execute_program value="gedit-2" />
+                <my_ns:execute_program value="calc" />
             </onentry>
-            <transition event="gedit-2.execute_program.success" target="assessment_pre_exit_test_wait" />
+            <transition event="calc.execute_program.success" target="assessment_pre_exit_test_wait" />
             <onexit>
                 <log expr="'Exiting State: assessment_state_0_1'" label="INFO" />
             </onexit>
