@@ -35,7 +35,7 @@ import json
 import socket
 import string
 import random
-from websocket import create_connection
+# from websocket import create_connection
 
 
 class WebSocketConnection():
