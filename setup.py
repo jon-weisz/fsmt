@@ -33,8 +33,8 @@ Authors: Florian Lier, Norman Koester
 import subprocess
 from setuptools import setup, find_packages
 
-version = "master"
-filename = "master"
+version = "0.17"
+filename = "0.17"
 
 setup(name="fsmtest",
 
