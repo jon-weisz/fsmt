@@ -146,6 +146,8 @@ A remote (SSH) host on which the command will be run.
 
           Help configuring your SSH setup: https://help.ubuntu.com/community/SSH/OpenSSH/Keys
 
+.. note:: The LOCKFILE observer has not yet been implemented for remote execution!
+
 ::
 
 	check_execution = True
