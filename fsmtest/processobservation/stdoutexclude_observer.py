@@ -108,7 +108,7 @@ class StdoutexcludeObserver(ProcessObserver):
 
         if self.hit_timeout:
             if (time.time() - t0) < self.check_type.timeout:
-                self.log_cancel("'%s' timeout not reached. Bad!" % self.check_type.timeout)
+                self.log_cancel("timeout (%s) not reached. Bad!" % self.check_type.timeout)
                 self.log.debug("Exiting STDOUTEXCLUDE observer for %s", component_name)
                 self.end_thread = True
                 log_file.close()
@@ -120,9 +120,7 @@ class StdoutexcludeObserver(ProcessObserver):
         if self.check_type.ongoing:
             while not self.stop_ongoing:
                 # Reduce the CPU load a little
-                time.sleep(0.1)
                 try:
-                    # Get the last 20 lines of the logfile
                     log_lines = seek_read(log_file, file_pos)
                     been_read = len(log_lines)
                 except ValueError, e:
@@ -146,5 +144,6 @@ class StdoutexcludeObserver(ProcessObserver):
                         log_file.close()
                         return 1
                 file_pos += been_read
+                time.sleep(0.08)
         log_file.close()
         return 0

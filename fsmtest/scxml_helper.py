@@ -153,21 +153,16 @@ def extract_software_component(component_name,
             a_software_component.host)
 
     if not a_software_component.path_and_command_is_valid():
-        raise FaultyComponentException(
-            ("The defined component '%s' is faulty. The path/command does " +
-             "not exist: '%s' -- CWD '%s'") %
-            (component_name,
-             a_software_component.
-             get_complete_executable_path_with_arguments().split()[0],
-             os.getcwd()))
+        raise FaultyComponentException("Component %s is defective. The path or command does not exist: %s %s",
+                                       component_name,
+                                       a_software_component.get_complete_executable_path_with_arguments().split()[0],
+                                       os.getcwd())
 
     if a_software_component.check_execution is False:
-        log.warning(
-            "Execution checks are disabled for component %s!", component_name)
+        log.warning("Execution checks are disabled for component %s!", component_name)
 
     if a_software_component.check_execution is True and len(a_software_component.check_types) == 0:
-        log.warning(
-            "No execution checks defined for component %s!", component_name)
+        log.warning("Check execution is TRUE, but no criteria defined for component %s!", component_name)
 
     return a_software_component
 

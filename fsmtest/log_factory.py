@@ -140,16 +140,16 @@ class LogFactory(object):
         stream_level = 5
         center_integer = 5
         level_names = {
-            50: '[CRITICAL]'.center(center_integer),
-            40: '[ERROR]'.center(center_integer),
-            30: '[WARNING]'.center(center_integer),
+            50: '[CRIT]'.center(center_integer),
+            40: '[FAIL]'.center(center_integer),
+            30: '[WARN]'.center(center_integer),
             20: '[INFO]'.ljust(center_integer),
-            10: '[DEBUG]'.center(center_integer),
+            10: '[DEBG]'.center(center_integer),
             stream_level: '[STREAM]'.center(center_integer),
             0: '[NOTSET]'.center(center_integer),
-            '[CRITICAL]': 50, '[ERROR]': 40,
-            '[WARN]': 30, '[WARNING]': 30,
-            '[INFO]': 20, '[DEBUG]': 10,
+            '[CRIT]': 50, '[FAIL]': 40,
+            '[WARN]': 30, '[WARN]': 30,
+            '[INFO]': 20, '[DEBG]': 10,
             '[STREAM]': stream_level, '[NOTSET]': 0,
         }
 

@@ -142,7 +142,7 @@ class ProcessExecutor():
             the_time = time.time()
 
             self.log.info(
-                ("--> Launching " + "%s [%s] %sms since FSMT init"),
+                ("\x1b[94m--> Launching " + "%s [%s] %sms since FSMT init"),
                 self.software_component.name,
                 self.software_component.pid,
                 str(round((the_time - self.init_time), 3) * 1000))
@@ -184,8 +184,6 @@ class ProcessExecutor():
             return sub_proc_ret_code
 
         else:
-            # If we are on 'localhost' we use the native/faster approach of spawning local processes and logging in/out
-            # streams
             if self.software_component.host != "localhost":
 
                 # Open a PTY for reading and writing to logfile
@@ -219,7 +217,7 @@ class ProcessExecutor():
                 # will be the one of the subprocess. This is _not_ perfect, but as a first approximation
                 # this works quite well.
                 while pid_found is False and time.time() - now < 10:
-                    self.log.info("[SSH] Waiting for connection to host %s ..." % host)
+                    self.log.info("[SSH] Waiting for connection to host %s..." % host)
                     try:
                         # Checks if there is any data on the pty
                         ready, _, _ = select.select([master], [], [], 0.1)
@@ -243,7 +241,7 @@ class ProcessExecutor():
                                             break
                     except Exception, e:
                         pass
-                    time.sleep(1)
+                    time.sleep(0.1)
 
                 self.pty_log_writer.setup(self.subprocess, self.log_file_name)
                 self.pty_log_runner = eventlet.spawn(self.pty_log_writer.logger)
@@ -261,7 +259,7 @@ class ProcessExecutor():
                 the_time = time.time()
 
                 self.log.info(
-                    ("--> [SSH] Launching " + "%s [%s] on host %s %sms since FSMT init"),
+                    ("\x1b[94m--> [SSH] Launching " + "%s [%s] on host %s %sms since FSMT init"),
                     self.software_component.name,
                     str(self.subprocess_pid), host,
                     str(round((the_time - self.init_time), 3) * 1000))

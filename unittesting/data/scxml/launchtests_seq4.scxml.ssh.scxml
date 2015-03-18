@@ -1,4 +1,4 @@
-<scxml xmlns="http://www.w3.org/2005/07/scxml" xmlns:my_ns="de.unibi.citec.clf.fsmt" id="launchtest3" initial="initialise_test" version="1.0">
+<scxml xmlns="http://www.w3.org/2005/07/scxml" xmlns:my_ns="de.unibi.citec.clf.fsmt" id="launchtest4" initial="initialise_test" version="1.0">
     <datamodel>
         <data id="environment">
             <variable val="/usr/bin" var="release_prefix" />
@@ -12,26 +12,25 @@
             <component val="default">
                 <command val="ls $FSMFSM" />
                 <path val="/bin/" />
-                <execution_host val="localhost" />
+                <execution_host val="thorium" />
                 <check_execution val="True">
                     <check_type blocking="False" criteria="" ongoing="False" timeout="3" val="pid" />
                 </check_execution>
             </component>
-            <component val="firefox">
-                <command val="firefox" />
-                <path val="/usr/bin/" />
+            <component val="timed-1">
+                <command val="fsmt_exouttimed 6 1" />
+                <path val="$WORKSPACE/bin/" />
                 <execution_host val="thorium" />
                 <check_execution val="True">
-                    <check_type blocking="True" criteria="" ongoing="False" timeout="3" val="pid" />
-                    <check_type blocking="True" criteria="GLib-CRITICAL" ongoing="False" timeout="5" val="stdout" />
+                    <check_type blocking="False" criteria="FINDME" ongoing="False" timeout="3" val="stdout" />
                 </check_execution>
             </component>
-            <component val="calc">
-                <command val="gnome-calculator" />
-                <path val="/usr/bin/" />
+            <component val="timed-2">
+                <command val="fsmt_exouttimed 6 1" />
+                <path val="$WORKSPACE/bin/" />
                 <execution_host val="thorium" />
                 <check_execution val="True">
-                    <check_type blocking="True" criteria="" ongoing="False" timeout="10" val="pid" />
+                    <check_type blocking="False" criteria="FINDME" ongoing="False" timeout="3" val="stdout" />
                 </check_execution>
             </component>
         </data>
@@ -58,9 +57,9 @@
         <state id="state_0">
             <onentry>
                 <log expr="'Entering State: state_0'" label="INFO" />
-                <my_ns:execute_program value="calc" />
+                <my_ns:execute_program value="timed-2" />
             </onentry>
-            <transition event="calc.execute_program.success" target="state_0_1" />
+            <transition event="timed-2.execute_program.success" target="state_0_1" />
             <onexit>
                 <log expr="'Exiting State: state_0'" label="INFO" />
             </onexit>
@@ -68,21 +67,21 @@
         <state id="state_0_1">
             <onentry>
                 <log expr="'Entering State: state_0_1'" label="INFO" />
-                <my_ns:execute_program value="firefox" />
+                <my_ns:execute_program value="timed-1" />
             </onentry>
-            <transition event="firefox.execute_program.success" target="pre_result_assessment_wait" />
+            <transition event="timed-1.execute_program.success" target="pre_result_assessment_wait" />
             <onexit>
                 <log expr="'Exiting State: state_0_1'" label="INFO" />
             </onexit>
         </state>
         <state id="pre_result_assessment_wait">
             <onentry>
-                <log expr="'Entering State: Wait (Collecting data for 3 seconds)'" label="INFO" />
-                <send delay="'3s'" event="wait.finish" />
+                <log expr="'Entering State: Wait (collecting data for 4 seconds)'" label="INFO" />
+                <send delay="'4s'" event="wait.finish" />
             </onentry>
             <transition event="wait.finish" target="result_assessment" />
             <onexit>
-                <log expr="'Exiting State: Wait (Collected data for 3 seconds)'" label="INFO" />
+                <log expr="'Exiting State: Wait (collected data for 4 seconds)'" label="INFO" />
             </onexit>
         </state>
     </state>
@@ -100,9 +99,9 @@
         <state id="assessment_state_0">
             <onentry>
                 <log expr="'Entering State: assessment_state_0'" label="INFO" />
-                <my_ns:execute_program value="firefox" />
+                <my_ns:execute_program value="timed-2" />
             </onentry>
-            <transition event="firefox.execute_program.success" target="assessment_state_0_1" />
+            <transition event="timed-2.execute_program.success" target="assessment_state_0_1" />
             <onexit>
                 <log expr="'Exiting State: assessment_state_0'" label="INFO" />
             </onexit>
@@ -110,21 +109,21 @@
         <state id="assessment_state_0_1">
             <onentry>
                 <log expr="'Entering State: assessment_state_0_1'" label="INFO" />
-                <my_ns:execute_program value="calc" />
+                <my_ns:execute_program value="timed-1" />
             </onentry>
-            <transition event="calc.execute_program.success" target="assessment_pre_exit_test_wait" />
+            <transition event="timed-1.execute_program.success" target="assessment_pre_exit_test_wait" />
             <onexit>
                 <log expr="'Exiting State: assessment_state_0_1'" label="INFO" />
             </onexit>
         </state>
         <state id="assessment_pre_exit_test_wait">
             <onentry>
-                <log expr="'Entering State: Wait (Collecting data for 3 seconds)'" label="INFO" />
-                <send delay="'3s'" event="wait.finish" />
+                <log expr="'Entering State: Wait (collecting data for 4 seconds)'" label="INFO" />
+                <send delay="'4s'" event="wait.finish" />
             </onentry>
             <transition event="wait.finish" target="exit_test" />
             <onexit>
-                <log expr="'Exiting State: Wait (Collected data for 3 seconds)'" label="INFO" />
+                <log expr="'Exiting State: Wait (collected data for 4 seconds)'" label="INFO" />
             </onexit>
         </state>
     </state>

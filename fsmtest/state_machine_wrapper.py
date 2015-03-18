@@ -133,7 +133,7 @@ def custom_executable(node, something):
     :param node:
     :param something:
     """
-    global all_program_executors, all_program_observers, negative_result, final_cleanup, websocket_connection
+    global all_program_executors, all_program_observers, negative_result, final_cleanup
 
     execution_tag = node.tag[1:].split("}")[1]
     component_name = node.get("value")
@@ -162,7 +162,6 @@ def custom_executable(node, something):
                 pe_pipe, a_software_component,
                 system_environment,
                 state_machine.log_folder_logs,
-                # state_machine.log_folder,
                 state_machine.init_time,
                 state_machine)
             # Add the component to the Communicator
@@ -181,17 +180,14 @@ def custom_executable(node, something):
                 log.debug("No blocking observers are active")
 
             current_component_xunit_testcase.test_type = "success"
-
             log.debug("Execute component (%s) is done!", component_name)
 
         except FaultyComponentException, e:
             current_component_xunit_testcase.contents = str(sys.exc_traceback.tb_lineno) + str(e)
-
             log.error("Error while executing a user defined component. %s", str(e))
             state_machine.send("execute_program.fail")
 
         except Exception, e:
-
             current_component_xunit_testcase.contents = str(sys.exc_traceback.tb_lineno) + str(e)
             log.error("A wild error occurred while executing component '%s'", component_name)
             log.debug("Error in line %s! Message: %s", sys.exc_traceback.tb_lineno, e)
@@ -239,7 +235,7 @@ def custom_executable(node, something):
             id_obs = 0
             for observer_list in all_program_observers:
                 id_obs += len(observer_list)
-            log.debug(">> We have %d observers configured, shutdown now", id_obs)
+            log.debug("We have %d observers configured, shutdown now", id_obs)
             id_obs = 0
             obs_idx = 0
 
@@ -274,8 +270,13 @@ def custom_executable(node, something):
             # for the return value of the GreenThread which has spawned the
             # subprocess
             log.debug("Closing log writer for %s (%s)", name, pid)
-            one_program_executor.pty_log_writer.close_logger()
-            logger_status = one_program_executor.pty_log_runner.wait()
+
+            try:
+                one_program_executor.pty_log_writer.close_logger()
+                logger_status = one_program_executor.pty_log_runner.wait()
+            except Exception, e:
+                logger_status = 1
+
             if logger_status != 0:
                 log.debug("Log writer was closed >> Force Quit")
             else:
@@ -320,6 +321,7 @@ def custom_executable(node, something):
                 message["events"].append(insert)
                 state_machine.wsconn.set_current_message(message)
                 state_machine.wsconn.send_update()'''
+
             state_machine.exit_watcher.close(True)
         else:
             log.log(5, "%s" % "\n\
@@ -371,6 +373,7 @@ def custom_executable(node, something):
                     message["events"].append(insert)
                     state_machine.wsconn.set_current_message(message)
                     state_machine.wsconn.send_update()'''
+
             final_cleanup = True
 
     else:

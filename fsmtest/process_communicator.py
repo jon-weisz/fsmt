@@ -122,14 +122,14 @@ class ProcessCommunicator():
 
         # Abort if CTRL+C was hit in between
         if state_machine.exit_grace is True:
-            state_machine.log.warning("CTRL+C was hit befor %s was started", software_component.name)
-            status.append("(%s) never ran" % software_component.name)
+            state_machine.log.warning("CTRL+C was hit before %s was started", software_component.name)
+            status.append("%s never ran" % software_component.name)
             state_machine.send("external_abortion")
 
         # Abort if check_execution is FALSE
-        # If chech_execution is DISABLED, we fire a SUCCESS event and return in this observer anyway and always.
+        # If check_execution is DISABLED, we fire a SUCCESS event and return in this observer anyway and always.
         if software_component.check_execution is False or number_of_observers_to_wait_for == 0:
-            state_machine.log.warning("[%s] Execution check is disabled", software_component.name)
+            state_machine.log.debug("[%s] Execution check is disabled", software_component.name)
             global_success_event_sent = True
 
             if software_component.execution_type == "parallel":
@@ -142,9 +142,8 @@ class ProcessCommunicator():
             # Return, because CheckExec is disabled
             status.append("(%s) returned, check_execution == False" % software_component.name)
 
-        # Log that we start and for how many observers we wait
-        state_machine.log.debug("[%s] communicator is waiting for %d observers", software_component.name,
-                                number_of_observers_to_wait_for)
+        # Log that we start and for how many observers we wait, do not linebreak this line
+        state_machine.log.debug("[%s] communicator is waiting for %d observers", software_component.name, number_of_observers_to_wait_for)
 
         while number_of_observers_to_wait_for > 0:
 
@@ -187,9 +186,7 @@ class ProcessCommunicator():
                         software_component.name,
                         exchange_data.info_to_string())
                 else:
-                    state_machine.log.debug(
-                        "Communicator (%s) got _NEGATIVE_ data back: %s", software_component.name,
-                        exchange_data.info_to_string())
+                    state_machine.log.debug("Communicator (%s) got _NEGATIVE_ data back: %s", software_component.name, exchange_data.info_to_string())
                 status.append("(%s) %s returned!" % (software_component.name, exchange_data.type))
 
                 # Do updates of the software_component if necessary
