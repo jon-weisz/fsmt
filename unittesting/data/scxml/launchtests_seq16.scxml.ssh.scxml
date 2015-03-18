@@ -1,7 +1,7 @@
 <scxml xmlns="http://www.w3.org/2005/07/scxml" xmlns:my_ns="de.unibi.citec.clf.fsmt" id="launchtest1" initial="initialise_test" version="1.0">
     <datamodel>
         <data id="environment">
-            <variable val="/homes/flier/dev/fsmt/fsmt-0.18/bin/" var="fsmt_prefix" />
+            <variable val="$WORKSPACE/bin/" var="fsmt_prefix" />
         </data>
         <data id="hosts">
             <hostinfo ip="127.0.0.1" name="localhost" />
