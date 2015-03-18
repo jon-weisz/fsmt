@@ -11,7 +11,7 @@
             <component val="default">
                 <command val="ls $FSMFSM" />
                 <path val="/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                     <check_type blocking="False" criteria="" ongoing="False" timeout="3" val="pid" />
                 </check_execution>
@@ -19,7 +19,7 @@
             <component val="fsmt_exsilent-1">
                 <command val="fsmt_exsilent" />
                 <path val="$WORKSPACE/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="False">
                             
                         </check_execution>
@@ -27,7 +27,7 @@
             <component val="fsmt_exsilent-2">
                 <command val="fsmt_exsilent" />
                 <path val="$WORKSPACE/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="False">
                     <check_type blocking="False" criteria="" ongoing="True" timeout="1" val="pid" />
                 </check_execution>
@@ -35,7 +35,7 @@
             <component val="fsmt_exsilent-3">
                 <command val="fsmt_exsilent" />
                 <path val="$WORKSPACE/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                             
                         </check_execution>

@@ -10,7 +10,7 @@
             <component val="default">
                 <command val="ls $FSMFSM" />
                 <path val="/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                     <check_type blocking="False" criteria="" ongoing="False" timeout="3" val="pid" />
                 </check_execution>
@@ -18,7 +18,7 @@
             <component val="pid_lock-1">
                 <command val="fsmt_exlockouttimed 3 2 /tmp/.some_lock_file" />
                 <path val="$WORKSPACE/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                     <check_type blocking="True" criteria="" ongoing="False" timeout="1" val="pid" />
                     <check_type blocking="True" criteria="/tmp/.some_lock_file" ongoing="False" timeout="1" val="lockfile" />
@@ -27,7 +27,7 @@
             <component val="out_lock-1">
                 <command val="fsmt_exlockouttimed 7 3 /tmp/.some_lock_file" />
                 <path val="$WORKSPACE/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                     <check_type blocking="True" criteria="" ongoing="False" timeout="1" val="pid" />
                     <check_type blocking="True" criteria="FINDME" ongoing="False" timeout="4" val="stdout" />
@@ -36,7 +36,7 @@
             <component val="out_lock-2">
                 <command val="fsmt_exlockouttimed 7 3 /tmp/.some_lock_file" />
                 <path val="$WORKSPACE/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                     <check_type blocking="True" criteria="/tmp/.some_lock_file" ongoing="False" timeout="1" val="lockfile" />
                     <check_type blocking="True" criteria="FINDME" ongoing="False" timeout="4" val="stdout" />
@@ -45,7 +45,7 @@
             <component val="out_lock-3">
                 <command val="fsmt_exlockouttimed 7 3 /tmp/.some_lock_file" />
                 <path val="$WORKSPACE/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                     <check_type blocking="True" criteria="" ongoing="False" timeout="1" val="pid" />
                     <check_type blocking="True" criteria="/tmp/.some_lock_file" ongoing="False" timeout="1" val="lockfile" />

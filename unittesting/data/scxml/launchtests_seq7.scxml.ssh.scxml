@@ -12,7 +12,7 @@
             <component val="default">
                 <command val="ls $FSMFSM" />
                 <path val="/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                     <check_type blocking="False" criteria="" ongoing="False" timeout="3" val="pid" />
                 </check_execution>
@@ -20,7 +20,7 @@
             <component val="timed-1">
                 <command val="fsmt_exouttimed 3 2" />
                 <path val="$WORKSPACE/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                     <check_type blocking="True" criteria="" ongoing="True" timeout="1" val="pid" />
                 </check_execution>
@@ -28,7 +28,7 @@
             <component val="timed-2">
                 <command val="fsmt_exouttimed 6 1" />
                 <path val="$WORKSPACE/bin/" />
-                <execution_host val="thorium" />
+                <execution_host val="$HOSTNAME" />
                 <check_execution val="True">
                     <check_type blocking="True" criteria="" ongoing="False" timeout="1" val="pid" />
                     <check_type blocking="True" criteria="FINDME" ongoing="False" timeout="3" val="stdout" />
