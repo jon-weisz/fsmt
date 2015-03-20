@@ -463,7 +463,8 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
     """
 
     if not silent:
-        print "\nWARNING: BETA Version"
+        print "\nFSMT INI PARSER"
+        print "WARNING: BETA Version"
         print "WARNING: Not all features may work as expected"
     try:
         #======================================================================
@@ -511,17 +512,13 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
         software_components_final = ""
         software_components_final += TsoftwareDefaultAssessmentComponent + '\n'
         for a_section in config.sections():
-            if 'component-' in a_section and config.has_option(a_section,
-                                                               'name'):
+            if 'component-' in a_section and config.has_option(a_section, 'name'):
                 section_values = dict(config.items(a_section))
-                check_type_options = ['check_type', 'timeout',
-                                      'blocking', 'ongoing', 'criteria']
-                check_type_tuple_dict = get_tuples(
-                    config, a_section, check_type_options)
+                check_type_options = ['check_type', 'timeout', 'blocking', 'ongoing', 'criteria']
+                check_type_tuple_dict = get_tuples(config, a_section, check_type_options)
                 all_check_types_final = ''
 
-                for cur_num in \
-                    range(0, len(check_type_tuple_dict['check_type'])):
+                for cur_num in range(0, len(check_type_tuple_dict['check_type'])):
 
                     if check_type_tuple_dict['check_type'][cur_num] != '':
                         a_check_type_option_dict = {}
@@ -590,10 +587,10 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
                 'target': last_elem_target_name}
             return run_states_final, parallel_counters_final
 
-        print "Phase 1/2 ... done "
+        # print "Phase 1/2 ... done "
         run_states_final, parallel_counters_final = order_to_scxml_convert(
             run_order, wait_duration=execution_duration)
-        print "Phase 2/2 ... done ",
+        # print "Phase 2/2 ... done ",
         assessment_states_final, \
             assessment_parallel_counters_final = order_to_scxml_convert(
                 assessment_order, state_name_prefix="assessment_",
@@ -629,11 +626,10 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
         # Register namespaces
         ET.register_namespace('my_ns', namespace)
         ET.register_namespace('', "http://www.w3.org/2005/07/scxml")
+        pars = ET.XMLParser(encoding="utf-8")
         # Read the raw example scxml and find nodes
-        tree = ET.parse(StringIO.StringIO(total_scxml_final))
-        # root = tree.getroot()\
+        tree = ET.parse(StringIO.StringIO(total_scxml_final), parser=pars)
         # TODO: append elements into tree by using the tree object instead of %
-        # string
 
         indent(tree.getroot())
         tree.write(output_path)
@@ -641,7 +637,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
             print "\nFinish! Result written to '%s'!\n\n" % output_path
 
     except:
-        print "Catched error while converting :( "
+        print "Catched error while converting"
         print "######## Traceback: #########"
         tb = traceback.format_exc()
     else:
