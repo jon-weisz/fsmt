@@ -128,7 +128,7 @@ class ProcessExecutor():
 
             # Execute the command
             self.subprocess = subprocess.Popen(
-                cmd,
+                "exec "+cmd,
                 shell=True, stdin=slave, stdout=slave, stderr=slave,
                 bufsize=8192, executable='/bin/bash', env=self.environment_map)
 
