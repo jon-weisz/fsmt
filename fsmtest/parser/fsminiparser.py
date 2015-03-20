@@ -626,7 +626,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
         # Register namespaces
         ET.register_namespace('my_ns', namespace)
         ET.register_namespace('', "http://www.w3.org/2005/07/scxml")
-        pars = ET.XMLParser(recover=True)
+        pars = ET.XMLParser(encoding="utf-8")
         # Read the raw example scxml and find nodes
         tree = ET.parse(StringIO.StringIO(total_scxml_final), parser=pars)
         # TODO: append elements into tree by using the tree object instead of %
