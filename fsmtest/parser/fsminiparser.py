@@ -463,9 +463,9 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
     """
 
     if not silent:
-        print "\nFSMT INI PARSER"
-        print "WARNING: BETA Version"
-        print "WARNING: Not all features may work as expected"
+        print "\n\x1b[94m--> FSMT INI PARSER \x1b[0m"
+        print "WARNING - BETA Version"
+        print "WARNING - Not all features may work as expected"
     try:
         #======================================================================
         # PARSINT INTITIALISATION
@@ -634,7 +634,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
         indent(tree.getroot())
         tree.write(output_path)
         if not silent:
-            print "\nFinish! Result written to '%s'!\n\n" % output_path
+            print "\nFINISHED - Result written to file --> \x1b[37m'%s'\n" % output_path
 
     except:
         print "Catched error while converting"
