@@ -37,6 +37,7 @@ Authors: Florian Lier, Norman Koester
 
 import os
 import sys
+import pty
 import subprocess
 
 
@@ -56,9 +57,10 @@ if __name__ == '__main__':
         sys.exit(1)
 
     def run_vdemo_component(component_name):
-        cmd = ". "+component_name+"; component"
+        master, slave = pty.openpty()
+        cmd = "source "+component_name+"; component"
         print ">> Running: ", cmd
-        s = subprocess.Popen(cmd, shell=True, bufsize=8192, executable='/bin/bash', env=os.environ.copy())
+        s = subprocess.Popen(cmd, shell=True, stdin=slave, bufsize=8192, executable='/bin/bash', env=os.environ.copy())
         s.wait()
 
     run_vdemo_component(full_path)
