@@ -509,6 +509,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
         #======================================================================
         software_components_final = ""
         software_components_final += TsoftwareDefaultAssessmentComponent + '\n'
+        print ""
         for a_section in config.sections():
             if 'component-' in a_section and config.has_option(a_section, 'name'):
                 section_values = dict(config.items(a_section))
@@ -531,6 +532,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
                 section_values['check_types'] = all_check_types_final
 
             # %(name)s, %(command)s, %(path)s, %(host)s, %(check_executionFlag)s
+                print "COMPONENT -", section_values['path']+section_values['command']
                 a_software_component = TsoftwareComponent % section_values
                 software_components_final += a_software_component + '\n'
 
