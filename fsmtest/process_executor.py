@@ -128,7 +128,7 @@ class ProcessExecutor():
 
             # Execute the command
             self.subprocess = subprocess.Popen(
-                "exec " + cmd,
+                cmd,
                 shell=True, stdin=slave, stdout=slave, stderr=slave,
                 bufsize=8192, executable='/bin/bash', env=self.environment_map)
 
@@ -149,6 +149,8 @@ class ProcessExecutor():
                 self.software_component.name,
                 self.software_component.pid,
                 str(round((the_time - self.init_time), 3) * 1000))
+
+            self.log.info("\x1b[94m---> "+cmd)
 
             # Make all the observers observe the program by starting their threads
             self.log.debug("(%s) Starting all observer threads" % self.software_component.name)
@@ -266,6 +268,8 @@ class ProcessExecutor():
                     self.software_component.name,
                     str(self.subprocess_pid), host,
                     str(round((the_time - self.init_time), 3) * 1000))
+
+                self.log.info("\x1b[94m---> [SSH] "+ssh_cmd)
 
                 # Make all the observers observe the program by starting their threads
                 self.log.debug("(%s) Starting all observer threads" % self.software_component.name)
