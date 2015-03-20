@@ -30,14 +30,14 @@ Authors: Florian Lier, Norman Koester
 
 """
 
-
+import sys
 import types
 import StringIO
 import traceback
 import ConfigParser
 from optparse import OptionParser
 import xml.etree.ElementTree as ET
-import sys
+
 
 Tscxml_body = """<?xml version="1.0" encoding="UTF-8"?>
             <scxml  xmlns="http://www.w3.org/2005/07/scxml"
@@ -465,7 +465,7 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
     if not silent:
         print "\n\x1b[94m--> FSMT INI PARSER \x1b[0m"
         print "WARNING - BETA Version"
-        print "WARNING - Not all features may work as expected"
+        print "WARNING - Not All Features May Work As Expected"
     try:
         #======================================================================
         # PARSINT INTITIALISATION
@@ -479,19 +479,17 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
         run_order = config.get('run', 'run_order')
 
         # Namespace setting
-        # Using this isntead of config.get('run', 'namespace')
+        # Using this instead of config.get('run', 'namespace')
         namespace = "de.unibi.citec.clf.fsmt"
 
         # Unsafe but easy
         run_order = eval('(' + run_order + ')')
         execution_duration = config.get('run', 'run_execution_duration')
-        result_assessment_execution_duration = config.get(
-            'run', 'result_assessment_execution_duration')
+        result_assessment_execution_duration = config.get('run', 'result_assessment_execution_duration')
 
         assessment_order = config.get('run', 'result_assessment_order')
         if not assessment_order:
-            print "WARNING: No assessment component has been set" + \
-                " Creating a default \'ls\' component.\n"
+            print "WARNING: No assessment component has been set. Creating a default \'ls\' component.\n"
             assessment_order = '(\'default\',),'
         assessment_order = eval('(' + assessment_order + ')')
 

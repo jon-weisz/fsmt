@@ -184,7 +184,7 @@ def custom_executable(node, something):
 
         except FaultyComponentException, e:
             current_component_xunit_testcase.contents = str(sys.exc_traceback.tb_lineno) + str(e)
-            log.error("Error while executing a user defined component. %s", str(e))
+            log.error("%s", e)
             state_machine.send("execute_program.fail")
 
         except Exception, e:

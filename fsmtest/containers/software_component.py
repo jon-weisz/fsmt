@@ -79,8 +79,7 @@ class SoftwareComponent(object):
             return False
         if self.path is None:
             return False
-        if not os.path.exists(
-                self.get_complete_executable_path_with_arguments().split()[0]):
+        if not os.path.exists(self.get_complete_executable_path_with_arguments().split()[0]):
             return False
         return True
 
