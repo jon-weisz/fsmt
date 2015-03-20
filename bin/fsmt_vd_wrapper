@@ -1,0 +1,64 @@
+#! /usr/bin/python
+
+"""
+
+This file is part of FINITE STATE MACHINE BASED TESTING.
+
+Copyright(c) <Florian Lier, Norman Koester>
+http://opensource.cit-ec.de/fsmt
+
+This file may be licensed under the terms of the
+GNU Lesser General Public License Version 3 (the ``LGPL''),
+or (at your option) any later version.
+
+Software distributed under the License is distributed
+on an ``AS IS'' basis, WITHOUT WARRANTY OF ANY KIND, either
+express or implied. See the LGPL for the specific language
+governing rights and limitations.
+
+You should have received a copy of the LGPL along with this
+program. If not, go to http://www.gnu.org/licenses/lgpl.html
+or write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+The development of this software was supported by the
+Excellence Cluster EXC 277 Cognitive Interaction Technology.
+The Excellence Cluster EXC 277 is a grant of the Deutsche
+Forschungsgemeinschaft (DFG) in the context of the German
+Excellence Initiative.
+
+Authors: Florian Lier, Norman Koester
+<flier, nkoester>@techfak.uni-bielefeld.de
+
+"""
+
+# This is a wrapper script for the BIELEFELD VDEMO System Startup
+# Framework.
+
+import os
+import sys
+import subprocess
+
+
+if __name__ == '__main__':
+
+    prefix = os.environ['prefix']
+    path = prefix+"/etc/vdemo_scripts/component_scripts/"
+    if not prefix:
+        print ">> $prefix is not set"
+        sys.exit(1)
+    if len(sys.argv) < 2:
+        print ">> Please provide a VDEMO component script"
+        sys.exit(1)
+    full_path = path+sys.argv[1]
+    if not os.path.isfile(full_path):
+        print ">> Component script does not exist %s" % str(full_path)
+        sys.exit(1)
+
+    def run_vdemo_component(component_name):
+        cmd = ". "+component_name+"; component"
+        print ">> Running: ", cmd
+        s = subprocess.Popen(cmd, shell=True, bufsize=8192, executable='/bin/bash', env=os.environ.copy())
+        s.wait()
+
+    run_vdemo_component(full_path)
