@@ -38,6 +38,7 @@ Authors: Florian Lier, Norman Koester
 import os
 import sys
 import pty
+import select
 import subprocess
 
 
@@ -57,10 +58,23 @@ if __name__ == '__main__':
         sys.exit(1)
 
     def run_vdemo_component(component_name):
-        # master, slave = pty.openpty()
+        master, slave = pty.openpty()
         cmd = "source "+component_name+"; component; fg; sleep 1; fg;"
         print ">> Running: ", cmd
-        s = subprocess.Popen(cmd, shell=True, bufsize=-1, executable='/bin/bash', env=os.environ.copy())
+        s = subprocess.Popen(cmd, shell=True, stdin=slave, stderr=slave, stdout=slave, bufsize=-1, executable='/bin/bash', env=os.environ.copy())
+        while s.poll() is None:
+                    try:
+                        # Checks if there is any data on the pty
+                        ready, _, _ = select.select([master], [], [], 0.1)
+                        # This line actually reads from the pty
+                        if ready:
+                                data = os.read(master, 5)
+                                if not data:
+                                    continue
+                                else:
+                                    print data
+                    except Exception, e:
+                        pass
         s.wait()
         print ">> Exiting"
 
