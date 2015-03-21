@@ -76,8 +76,6 @@ if __name__ == '__main__':
                     except Exception, e:
                         pass
         s.wait()
-        s.terminate()
-        s.kill()
         print ">> Exiting"
 
     run_vdemo_component(full_path)
