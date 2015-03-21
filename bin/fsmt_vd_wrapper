@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
     def run_vdemo_component(component_name):
         master, slave = pty.openpty()
-        cmd = "source "+component_name+"; component; while [ true ]; do fg; done"
+        cmd = "source "+component_name+"; component; read"
         print ">> Running: ", cmd
         s = subprocess.Popen(cmd, shell=True, stdin=slave, stderr=slave, stdout=slave, bufsize=8192, executable='/bin/bash', env=os.environ.copy())
         while s.poll() is None:
