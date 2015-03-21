@@ -58,13 +58,6 @@ if __name__ == '__main__':
         print ">> Component script does not exist %s" % str(full_path)
         sys.exit(1)
 
-    def kill_child_processes(parent_pid):
-        if os.path.exists("/proc/%s" % parent_pid):
-            a_process = psutil.Process(int(parent_pid))
-            proc_children = a_process.get_children()
-            for p in proc_children:
-                kill_child_processes(p)
-
     def run_vdemo_component(component_name):
         master, slave = pty.openpty()
         cmd = "source "+component_name+"; component; read"
@@ -83,12 +76,7 @@ if __name__ == '__main__':
                                     print data
                     except Exception, e:
                         pass
-        _pid = s.pid
         s.wait()
-        a_process = psutil.Process(int(_pid))
-        proc_children = a_process.get_children()
-        for p in proc_children:
-                kill_child_processes(p.pid)
         print ">> Exiting"
 
     run_vdemo_component(full_path)
