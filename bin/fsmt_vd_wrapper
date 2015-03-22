@@ -71,8 +71,8 @@ if __name__ == '__main__':
         rm_s = subprocess.Popen(rm_cmd, executable='/bin/bash', shell=True)
 	rm_s.wait()
 
-        cmd = "xterm -l -lf " + logfile + " -e \"source %s; component; read\"" % path
-        # print ">> Running: %s" % cmd
+        cmd = "exec xterm -l -lf " + logfile + " -e \"fsmt_spawn_vd %s\"" % path
+        print ">> Running: %s" % cmd
         proc_s = subprocess.Popen(cmd, env=os.environ.copy(), executable='/bin/bash', shell=True)
         
         file_position = 0
@@ -98,4 +98,7 @@ if __name__ == '__main__':
         log_file.close()
 	print ">> Exiting"
 
-    run_vdemo_component(full_path, name)
+    try:
+    	run_vdemo_component(full_path, name)
+    except Exception:
+	pass
