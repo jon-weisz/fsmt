@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# This is a wrapper script for the BIELEFELD VDEMO System Startup Framework.
-
-/bin/bash -ic "source $1 && component"

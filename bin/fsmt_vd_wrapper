@@ -71,7 +71,7 @@ if __name__ == '__main__':
         rm_s = subprocess.Popen(rm_cmd, executable='/bin/bash', shell=True)
 	rm_s.wait()
 
-        cmd = "exec xterm -l -lf " + logfile + " -e \"fsmt_spawn_vd %s\"" % path
+        cmd = "exec xterm -l -lf " + logfile + " -e \"fsmt_vd_spawn %s\"" % path
         print ">> Running: %s" % cmd
         proc_s = subprocess.Popen(cmd, env=os.environ.copy(), executable='/bin/bash', shell=True)
         
