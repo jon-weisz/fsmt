@@ -38,10 +38,8 @@ Authors: Florian Lier, Norman Koester
 import os
 import sys
 import pty
-import select
-import psutil
+import time
 import subprocess
-
 
 if __name__ == '__main__':
 
@@ -53,30 +51,51 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print ">> Please provide a VDEMO component script"
         sys.exit(1)
+    name = sys.argv[1]
     full_path = path+sys.argv[1]
     if not os.path.isfile(full_path):
         print ">> Component script does not exist %s" % str(full_path)
         sys.exit(1)
 
-    def run_vdemo_component(component_name):
-        master, slave = pty.openpty()
-        cmd = "source "+component_name+"; component; read"
-        print ">> Running: ", cmd
-        s = subprocess.Popen(cmd, shell=True, stdin=slave, stderr=slave, stdout=slave, bufsize=8192, executable='/bin/bash', env=os.environ.copy())
-        while s.poll() is None:
-                    try:
-                        # Checks if there is any data on the pty
-                        ready, _, _ = select.select([master], [], [], 0.1)
-                        # This line actually reads from the pty
-                        if ready:
-                                data = os.read(master, 8192)
-                                if not data:
-                                    continue
-                                else:
-                                    print data
-                    except Exception, e:
-                        pass
-        s.wait()
-        print ">> Exiting"
+    def seek_read(f, _pos):
+    	pos = _pos
+    	data = []
+	f.seek(pos, 0)
+    	data.append(f.read(512))
+    	return '\n'.join(''.join(data).splitlines()[:])
 
-    run_vdemo_component(full_path)
+    def run_vdemo_component(path, _name):
+        logfile = "/tmp/"+_name+"_vdemo_wrapper.log"
+
+        rm_cmd = "rm -f %s" % logfile
+        rm_s = subprocess.Popen(rm_cmd, executable='/bin/bash', shell=True)
+	rm_s.wait()
+
+        cmd = "xterm -l -lf " + logfile + " -e \"source %s; component; read\"" % path
+        # print ">> Running: %s" % cmd
+        proc_s = subprocess.Popen(cmd, env=os.environ.copy(), executable='/bin/bash', shell=True)
+        
+        file_position = 0
+	been_read = 0
+
+	while not os.path.exists(logfile):
+		time.sleep(0.001)
+
+       	log_file = open(logfile, mode="r")
+
+        while proc_s.poll() is None:
+            try:
+                log_lines = seek_read(log_file, file_position)
+                been_read = len(log_lines)
+                if log_lines != "" and log_lines != "\n" and been_read != 0:
+                	print log_lines
+			file_position += been_read
+            except Exception, e:
+   		print e
+	    time.sleep(0.05)
+        
+        proc_s.wait()
+        log_file.close()
+	print ">> Exiting"
+
+    run_vdemo_component(full_path, name)
