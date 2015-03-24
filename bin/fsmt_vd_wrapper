@@ -84,7 +84,7 @@ if __name__ == '__main__':
         file_position = 0
         been_read = 0
 
-        '''while not os.path.exists(logfile):
+        while not os.path.exists(logfile):
             time.sleep(0.001)
 
         log_file = open(logfile, mode="r")
@@ -98,7 +98,7 @@ if __name__ == '__main__':
                     file_position += been_read
             except Exception:
                 pass
-            time.sleep(0.05)'''
+            time.sleep(0.05)
 
         this_pid = proc_s.pid
         proc_s.wait()
@@ -117,7 +117,7 @@ if __name__ == '__main__':
             print("Couldn't kill child process with pid %s" % pid)
         else:
             child.wait(timeout=3)
-        # log_file.close()
+        log_file.close()
         print ">> Exiting"
 
     try:
