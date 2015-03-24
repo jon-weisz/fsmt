@@ -74,7 +74,7 @@ if __name__ == '__main__':
         current_env = os.environ.copy()
         current_env['STY'] = "1337.bla.{name}_".format(name=_name.replace("component_", ""))
 
-        cmd = "xterm -l -lf " + logfile + " -e \"fsmt_vd_spawn %s\"" % path
+        cmd = "exec xterm -l -lf " + logfile + " -e \"fsmt_vd_spawn %s\"" % path
         print ">> Running: %s" % cmd
         proc_s = subprocess.Popen(cmd, env=current_env, executable='/bin/bash', shell=True)
 
