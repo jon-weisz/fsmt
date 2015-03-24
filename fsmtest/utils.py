@@ -119,7 +119,7 @@ def kill_pid(pid, log):
     """
 
     # Double check children
-    this_process = psutil.Process(int(pid))
+    '''this_process = psutil.Process(int(pid))
     pids = set()
     for p in this_process.get_children(recursive=True):
         pids.add(p.pid)
@@ -134,7 +134,7 @@ def kill_pid(pid, log):
     except psutil.AccessDenied:
         log.warning("Couldn't kill child process with pid %s" % pid)
     else:
-        child.wait(timeout=3)
+        child.wait(timeout=3)'''
 
     p = psutil.Process(int(pid))
     if p.is_running():
