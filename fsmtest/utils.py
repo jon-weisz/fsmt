@@ -121,15 +121,15 @@ def kill_pid(pid, log):
     if p.is_running():
         log.info("---* Sending SIGINT to %s [%s]", p.name, p.pid)
         p.send_signal(signal.SIGINT)
-        eventlet.sleep(2)
+        eventlet.sleep(0.5)
     if p.is_running():
         log.info("----* Sending SIGTERM to %s [%s]", p.name, p.pid)
         p.send_signal(signal.SIGTERM)
-        eventlet.sleep(2)
+        eventlet.sleep(0.5)
     if p.is_running():
         log.info("-----* Sending SIGKILL to %s [%s] Wow!", p.name, p.pid)
         p.kill()
-        eventlet.sleep(2)
+        eventlet.sleep(0.5)
 
     # Making really sure it is dead.
     if p.is_running():
