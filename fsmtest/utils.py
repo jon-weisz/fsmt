@@ -89,7 +89,6 @@ def log_process_pids(proc_exec, log):
 
 
 def end_process_and_children(pid, process, log, kill_timeout):
-    log.info("KILLTIMEOUT %d" % kill_timeout)
     """
     :param pid:
     :param process:
@@ -104,7 +103,7 @@ def end_process_and_children(pid, process, log, kill_timeout):
             log.debug("Error: Not all children of %s could be killed" % str(pid))
 
         log.debug("Ending parent process %s now" % str(pid))
-        is_gone = kill_pid(pid, log)
+        is_gone = kill_pid(pid, log, kill_timeout)
 
         if is_gone > 0:
             log.warning("Status of %s still unknown" % (pid))
@@ -169,7 +168,7 @@ def kill_child_processes(parent_pid, log, kill_timeout, self_call=False):
                 log.log(
                     5, "Check if child %s of %s has children - recursive call",
                     p.pid, parent_pid)
-                result += kill_child_processes(p.pid, log, self_call=True)
+                result += kill_child_processes(p.pid, log, kill_timeout, self_call=True)
     else:
         log.warning("Process %s and children is/are already dead.", parent_pid)
 
