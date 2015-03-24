@@ -58,7 +58,7 @@ class FSMTest:
                                      self.options.logfilelevel,
                                      self.options.output,
                                      self.options.disable_termcolor,
-                                     self.oprions.kill_timeout,
+                                     self.options.kill_timeout,
                                      self.args)
         self.fsm_launcher.setup()
         self.fsm_launcher.run()
