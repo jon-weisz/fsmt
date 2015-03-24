@@ -99,6 +99,9 @@ if __name__ == '__main__':
             time.sleep(0.05)
 
         proc_s.wait()
+        proc_s.terminate()
+        proc_s.terminate()
+        proc_s.terminate()
         log_file.close()
         print ">> Exiting"
 
