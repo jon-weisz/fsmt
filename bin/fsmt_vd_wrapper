@@ -75,14 +75,15 @@ if __name__ == '__main__':
         current_env['STY'] = "1337.bla.{name}_".format(name=_name.replace("component_", ""))
 
         # cmd = "exec xterm -l -lf " + logfile + " -e \"exec fsmt_vd_spawn %s\"" % path
-        cmd = "exec xterm -l -lf " + logfile + " -e \"exec /bin/bash -ic \'source %s; component\'\" " % path
+        # cmd = "exec xterm -l -lf " + logfile + " -e \"exec /bin/bash -ic \'source %s; component\'\" " % path
+        cmd = "exec /bin/bash -ic \'source %s; component\'\" " % path
         print ">> Running: %s" % cmd
         proc_s = subprocess.Popen(cmd, env=current_env, executable='/bin/bash', shell=True)
 
         file_position = 0
         been_read = 0
 
-        while not os.path.exists(logfile):
+        '''while not os.path.exists(logfile):
             time.sleep(0.001)
 
         log_file = open(logfile, mode="r")
@@ -96,10 +97,10 @@ if __name__ == '__main__':
                     file_position += been_read
             except Exception:
                 pass
-            time.sleep(0.05)
+            time.sleep(0.05)'''
 
         proc_s.wait()
-        log_file.close()
+        #log_file.close()
         print ">> Exiting"
 
     try:
