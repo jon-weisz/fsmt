@@ -72,8 +72,7 @@ if __name__ == '__main__':
         rm_s.wait()
 
         current_env = os.environ.copy()
-        current_env['STY'] = "1337.bla.{name}_".format(name=_name)
-        print(current_env)
+        current_env['STY'] = "1337.bla.{name}_".format(name=_name.replace("component_", ""))
 
         cmd = "exec xterm -l -lf " + logfile + " -e \"fsmt_vd_spawn %s\"" % path
         print ">> Running: %s" % cmd
