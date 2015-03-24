@@ -44,6 +44,8 @@ import subprocess
 
 if __name__ == '__main__':
 
+    global sub_pid
+
     prefix = os.environ['prefix']
     path = prefix + "/etc/vdemo_scripts/component_scripts/"
     if not prefix:
@@ -66,10 +68,14 @@ if __name__ == '__main__':
         return '\n'.join(''.join(data).splitlines()[:])
 
     def signal_handler(signal, frame):
-        print "Caught SIGINT"
-        signal.pause()
+        global sub_pid
+        os.kill(sub_pid, 15)
+        time.sleep(2)
+        os.kill(sub_pid, 9)
 
     def run_vdemo_component(path, _name):
+        global sub_pid
+
         logfile = "/tmp/" + _name + "_vdemo_wrapper.log"
 
         rm_cmd = "rm -f %s" % logfile
@@ -81,10 +87,12 @@ if __name__ == '__main__':
         current_env['STY'] = "1337.bla.{name}_".format(name=_name.replace("component_", ""))
 
         # cmd = "exec xterm -l -lf " + logfile + " -e \"exec fsmt_vd_spawn %s\"" % path
-        cmd = "exec xterm -l -lf " + logfile + " -e \"exec /bin/bash -ic \'source %s; component\'\" " % path
         # cmd = "/bin/bash -ic \"source %s; component\"" % path
+        cmd = "exec xterm -l -lf " + logfile + " -e \"exec /bin/bash -ic \'source %s; component\'\" " % path
         print ">> Running: %s" % cmd
         proc_s = subprocess.Popen(cmd, env=current_env, executable='/bin/bash', shell=True)
+
+        sub_pid = proc_s.pid
 
         file_position = 0
         been_read = 0
@@ -105,13 +113,15 @@ if __name__ == '__main__':
                 pass
             time.sleep(0.05)
 
-        signal.signal(signal.SIGINT, signal_handler)
         proc_s.wait()
         log_file.close()
 
         print ">> Exiting"
 
     try:
+        # Sometimes VDEMO in combination shows weird behavior, so we catch
+        # SIGINT and use SIGKILL instead.
+        signal.signal(signal.SIGINT, signal_handler)
         run_vdemo_component(full_path, name)
     except Exception, e:
         print e

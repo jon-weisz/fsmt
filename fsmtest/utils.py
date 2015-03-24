@@ -119,23 +119,6 @@ def kill_pid(pid, log):
     """
 
     # Double check children
-    '''this_process = psutil.Process(int(pid))
-    pids = set()
-    for p in this_process.get_children(recursive=True):
-        pids.add(p.pid)
-    while pids:
-        pid = pids.pop()
-    try:
-        child = psutil.Process(pid)
-        child.terminate()
-        child.kill()
-    except psutil.NoSuchProcess:
-        pass
-    except psutil.AccessDenied:
-        log.warning("Couldn't kill child process with pid %s" % pid)
-    else:
-        child.wait(timeout=3)'''
-
     p = psutil.Process(int(pid))
     if p.is_running():
         log.info("---* Sending SIGINT to %s [%s]", p.name, p.pid)
