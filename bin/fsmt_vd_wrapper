@@ -37,7 +37,6 @@ Authors: Florian Lier, Norman Koester
 
 import os
 import sys
-import pty
 import time
 import subprocess
 
