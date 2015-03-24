@@ -76,7 +76,7 @@ if __name__ == '__main__':
 
         # cmd = "exec xterm -l -lf " + logfile + " -e \"exec fsmt_vd_spawn %s\"" % path
         # cmd = "exec xterm -l -lf " + logfile + " -e \"exec /bin/bash -ic \'source %s; component\'\" " % path
-        cmd = "exec /bin/bash -ic \'source %s; component\'\" " % path
+        cmd = "exec /bin/bash -ic \"source %s; component\"" % path
         print ">> Running: %s" % cmd
         proc_s = subprocess.Popen(cmd, env=current_env, executable='/bin/bash', shell=True)
 
