@@ -119,10 +119,9 @@ if __name__ == '__main__':
         print ">> Exiting"
 
     try:
-        # Sometimes VDEMO in combination shows weird behavior, so we catch
-        # SIGINT and use SIGKILL instead.
+        # Sometimes VDEMO in combination with the RSB_MONITOR
+        # shows weird behavior, so we catch SIGINT and use SIGKILL instead.
         signal.signal(signal.SIGINT, signal_handler)
         run_vdemo_component(full_path, name)
-    except Exception, e:
-        print e
+    except Exception:
         pass

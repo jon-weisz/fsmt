@@ -62,7 +62,7 @@ setup(name="fsmtest",
                                       "tests.*",
                                       "tests"]),
 
-      scripts=["bin/fsmt", "bin/fsmt_iniparser", "bin/fsmt_vd_wrapper", "bin/fsmt_vd_spawn"],
+      scripts=["bin/fsmt", "bin/fsmt_iniparser", "bin/fsmt_vd_wrapper"],
 
       package_data={'fsmtest': ['configuration/*']},
 
