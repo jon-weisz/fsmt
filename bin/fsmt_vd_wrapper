@@ -38,7 +38,6 @@ Authors: Florian Lier, Norman Koester
 import os
 import sys
 import time
-import psutil
 import signal
 import subprocess
 
