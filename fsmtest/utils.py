@@ -88,7 +88,7 @@ def log_process_pids(proc_exec, log):
     log.debug("These components will be ended now: %s" % kill_list)
 
 
-def end_process_and_children(pid, process, log):
+def end_process_and_children(pid, process, log, kill_timeout):
     """
     :param pid:
     :param process:
@@ -96,7 +96,7 @@ def end_process_and_children(pid, process, log):
     """
     if process.poll() is None:
         log.debug("Before killing, look for children of %s..." % str(pid))
-        ret_child = kill_child_processes(pid, log)
+        ret_child = kill_child_processes(pid, log, kill_timeout)
         if ret_child == 0:
             log.debug("Children of %s are all gone" % pid)
         else:
@@ -113,7 +113,7 @@ def end_process_and_children(pid, process, log):
         log.debug("Process %s is already un-pollable. Doing nothing" % (pid))
 
 
-def kill_pid(pid, log):
+def kill_pid(pid, log, kill_timeout):
     """
     :param pid:
     """
@@ -123,15 +123,15 @@ def kill_pid(pid, log):
     if p.is_running():
         log.info("---* Sending SIGINT to %s [%s]", p.name, p.pid)
         p.send_signal(signal.SIGINT)
-        eventlet.sleep(0.5)
+        eventlet.sleep(kill_timeout)
     if p.is_running():
         log.info("----* Sending SIGTERM to %s [%s]", p.name, p.pid)
         p.send_signal(signal.SIGTERM)
-        eventlet.sleep(0.5)
+        eventlet.sleep(kill_timeout)
     if p.is_running():
         log.info("-----* Sending SIGKILL to %s [%s] Wow!", p.name, p.pid)
         p.kill()
-        eventlet.sleep(0.5)
+        eventlet.sleep(kill_timeout)
 
     # Making really sure it is dead.
     if p.is_running():
@@ -140,7 +140,7 @@ def kill_pid(pid, log):
         return 0
 
 
-def kill_child_processes(parent_pid, log, self_call=False):
+def kill_child_processes(parent_pid, log, kill_timeout, self_call=False):
     """
     :param log:
     :param parent_pid:
@@ -158,7 +158,7 @@ def kill_child_processes(parent_pid, log, self_call=False):
                     5,
                     "Child %s has no further children - end of recursion",
                     parent_pid)
-                result += kill_pid(parent_pid, log)
+                result += kill_pid(parent_pid, log, kill_timeout)
             else:
                 log.log(5, "No self call, no children, returning")
                 return 0

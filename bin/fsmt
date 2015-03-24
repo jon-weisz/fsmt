@@ -58,6 +58,7 @@ class FSMTest:
                                      self.options.logfilelevel,
                                      self.options.output,
                                      self.options.disable_termcolor,
+                                     self.oprions.kill_timeout,
                                      self.args)
         self.fsm_launcher.setup()
         self.fsm_launcher.run()
@@ -100,6 +101,12 @@ if __name__ == '__main__':
                       default=False,
                       help=
                       "Disables colouring for terminal log output")
+
+    parser.add_option("-t", "--killtimeout",
+                      action="store_true",
+                      dest="kill_timeout",
+                      default=0.5,
+                      help="The time to wait before a process, spawned by fsmt, is killed using the next SIGNAL level")
 
     (options, args) = parser.parse_args()
 

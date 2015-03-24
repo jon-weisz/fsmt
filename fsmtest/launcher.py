@@ -59,7 +59,8 @@ class Launcher():
     # Evil. See: http://eventlet.net/doc/basic_usage.html#eventlet.monkey_patch
     eventlet.monkey_patch()
 
-    def __init__(self, log_level_, log_file_level_, log_folder_, disable_termcolor_, path_to_scxml_file_):
+    def __init__(self, log_level_, log_file_level_, log_folder_, disable_termcolor_, _kill_timeout,
+                 path_to_scxml_file_):
         """
         Constructor for the launcher.
 
@@ -75,6 +76,7 @@ class Launcher():
         self.log_file_level = log_file_level_
         self.log_folder = log_folder_
         self.disable_termcolor = disable_termcolor_
+        self.kill_timeout = _kill_timeout
         self.path_to_scxml_file = path_to_scxml_file_
         self.absolute_log_folder = ""
         self.current_run_timestamp = ""
@@ -186,14 +188,13 @@ class Launcher():
                 self.log, self.log_folder, self.log_folder_fsm,
                 self.log_folder_images, self.log_folder_plots,
                 self.log_folder_videos, self.log_folder_data,
-                self.log_folder_logs)
+                self.log_folder_logs, self.kill_timeout)
 
             state_machine_wrapper.xunit_xml_builder = XunitXmlBuilder("FSMT run on %s" % self.path_to_scxml_file[:],
                                                                       self.state_xunit_xml_path)
 
             process_communicator = ProcessCommunicator()
             process_communicator.setup(state_machine_wrapper, None, self.log)
-            eventlet.sleep(0.002)
             state_machine_wrapper.process_communicator = process_communicator
 
             #####################################

@@ -76,7 +76,7 @@ class StateMachineWrapper(object):
         self.block_diagram = {'opening': 'blockdiag {', 'content': 'initialise_state', 'ending': '}'}
 
     def log_setup(self, log_, log_folder_, log_folder_fsm_, log_folder_images_, log_folder_plots_, log_folder_videos_,
-                  log_folder_data_, log_folder_logs_):
+                  log_folder_data_, log_folder_logs_, kill_timeout):
         """
         TODO
         :param log:
@@ -90,6 +90,7 @@ class StateMachineWrapper(object):
         """
         self.log = log_
         self.log_folder = log_folder_
+        self.killtimeout = kill_timeout
         self.log_folder_fsm = log_folder_fsm_
         self.log_folder_data = log_folder_data_
         self.log_folder_logs = log_folder_logs_
@@ -258,7 +259,6 @@ def custom_executable(node, something):
         log_process_pids(all_program_executors, log)
         # Kill in reverse order, check this.
         # Old approach. Did not work properly.
-        # all_program_executors_sorted = sorted(all_program_executors.iterkeys(), reverse=True)
         sorted_reverse = sorted(all_program_executors.items(), key=operator.itemgetter(1), reverse=True)
         log.debug("Executers Reverse Sort %s", sorted_reverse)
 
@@ -284,7 +284,7 @@ def custom_executable(node, something):
 
             try:
                 log.info("Ending process %s [%s] and its children", str(name), str(pid))
-                end_process_and_children(pid, one_program_executor.subprocess, log)
+                end_process_and_children(pid, one_program_executor.subprocess, log, state_machine.killtimeout)
             except Exception, e:
                 log.warning("Killing %s [%s]: Is already dead!", str(name), str(pid))
 
