@@ -90,7 +90,7 @@ class StateMachineWrapper(object):
         """
         self.log = log_
         self.log_folder = log_folder_
-        self.killtimeout = kill_timeout
+        self.killtimeout = int(kill_timeout)
         self.log_folder_fsm = log_folder_fsm_
         self.log_folder_data = log_folder_data_
         self.log_folder_logs = log_folder_logs_
@@ -284,7 +284,7 @@ def custom_executable(node, something):
 
             try:
                 log.info("Ending process %s [%s] and its children", str(name), str(pid))
-                end_process_and_children(pid, one_program_executor.subprocess, log, state_machine.killtimeout)
+                end_process_and_children(pid, one_program_executor.subprocess, log, int(state_machine.killtimeout))
             except Exception, e:
                 log.warning("Killing %s [%s]: Is already dead!", str(name), str(pid))
 

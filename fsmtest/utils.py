@@ -89,6 +89,7 @@ def log_process_pids(proc_exec, log):
 
 
 def end_process_and_children(pid, process, log, kill_timeout):
+    log.info("KILLTIMEOUT %d" % kill_timeout)
     """
     :param pid:
     :param process:
