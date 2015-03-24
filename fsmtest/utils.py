@@ -147,7 +147,7 @@ def kill_child_processes(parent_pid, log, self_call=False):
     result = 0
     log.log(5, "Called kill children of %s - self_call:%s", parent_pid, str(self_call))
 
-    this_process = psutil.Process(int(pid))
+    this_process = psutil.Process(int(parent_pid))
     pids = set()
     for p in this_process.get_children(recursive=True):
         pids.add(p.pid)
