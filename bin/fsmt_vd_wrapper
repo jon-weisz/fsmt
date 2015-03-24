@@ -71,6 +71,7 @@ if __name__ == '__main__':
         rm_s = subprocess.Popen(rm_cmd, executable='/bin/bash', shell=True)
         rm_s.wait()
 
+        # Set the STY name for RSB-Monitoring
         current_env = os.environ.copy()
         current_env['STY'] = "1337.bla.{name}_".format(name=_name.replace("component_", ""))
 
