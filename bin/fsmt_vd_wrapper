@@ -94,14 +94,11 @@ if __name__ == '__main__':
                 if log_lines != "" and log_lines != "\n" and been_read != 0:
                     print log_lines
                     file_position += been_read
-            except Exception, e:
-                print e
+            except Exception:
+                pass
             time.sleep(0.05)
 
         proc_s.wait()
-        proc_s.terminate()
-        proc_s.terminate()
-        proc_s.terminate()
         log_file.close()
         print ">> Exiting"
 
