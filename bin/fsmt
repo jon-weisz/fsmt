@@ -99,14 +99,13 @@ if __name__ == '__main__':
                       action="store_true",
                       dest="disable_termcolor",
                       default=False,
-                      help=
-                      "Disables colouring for terminal log output")
+                      help="Disables colouring for terminal log output")
 
     parser.add_option("-t", "--killtimeout",
-                      action="store_true",
+                      action="store",
                       dest="kill_timeout",
                       default=0.5,
-                      help="The time to wait before a process, spawned by fsmt, is killed using the next SIGNAL level")
+                      help="The time to wait before a process, spawned by FSMT, is killed using the next SIGNAL level")
 
     (options, args) = parser.parse_args()
 
