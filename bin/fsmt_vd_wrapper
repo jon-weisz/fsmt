@@ -75,7 +75,7 @@ if __name__ == '__main__':
         current_env['STY'] = "1337.bla.{name}_".format(name=_name.replace("component_", ""))
 
         # cmd = "exec xterm -l -lf " + logfile + " -e \"exec fsmt_vd_spawn %s\"" % path
-        cmd = "xterm -l -lf " + logfile + " -e \"/bin/bash -ic \'source %s; component\'\" %s\"" % path
+        cmd = "xterm -l -lf " + logfile + " -e \"/bin/bash -ic \'source %s; component\'\" " % path
         print ">> Running: %s" % cmd
         proc_s = subprocess.Popen(cmd, env=current_env, executable='/bin/bash', shell=True)
 
@@ -104,5 +104,6 @@ if __name__ == '__main__':
 
     try:
         run_vdemo_component(full_path, name)
-    except Exception:
+    except Exception, e:
+        print e
         pass
