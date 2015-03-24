@@ -147,6 +147,22 @@ def kill_child_processes(parent_pid, log, self_call=False):
     result = 0
     log.log(5, "Called kill children of %s - self_call:%s", parent_pid, str(self_call))
 
+    this_process = psutil.Process(int(pid))
+    pids = set()
+    for p in this_process.get_children(recursive=True):
+        pids.add(p.pid)
+    while pids:
+        pid = pids.pop()
+    try:
+        child = psutil.Process(pid)
+        child.kill()
+    except psutil.NoSuchProcess:
+        pass
+    except psutil.AccessDenied:
+        print("Couldn't kill child process with pid %s" % pid)
+    else:
+        child.wait(timeout=3)
+
     if os.path.exists("/proc/%s" % parent_pid):
         a_process = psutil.Process(int(parent_pid))
         proc_children = a_process.get_children()
