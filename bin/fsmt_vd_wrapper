@@ -100,7 +100,7 @@ if __name__ == '__main__':
                 pass
             time.sleep(0.05)
 
-        this_pid = proc_s.pid
+        '''this_pid = proc_s.pid
         proc_s.wait()
         this_process = psutil.Process(this_pid)
         pids = set()
@@ -116,7 +116,8 @@ if __name__ == '__main__':
         except psutil.AccessDenied:
             print("Couldn't kill child process with pid %s" % pid)
         else:
-            child.wait(timeout=3)
+            child.wait(timeout=3)'''
+
         log_file.close()
         print ">> Exiting"
 
