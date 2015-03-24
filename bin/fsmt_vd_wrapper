@@ -44,7 +44,7 @@ import subprocess
 if __name__ == '__main__':
 
     prefix = os.environ['prefix']
-    path = prefix+"/etc/vdemo_scripts/component_scripts/"
+    path = prefix + "/etc/vdemo_scripts/component_scripts/"
     if not prefix:
         print ">> $prefix is not set"
         sys.exit(1)
@@ -52,53 +52,57 @@ if __name__ == '__main__':
         print ">> Please provide a VDEMO component script"
         sys.exit(1)
     name = sys.argv[1]
-    full_path = path+sys.argv[1]
+    full_path = path + sys.argv[1]
     if not os.path.isfile(full_path):
         print ">> Component script does not exist %s" % str(full_path)
         sys.exit(1)
 
     def seek_read(f, _pos):
-    	pos = _pos
-    	data = []
-	f.seek(pos, 0)
-    	data.append(f.read(512))
-    	return '\n'.join(''.join(data).splitlines()[:])
+        pos = _pos
+        data = []
+        f.seek(pos, 0)
+        data.append(f.read(512))
+        return '\n'.join(''.join(data).splitlines()[:])
 
     def run_vdemo_component(path, _name):
-        logfile = "/tmp/"+_name+"_vdemo_wrapper.log"
+        logfile = "/tmp/" + _name + "_vdemo_wrapper.log"
 
         rm_cmd = "rm -f %s" % logfile
         rm_s = subprocess.Popen(rm_cmd, executable='/bin/bash', shell=True)
-	rm_s.wait()
+        rm_s.wait()
+
+        current_env = os.environ.copy()
+        current_env['STY'] = "1337.bla.{name}_".format(name=_name)
+        print(current_env)
 
         cmd = "exec xterm -l -lf " + logfile + " -e \"fsmt_vd_spawn %s\"" % path
         print ">> Running: %s" % cmd
-        proc_s = subprocess.Popen(cmd, env=os.environ.copy(), executable='/bin/bash', shell=True)
-        
+        proc_s = subprocess.Popen(cmd, env=current_env, executable='/bin/bash', shell=True)
+
         file_position = 0
-	been_read = 0
+        been_read = 0
 
-	while not os.path.exists(logfile):
-		time.sleep(0.001)
+        while not os.path.exists(logfile):
+            time.sleep(0.001)
 
-       	log_file = open(logfile, mode="r")
+        log_file = open(logfile, mode="r")
 
         while proc_s.poll() is None:
             try:
                 log_lines = seek_read(log_file, file_position)
                 been_read = len(log_lines)
                 if log_lines != "" and log_lines != "\n" and been_read != 0:
-                	print log_lines
-			file_position += been_read
+                    print log_lines
+                    file_position += been_read
             except Exception, e:
-   		print e
-	    time.sleep(0.05)
-        
+                print e
+            time.sleep(0.05)
+
         proc_s.wait()
         log_file.close()
-	print ">> Exiting"
+        print ">> Exiting"
 
     try:
-    	run_vdemo_component(full_path, name)
+        run_vdemo_component(full_path, name)
     except Exception:
-	pass
+        pass
