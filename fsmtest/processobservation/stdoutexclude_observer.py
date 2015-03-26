@@ -104,7 +104,7 @@ class StdoutexcludeObserver(ProcessObserver):
                     return 1
             file_pos += been_read
             # Reduce CPU load a little
-            time.sleep(0.002)
+            time.sleep(0.003)
 
         if self.hit_timeout:
             if (time.time() - t0) < self.check_type.timeout:
