@@ -100,7 +100,7 @@ class StdoutObserver(ProcessObserver):
 
         if self.hit_timeout:
             if (time.time() - t0) < self.check_type.timeout:
-                self.log_cancel("_QUIT_ _BEFORE_ criteria was found _OR_ timeout was reached")
+                self.log_cancel("Exited _BEFORE_ criteria was found _OR_ timeout was reached")
                 self.log.debug("Exiting STDOUT observer")
                 self.end_thread = True
                 return 1
