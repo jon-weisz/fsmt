@@ -284,7 +284,7 @@ def custom_executable(node, something):
 
             try:
                 log.info("Ending process %s [%s] and its children", str(name), str(pid))
-                end_process_and_children(pid, one_program_executor.subprocess, log, int(state_machine.killtimeout))
+                end_process_and_children(pid, one_program_executor.subprocess, log, float(state_machine.killtimeout))
             except Exception, e:
                 log.warning("Killing %s [%s]: Is already dead!", str(name), str(pid))
 

@@ -132,7 +132,7 @@ class Launcher():
         log_factory.set_up((not self.disable_termcolor), self.log_level, self.log_folder_logs, self.log_file_level)
         self.log = log_factory.get_logger()
         self.log.info("Log path: %s", self.log_folder_logs)
-        self.log.info("Kill Timeout: %2f", self.kill_timeout)
+        self.log.info("Kill Timeout: %.2f", self.kill_timeout)
         self.log.debug("Log setup: level/colouring: %s/%s", self.log_level, (not self.disable_termcolor))
         self.log.debug("Execution path: %s", os.path.dirname(os.path.abspath(__file__)))
         self.log.debug("Current working directory: %s", os.getcwd())
@@ -188,7 +188,7 @@ class Launcher():
                 self.log, self.log_folder, self.log_folder_fsm,
                 self.log_folder_images, self.log_folder_plots,
                 self.log_folder_videos, self.log_folder_data,
-                self.log_folder_logs, self.kill_timeout)
+                self.log_folder_logs, float(self.kill_timeout))
 
             state_machine_wrapper.xunit_xml_builder = XunitXmlBuilder("FSMT run on %s" % self.path_to_scxml_file[:],
                                                                       self.state_xunit_xml_path)
