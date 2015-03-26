@@ -286,7 +286,7 @@ class ProcessExecutor():
                 sub_proc_ret_code = self.subprocess.wait()
 
                 # Give it some time to write what is left
-                time.sleep(0.3)
+                time.sleep(0.05)
 
                 # The subprocess terminated, we tell the PTY Logger to end it soon
                 self.pty_log_writer.close_logger()
