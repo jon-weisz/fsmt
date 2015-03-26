@@ -55,6 +55,6 @@ if __name__ == '__main__':
         parser.error("Wrong number of arguments given, please see documentation for further information.")
 
     if not os.path.exists(args[0]):
-        parser.error("The provided INI file at '%s' does not exist!") % args[0]
+        parser.error("The provided INI file at '%s' does not exist!" % args[0])
 
     fsminiparser.parse_ini_file(open(args[0]), options.output)
