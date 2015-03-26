@@ -77,6 +77,7 @@ class StdoutObserver(ProcessObserver):
                 been_read = len(log_lines)
             except ValueError, e:
                 log_lines = "IOERROR in line %s" % str(sys.exc_traceback.tb_lineno)
+                continue
             if log_lines != "" and log_lines != "\n" and been_read != 0:
                 self.log.stream("%s: Reads from log < %s", name, log_lines)
                 if self.check_type.criteria in log_lines:
