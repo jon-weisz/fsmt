@@ -532,8 +532,7 @@ def parse_ini_file(iniFileObject, output_path, verbose=False):
             section_values['check_types'] = all_check_types_final
 
         # %(name)s, %(command)s, %(path)s, %(host)s, %(check_executionFlag)s
-            if verbose:
-                print "COMPONENT -", section_values['path']+section_values['command']
+            print "COMPONENT -", section_values['path']+section_values['command']
             a_software_component = TsoftwareComponent % section_values
             software_components_final += a_software_component + '\n'
 
