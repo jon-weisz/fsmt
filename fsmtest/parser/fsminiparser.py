@@ -454,7 +454,7 @@ def work_sequential_states(element, counter, final_target_name,
     return result, counter
 
 
-def parse_ini_file(iniFileObject, output_path, silent=False):
+def parse_ini_file(iniFileObject, output_path, verbose=False):
     """
     Function for automated scxml generation from a given ini file.
 
@@ -462,189 +462,181 @@ def parse_ini_file(iniFileObject, output_path, silent=False):
     :param output_path: path to where the output is supposed to be written.
     """
 
-    if not silent:
-        print "\n\x1b[94m--> FSMT INI PARSER \x1b[0m"
-        print "WARNING - BETA Version"
-        print "WARNING - Not All Features May Work As Expected"
-    try:
-        #======================================================================
-        # PARSINT INTITIALISATION
-        #======================================================================
-        # Get the corresponding ini file
-        config = ConfigParser.RawConfigParser(allow_no_value=False)
-        # Preserve CAPITALS in env vars!!
-        config.optionxform = str
-        config.readfp(iniFileObject)
 
-        run_order = config.get('run', 'run_order')
+    print "\n\x1b[94m--> FSMT INI PARSER \x1b[0m"
+    print "WARNING - BETA Version"
+    print "WARNING - Not All Features May Work As Expected"
 
-        # Namespace setting
-        # Using this instead of config.get('run', 'namespace')
-        namespace = "de.unibi.citec.clf.fsmt"
+    #======================================================================
+    # PARSINT INTITIALISATION
+    #======================================================================
+    # Get the corresponding ini file
+    config = ConfigParser.RawConfigParser(allow_no_value=False)
+    # Preserve CAPITALS in env vars!!
+    config.optionxform = str
+    config.readfp(iniFileObject)
 
-        # Unsafe but easy
-        run_order = eval('(' + run_order + ')')
-        execution_duration = config.get('run', 'run_execution_duration')
-        result_assessment_execution_duration = config.get('run', 'result_assessment_execution_duration')
+    run_order = config.get('run', 'run_order')
 
-        assessment_order = config.get('run', 'result_assessment_order')
-        if not assessment_order:
-            print "WARNING: No assessment component has been set. Creating a default \'ls\' component.\n"
-            assessment_order = '(\'default\',),'
-        assessment_order = eval('(' + assessment_order + ')')
+    # Namespace setting
+    # Using this instead of config.get('run', 'namespace')
+    namespace = "de.unibi.citec.clf.fsmt"
 
-        #======================================================================
-        # ENVIRONMENT PARSING
-        #======================================================================
-        environment_variables_final = ""
-        name_val_pairs = dict(config.items('environment'))
-        for aName in name_val_pairs.keys():
-            # %(name)s, %(value)s
-            environment_variables_final += \
-                TenvironmentVariable % {'name': aName,
-                                        'value': name_val_pairs[aName]} + '\n'
+    # Unsafe but easy
+    run_order = eval('(' + run_order + ')')
+    execution_duration = config.get('run', 'run_execution_duration')
+    result_assessment_execution_duration = config.get('run', 'result_assessment_execution_duration')
 
-        #======================================================================
-        # SOFTWARE COMPONENT PARSING
-        #======================================================================
-        software_components_final = ""
-        software_components_final += TsoftwareDefaultAssessmentComponent + '\n'
-        print ""
-        for a_section in config.sections():
-            if 'component-' in a_section and config.has_option(a_section, 'name'):
-                section_values = dict(config.items(a_section))
-                check_type_options = ['check_type', 'timeout', 'blocking', 'ongoing', 'criteria']
-                check_type_tuple_dict = get_tuples(config, a_section, check_type_options)
-                all_check_types_final = ''
+    assessment_order = config.get('run', 'result_assessment_order')
+    if not assessment_order:
+        print "WARNING: No assessment component has been set. Creating a default \'ls\' component.\n"
+        assessment_order = '(\'default\',),'
+    assessment_order = eval('(' + assessment_order + ')')
 
-                for cur_num in range(0, len(check_type_tuple_dict['check_type'])):
+    #======================================================================
+    # ENVIRONMENT PARSING
+    #======================================================================
+    environment_variables_final = ""
+    name_val_pairs = dict(config.items('environment'))
+    for aName in name_val_pairs.keys():
+        # %(name)s, %(value)s
+        environment_variables_final += \
+            TenvironmentVariable % {'name': aName,
+                                    'value': name_val_pairs[aName]} + '\n'
 
-                    if check_type_tuple_dict['check_type'][cur_num] != '':
-                        a_check_type_option_dict = {}
-                        for an_option in check_type_options:
-                            a_check_type_option_dict[an_option] = \
-                                check_type_tuple_dict[an_option][cur_num]
+    #======================================================================
+    # SOFTWARE COMPONENT PARSING
+    #======================================================================
+    software_components_final = ""
+    software_components_final += TsoftwareDefaultAssessmentComponent + '\n'
+    print ""
+    for a_section in config.sections():
+        if 'component-' in a_section and config.has_option(a_section, 'name'):
+            section_values = dict(config.items(a_section))
+            check_type_options = ['check_type', 'timeout', 'blocking', 'ongoing', 'criteria']
+            check_type_tuple_dict = get_tuples(config, a_section, check_type_options)
+            all_check_types_final = ''
 
-            # %(check_type)s, %(timeout)s, %(blockingFlag)s, %(ongoingFlag)s
-                        a_check_type = Tcheck_type % a_check_type_option_dict
-                        all_check_types_final += a_check_type + '\n'
+            for cur_num in range(0, len(check_type_tuple_dict['check_type'])):
 
-                section_values['check_types'] = all_check_types_final
+                if check_type_tuple_dict['check_type'][cur_num] != '':
+                    a_check_type_option_dict = {}
+                    for an_option in check_type_options:
+                        a_check_type_option_dict[an_option] = \
+                            check_type_tuple_dict[an_option][cur_num]
 
-            # %(name)s, %(command)s, %(path)s, %(host)s, %(check_executionFlag)s
+        # %(check_type)s, %(timeout)s, %(blockingFlag)s, %(ongoingFlag)s
+                    a_check_type = Tcheck_type % a_check_type_option_dict
+                    all_check_types_final += a_check_type + '\n'
+
+            section_values['check_types'] = all_check_types_final
+
+        # %(name)s, %(command)s, %(path)s, %(host)s, %(check_executionFlag)s
+            if verbose:
                 print "COMPONENT -", section_values['path']+section_values['command']
-                a_software_component = TsoftwareComponent % section_values
-                software_components_final += a_software_component + '\n'
+            a_software_component = TsoftwareComponent % section_values
+            software_components_final += a_software_component + '\n'
 
-        #======================================================================
-        # STATE PARSING
-        #======================================================================
+    #======================================================================
+    # STATE PARSING
+    #======================================================================
 
-        def order_to_scxml_convert(order, state_name_prefix='',
-                                   wait_duration=1,
-                                   last_elem_target_name='result_assessment'):
-            wait_state_name = 'pre_' + last_elem_target_name + '_wait'
-            run_states_final = ""
-            parallel_counters_final = ""
-            state_counter = 0
-            for (element, index) in zip(order, range(0, len(order))):
-                is_last_element = state_counter + 1 == len(order)
-                if is_last_element:
-                    target_name = state_name_prefix + \
-                        wait_state_name  # last_elem_target_name
-                else:
-                    target_name = state_name_prefix + \
-                        'state_%d' % (state_counter + 1)
+    def order_to_scxml_convert(order, state_name_prefix='',
+                               wait_duration=1,
+                               last_elem_target_name='result_assessment'):
+        wait_state_name = 'pre_' + last_elem_target_name + '_wait'
+        run_states_final = ""
+        parallel_counters_final = ""
+        state_counter = 0
+        for (element, index) in zip(order, range(0, len(order))):
+            is_last_element = state_counter + 1 == len(order)
+            if is_last_element:
+                target_name = state_name_prefix + \
+                    wait_state_name  # last_elem_target_name
+            else:
+                target_name = state_name_prefix + \
+                    'state_%d' % (state_counter + 1)
 
-                # Sequential
-                if isinstance(element, types.TupleType):
-                    a, b = work_sequential_states(
-                        element, state_counter, target_name,
-                        name_prefix=state_name_prefix)
-                    run_states_final += a
-                    state_counter = b
+            # Sequential
+            if isinstance(element, types.TupleType):
+                a, b = work_sequential_states(
+                    element, state_counter, target_name,
+                    name_prefix=state_name_prefix)
+                run_states_final += a
+                state_counter = b
 
-                # Parallel
-                elif isinstance(element, types.ListType):
-                    a, b, _, _ = work_parallel_states(
-                        run_states_final, element, state_counter, "", "",
-                        next_target_name=target_name,
-                        general_name_prefix=state_name_prefix)
-                    run_states_final += a
-                    parallel_counters_final += b
-                    state_counter += 1
-                else:
-                    print ("Order of software components is faulty" +
-                           " Unknown element: %s | type: %s | in order : %s" +
-                           " | Exprected Tuple or List instead") % \
-                        (element, str(type(element)), order)
-                    sys.exit(-1)
+            # Parallel
+            elif isinstance(element, types.ListType):
+                a, b, _, _ = work_parallel_states(
+                    run_states_final, element, state_counter, "", "",
+                    next_target_name=target_name,
+                    general_name_prefix=state_name_prefix)
+                run_states_final += a
+                parallel_counters_final += b
+                state_counter += 1
+            else:
+                print ("Order of software components is faulty" +
+                       " Unknown element: %s | type: %s | in order : %s" +
+                       " | Exprected Tuple or List instead") % \
+                    (element, str(type(element)), order)
+                sys.exit(-1)
 
-            # %(name)s %(time)s, %(target)s
-            run_states_final += TwaitState % {
-                'name': state_name_prefix + wait_state_name,
-                'time': wait_duration,
-                'target': last_elem_target_name}
-            return run_states_final, parallel_counters_final
+        # %(name)s %(time)s, %(target)s
+        run_states_final += TwaitState % {
+            'name': state_name_prefix + wait_state_name,
+            'time': wait_duration,
+            'target': last_elem_target_name}
+        return run_states_final, parallel_counters_final
 
-        # print "Phase 1/2 ... done "
-        run_states_final, parallel_counters_final = order_to_scxml_convert(
-            run_order, wait_duration=execution_duration)
-        # print "Phase 2/2 ... done ",
-        assessment_states_final, \
-            assessment_parallel_counters_final = order_to_scxml_convert(
-                assessment_order, state_name_prefix="assessment_",
-                wait_duration=result_assessment_execution_duration,
-                last_elem_target_name='exit_test')
+    # print "Phase 1/2 ... done "
+    run_states_final, parallel_counters_final = order_to_scxml_convert(
+        run_order, wait_duration=execution_duration)
+    # print "Phase 2/2 ... done ",
+    assessment_states_final, \
+        assessment_parallel_counters_final = order_to_scxml_convert(
+            assessment_order, state_name_prefix="assessment_",
+            wait_duration=result_assessment_execution_duration,
+            last_elem_target_name='exit_test')
 
-        #======================================================================
-        # FINAL MERGE OF PARSED INFO
-        #======================================================================
+    #======================================================================
+    # FINAL MERGE OF PARSED INFO
+    #======================================================================
 
-        # %(parallelCounters)s, %(environmentVariables)s,
-        # %(softwareComponents)s
-        data_model_final = TdataModel % {
-            'parallelCounters': parallel_counters_final +
-            assessment_parallel_counters_final,
-            'environmentVariables': environment_variables_final,
-            'softwareComponents': software_components_final}
+    # %(parallelCounters)s, %(environmentVariables)s,
+    # %(softwareComponents)s
+    data_model_final = TdataModel % {
+        'parallelCounters': parallel_counters_final +
+        assessment_parallel_counters_final,
+        'environmentVariables': environment_variables_final,
+        'softwareComponents': software_components_final}
 
-        # %(datamodel)s, %(runStates)s, %(assessStates)s
-        # %(testName)s, %(namespace)s,  %(initialRunStateName)s,
-        # %(initialAssessmentState)s
-        total_scxml_final = Tscxml_body % {
-            'testName': config.get('run', 'name'),
-            'namespace': namespace,
-            # TODO: FIX!!
-            'initialRunStateName': 'state_0',
-            # TODO: fix!!
-            'initialAssessmentState': 'assessment_state_0',
-            'datamodel': data_model_final,
-            'runStates': run_states_final,
-            'assessStates': assessment_states_final}
+    # %(datamodel)s, %(runStates)s, %(assessStates)s
+    # %(testName)s, %(namespace)s,  %(initialRunStateName)s,
+    # %(initialAssessmentState)s
+    total_scxml_final = Tscxml_body % {
+        'testName': config.get('run', 'name'),
+        'namespace': namespace,
+        # TODO: FIX!!
+        'initialRunStateName': 'state_0',
+        # TODO: fix!!
+        'initialAssessmentState': 'assessment_state_0',
+        'datamodel': data_model_final,
+        'runStates': run_states_final,
+        'assessStates': assessment_states_final}
 
-        # Register namespaces
-        ET.register_namespace('my_ns', namespace)
-        ET.register_namespace('', "http://www.w3.org/2005/07/scxml")
-        pars = ET.XMLParser(encoding="utf-8")
-        # Read the raw example scxml and find nodes
-        tree = ET.parse(StringIO.StringIO(total_scxml_final), parser=pars)
-        # TODO: append elements into tree by using the tree object instead of %
+    # Register namespaces
+    ET.register_namespace('my_ns', namespace)
+    ET.register_namespace('', "http://www.w3.org/2005/07/scxml")
+    pars = ET.XMLParser(encoding="utf-8")
+    # Read the raw example scxml and find nodes
+    tree = ET.parse(StringIO.StringIO(total_scxml_final), parser=pars)
+    # TODO: append elements into tree by using the tree object instead of %
 
-        indent(tree.getroot())
-        tree.write(output_path)
-        if not silent:
-            print "\nFINISHED - Result written to file --> \x1b[37m'%s'\n" % output_path
-
-    except:
-        print "Catched error while converting"
-        print "######## Traceback: #########"
-        tb = traceback.format_exc()
-    else:
-        tb = None
-    finally:
-        if tb is not None:
-            print tb
+    indent(tree.getroot())
+    tree.write(output_path)
+    if verbose:
+        print ""
+    print "FINISHED - Result written to file --> \x1b[37m'%s'\n" % output_path
 
 
 def indent(element, level=0):
@@ -680,10 +672,31 @@ if __name__ == '__main__':
                       help=
                       "Set output path, the default is: [/tmp/output.scxml]")
 
+    parser.add_option("-v", "--verbose",
+                      action='store_true', 
+                      default=False,
+                      dest="verbose",
+                      help=
+                      "Adds verbosity.")
+
     (options, args) = parser.parse_args()
 
     if len(args) != 1:
         parser.print_help()
         parser.error("Wrong number of arguments...")
 
-    parse_ini_file(open(args[0]), options.output)
+    try:
+        the_file = open(args[0])
+        parse_ini_file(the_file, options.output, verbose=options.verbose)
+
+    except Exception as e:
+        print "\n\x1b[31mCatched error while converting:"
+        print str(e)
+        if options.verbose:
+            print "######## Traceback: #########"
+            tb = traceback.format_exc()
+            print tb
+        sys.exit(1)
+
+    sys.exit(0)
+
