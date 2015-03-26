@@ -77,7 +77,6 @@ class StdoutObserver(ProcessObserver):
                 been_read = len(log_lines)
             except ValueError, e:
                 log_lines = "IOERROR in line %s" % str(sys.exc_traceback.tb_lineno)
-                continue
             if log_lines != "" and log_lines != "\n" and been_read != 0:
                 self.log.stream("%s: Reads from log < %s", name, log_lines)
                 if self.check_type.criteria in log_lines:
@@ -106,7 +105,7 @@ class StdoutObserver(ProcessObserver):
                 self.end_thread = True
                 return 1
             else:
-                self.log_failure("hit timeout after %ds while searching for '%s'" % (self.check_type.timeout, criteria))
+                self.log_failure("Hit timeout after %ds while searching for '%s'" % (self.check_type.timeout, criteria))
                 self.send_negative_result_to_pyscxml()
                 self.log.debug("Exiting STDOUT observer")
                 self.end_thread = True
