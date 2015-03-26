@@ -54,7 +54,6 @@ class PidObserver(ProcessObserver):
         t0 = time.time()
         while (time.time() - t0) < self.check_type.timeout and not self.end_thread:
             # Reduce CPU load a little, give it 1ms for scheduling ;)
-            time.sleep(0.001)
             self.internalOK = False
             if not hasattr(self.proc_exec_subprocess, "pid"):
                 # If there is no PID before observation, something is horribly
@@ -90,6 +89,8 @@ class PidObserver(ProcessObserver):
                     self.end_thread = True
                     # We found the PID, go on!
                     break
+            time.sleep(0.001)
+
         # At this point we either came here because of a "break", or the time is up.
         if self.internalOK:
             self.send_positive_result_to_pyscxml()
