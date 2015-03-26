@@ -87,7 +87,7 @@ class PTYLogWriter():
 
             try:
                 # Log while the process is alive, if not, stop logging.
-                while not self.terminate:
+                while self.process.poll() is not None:
                     # Checks if there is any data on the pty
                     ready, _, _ = select.select([self.process.master], [], [], 0.1)
                     if ready:
@@ -103,12 +103,11 @@ class PTYLogWriter():
                         a_file.flush()
                         self.log.stream("%s Writing to log >> %s", self.name, str(data))
 
-                    '''elif self.process.poll() is not None:
+                    elif self.process.poll() is not None:
                         self.log.info("%s Became un-pollable (exited) while reading...OK.", self.name)
                         self.un_poll_able = True
                         a_file.close()
                         return 0
-                    '''
                     if self.terminate:
                         break
 
