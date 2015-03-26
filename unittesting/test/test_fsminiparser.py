@@ -50,7 +50,7 @@ class Test(unittest.TestCase):
             cur_test_file_name = '/tmp/output_test_cfg%s.scxml' % str(i)
             cur_test_file_name_target = '../data/scxml/reference_output_cfg%s.scxml' % str(i)
             fsminiparser.parse_ini_file(cur_ini_file, cur_test_file_name,
-                                        silent=True)
+                                        verbose=False)
             self.assertMultiLineEqual("".join(open(cur_test_file_name, 'r').readlines()),
                                       "".join(open(cur_test_file_name_target, 'r').readlines()))
 
