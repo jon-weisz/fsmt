@@ -181,12 +181,13 @@ class ProcessExecutor():
                 an_observer.join()
                 self.log.debug("(%s) Observer %s is done!", self.software_component.name, an_observer.name)
 
-            self.log.info("%s [%s] quit, return code %s", self.software_component.name, self.software_component.pid, sub_proc_ret_code)
+            self.log.info("%s [%s] quit, return code %s", self.software_component.name, self.software_component.pid,
+                          self.subprocess.returncode)
 
             # Close the ProcessCommunicator for the pipe too
             self.parent_pipe.close()
             # END DO NOT CHANGE THIS!
-            return sub_proc_ret_code
+            return self.subprocess.returncode
 
         else:
             if self.software_component.host != "localhost":
@@ -300,9 +301,10 @@ class ProcessExecutor():
                     an_observer.join()
                     self.log.debug("(%s) Observer %s is done!", self.software_component.name, an_observer.name)
 
-                self.log.info("%s [%s] quit, return code %s", self.software_component.name, self.software_component.pid, sub_proc_ret_code)
+                self.log.info("%s [%s] quit, return code %s", self.software_component.name, self.software_component.pid,
+                              self.subprocess.returncode)
 
                 # Close the ProcessCommunicator for the pipe too
                 self.parent_pipe.close()
                 # END DO NOT CHANGE THIS!
-                return sub_proc_ret_code
+                return self.subprocess.returncode

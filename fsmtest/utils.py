@@ -117,7 +117,7 @@ def kill_pid(pid, log, kill_timeout):
     """
     :param pid:
     """
-    log.info("Kill Timeout: %.2f", kill_timeout)
+    log.debug("Kill Timeout: %.2f", kill_timeout)
     # Double check children
     p = psutil.Process(int(pid))
     if p.is_running():

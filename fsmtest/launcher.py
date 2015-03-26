@@ -132,10 +132,10 @@ class Launcher():
         log_factory.set_up((not self.disable_termcolor), self.log_level, self.log_folder_logs, self.log_file_level)
         self.log = log_factory.get_logger()
         self.log.info("Log path: %s", self.log_folder_logs)
-        self.log.info("Kill Timeout: %.2f", self.kill_timeout)
         self.log.debug("Log setup: level/colouring: %s/%s", self.log_level, (not self.disable_termcolor))
         self.log.debug("Execution path: %s", os.path.dirname(os.path.abspath(__file__)))
         self.log.debug("Current working directory: %s", os.getcwd())
+        self.log.info("Kill Timeout: %.2f seconds", self.kill_timeout)
 
         #######################################################################
         # Creating the remaining folders now with the known logger
