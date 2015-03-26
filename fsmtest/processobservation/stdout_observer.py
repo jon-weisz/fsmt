@@ -87,7 +87,7 @@ class StdoutObserver(ProcessObserver):
                     self.hit_timeout = False
                     break
                 if "IOERROR" in log_lines:
-                    self.log_failure("IO Error in output %s" % log_lines)
+                    self.log_failure("IO Error in %s" % log_lines)
                     self.send_negative_result_to_pyscxml()
                     self.end_thread = True
                     break
