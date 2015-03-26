@@ -130,7 +130,7 @@ class ProcessExecutor():
             self.subprocess = subprocess.Popen(
                 "exec "+cmd,
                 shell=True, stdin=slave, stdout=slave, stderr=slave,
-                bufsize=8192, executable='/bin/bash', env=self.environment_map)
+                bufsize=4096, executable='/bin/bash', env=self.environment_map)
 
             self.subprocess.master = master
             self.subprocess.slave = slave
@@ -206,7 +206,7 @@ class ProcessExecutor():
 
                 # Execute the command
                 self.subprocess = subprocess.Popen(ssh_cmd, shell=True, stdin=slave, stdout=slave, stderr=slave,
-                                                   bufsize=8192, executable='/bin/bash', env=self.environment_map)
+                                                   bufsize=4096, executable='/bin/bash', env=self.environment_map)
 
                 self.subprocess.master = master
                 self.subprocess.slave = slave
