@@ -35,6 +35,7 @@ Authors: Florian Lier, Norman Koester
 from fsmtest.launcher import Launcher
 from optparse import OptionParser
 import getpass
+import sys
 import os
 
 
@@ -115,10 +116,13 @@ if __name__ == '__main__':
     if len(args) != 1:
         parser.print_help()
         print "\n\n"
-        parser.error("Wrong number of arguments given, please see documentation for further information.")
+        parser.error("Wrong number of arguments, please see documentation for further information.")
+        sys.exit(1)
 
     if not os.path.exists(args[0]):
-        parser.error("The provided SCXML file at '%s' does not exist!") % args[0]
+        print "\n\n"
+        parser.error("The *.scxml file '%s' does not exist!" % args[0])
+        sys.exit(1)
 
     fsmTest = FSMTest(options, args[0])
     fsmTest.run()
