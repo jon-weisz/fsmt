@@ -88,7 +88,7 @@ class PTYLogWriter():
                 # Log while the process is alive, if not, stop logging.
                 while not self.terminate:
                     # Checks if there is any data on the pty
-                    ready, _, _ = select.select([self.process.master], [], [], 0.01)
+                    ready, _, _ = select.select([self.process.master], [], [], 0.1)
                     if ready:
                         # This line actually reads from the pty
                         data = os.read(self.process.master, 4096)
@@ -110,8 +110,6 @@ class PTYLogWriter():
                     '''
                     if self.terminate:
                         break
-                    # Reduce CPU Load
-                    eventlet.sleep(0.001)
 
             except IOError as e:
                 self.log.error("Exception in log file reader of %s, probably the process pipe is dead? %s", self.name,
