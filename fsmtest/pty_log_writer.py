@@ -86,9 +86,12 @@ class PTYLogWriter():
 
             try:
                 # Log while the process is alive, if not, stop logging.
+
                 while self.process.poll() is None:
+                    print self.process.master
+                # while self.process.master is not None:
                     # Checks if there is any data on the pty
-                    ready, _, _ = select.select([self.process.master], [], [], 0.1)
+                    ready, _, _ = select.select([self.process.master], [], [], 0.01)
                     if ready:
                         # This line actually reads from the pty
                         data = os.read(self.process.master, 8192)
