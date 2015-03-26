@@ -317,7 +317,7 @@ class Test(unittest.TestCase):
         self.assertNotEqual(sub_proc_ret_code, -9)
         self.assertNotEqual(sub_proc_ret_code, -15)
         self.assertNotEqual(sub_proc_ret_code, -2)
-        self.assertGreater(duration, 5)
+        self.assertGreater(duration, 3)
         # self.assertLess(duration, 11)
 
     def test_launch_fsmtest_ssh_regression_1(self):
