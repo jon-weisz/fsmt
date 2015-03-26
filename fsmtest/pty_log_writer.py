@@ -102,15 +102,13 @@ class PTYLogWriter():
                         a_file.write(str(data))
                         a_file.flush()
                         self.log.stream("%s Writing to log >> %s", self.name, str(data))
-
-                    '''
-                        elif self.process.poll() is not None:
-                        self.log.info("%s Became un-pollable (exited) while reading...OK.", self.name)
-                        self.un_poll_able = True
-                        a_file.close()
-                        return 0
-                    '''
-
+                        '''
+                            elif self.process.poll() is not None:
+                            self.log.info("%s Became un-pollable (exited) while reading...OK.", self.name)
+                            self.un_poll_able = True
+                            a_file.close()
+                            return 0
+                        '''
                     if self.terminate:
                         break
 
