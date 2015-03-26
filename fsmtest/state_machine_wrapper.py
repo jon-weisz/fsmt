@@ -90,7 +90,7 @@ class StateMachineWrapper(object):
         """
         self.log = log_
         self.log_folder = log_folder_
-        self.killtimeout = int(kill_timeout)
+        self.killtimeout = float(kill_timeout)
         self.log_folder_fsm = log_folder_fsm_
         self.log_folder_data = log_folder_data_
         self.log_folder_logs = log_folder_logs_

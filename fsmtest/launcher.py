@@ -73,7 +73,7 @@ class Launcher():
         self.log_level = log_level_
         self.log_folder = log_folder_
         self.log_file_level = log_file_level_
-        self.kill_timeout = int(_kill_timeout)
+        self.kill_timeout = float(_kill_timeout)
         self.disable_termcolor = disable_termcolor_
         self.path_to_scxml_file = path_to_scxml_file_
         self.log = ""

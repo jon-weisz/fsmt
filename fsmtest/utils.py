@@ -106,11 +106,11 @@ def end_process_and_children(pid, process, log, kill_timeout):
         is_gone = kill_pid(pid, log, kill_timeout)
 
         if is_gone > 0:
-            log.warning("Status of %s still unknown" % (pid))
+            log.warning("Status of %s still unknown" % str(pid))
         else:
             log.debug("Ended process %s successfully!" % str(pid))
     else:
-        log.debug("Process %s is already un-pollable. Doing nothing" % (pid))
+        log.debug("Process %s is already un-pollable. Doing nothing" % str(pid))
 
 
 def kill_pid(pid, log, kill_timeout):
