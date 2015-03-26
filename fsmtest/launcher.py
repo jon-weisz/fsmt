@@ -78,7 +78,6 @@ class Launcher():
         self.path_to_scxml_file = path_to_scxml_file_
         self.log = ""
         self.log_base = ""
-        self.log_folder = ""
         self.is_setup = False
         self.log_folder_fsm = ""
         self.log_folder_data = ""
