@@ -635,7 +635,7 @@ def parse_ini_file(iniFileObject, output_path, verbose=False):
     tree.write(output_path)
     if verbose:
         print ""
-    print "FINISHED - Result written to file --> \x1b[37m'%s'\n" % output_path
+    print "\nFINISHED - Result written to file --> \x1b[37m'%s'\n" % output_path
 
 
 def indent(element, level=0):

@@ -93,7 +93,7 @@ class StdoutObserver(ProcessObserver):
                     break
             file_position += been_read
             # Reduce CPU load
-            time.sleep(0.008)
+            time.sleep(0.001)
 
         # Close the file again
         log_file.close()
