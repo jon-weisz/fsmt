@@ -44,11 +44,11 @@ from fsmtest.exit_watcher import ExitWatcher
 from fsmtest.utils import make_zipfile, mkdir_p
 from fsmtest.resource_centre import ResourceCentre
 from fsmtest.xunit_xml_builder import XunitXmlBuilder
-from fsmtest.web_socket_utils import WebSocketConnection
+# from fsmtest.web_socket_utils import WebSocketConnection
 from fsmtest.process_communicator import ProcessCommunicator
 from fsmtest.state_machine_wrapper import StateMachineWrapper
 
-global websocket_connection
+# global websocket_connection
 
 
 class Launcher():
@@ -59,7 +59,8 @@ class Launcher():
     # Evil. See: http://eventlet.net/doc/basic_usage.html#eventlet.monkey_patch
     eventlet.monkey_patch()
 
-    def __init__(self, log_level_, log_file_level_, log_folder_, disable_termcolor_, _kill_timeout, path_to_scxml_file_):
+    def __init__(self, log_level_, log_file_level_, log_folder_, disable_termcolor_,
+                 _kill_timeout, path_to_scxml_file_):
         """
         Constructor for the launcher.
 
@@ -131,6 +132,7 @@ class Launcher():
         log_factory.set_up((not self.disable_termcolor), self.log_level, self.log_folder_logs, self.log_file_level)
         self.log = log_factory.get_logger()
         self.log.info("Log path: %s", self.log_folder_logs)
+        self.log.info("Kill Timeout: %f", self.kill_timeout)
         self.log.debug("Log setup: level/colouring: %s/%s", self.log_level, (not self.disable_termcolor))
         self.log.debug("Execution path: %s", os.path.dirname(os.path.abspath(__file__)))
         self.log.debug("Current working directory: %s", os.getcwd())
@@ -175,7 +177,7 @@ class Launcher():
         """
         Runner method. Sets-up the state machine properly and starts the SCXML Engine.
         """
-        global websocket_connection
+        # global websocket_connection
 
         if self.is_setup:
             self.log.debug("Creating FSMT instance using your config: %s", self.path_to_scxml_file[:])
