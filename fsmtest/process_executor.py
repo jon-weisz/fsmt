@@ -202,7 +202,7 @@ class ProcessExecutor():
                 # Predefined ssh command that opens a PTY
                 basic_ssh_cmd = "ssh -tt -C "+u+"@"+host+" ' echo $$; export DISPLAY=:0; exec "
                 # Build the complete command
-                ssh_cmd = basic_ssh_cmd + self.software_component.get_complete_executable_path_with_arguments().replace("/bin/bash", "")+" '"
+                ssh_cmd = basic_ssh_cmd + self.software_component.get_complete_executable_path_with_arguments().replace("/bin/bash", "")+"  1>&2'"
 
                 # Execute the command
                 self.subprocess = subprocess.Popen(ssh_cmd, shell=True, stdin=slave, stdout=slave, stderr=slave,
