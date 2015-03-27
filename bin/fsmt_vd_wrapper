@@ -75,7 +75,7 @@ if __name__ == '__main__':
     def run_vdemo_component(path, _name):
         global sub_pid
 
-        logfile = "/tmp/" + _name + "_vdemo_wrapper.log"
+        logfile = "/tmp/$USER/" + _name + "_vdemo_wrapper.log"
 
         rm_cmd = "rm -f %s" % logfile
         rm_s = subprocess.Popen(rm_cmd, executable='/bin/bash', shell=True)
