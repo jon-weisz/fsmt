@@ -88,7 +88,7 @@ setup(name="fsmtest",
 
       install_requires=['Louie', 'termcolor', 'eventlet', 'suds',
                         'restlib', 'lxml', 'nose==1.2.1', 'coverage',
-                        'nosexcover', 'pylint', 'setuptools-lint',
+                        'nosexcover', 'pylint=1.4.4', 'setuptools-lint',
                         'psutil', 'sphinx_bootstrap_theme',
                         'setuptools-pep8'])
 
