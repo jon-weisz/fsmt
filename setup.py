@@ -89,21 +89,26 @@ setup(name="fsmtest",
       install_requires=['Louie', 
                         'termcolor', 
                         'eventlet', 
-                         'suds',
+                        'suds',
                         'restlib', 
                         'lxml', 
-                        'nose==1.2.1', 
-                        'coverage',
-                        'nosexcover',
-                        'logilab-common==0.62.0',
-                        'pylint==1.4.4', 
-                        'setuptools-lint',
+
+
+
                         'psutil', 
                         'websocket-client', 
                         'paramiko',
-                        'setuptools-pep8']
+                        'setuptools-pep8'],
        
-       )
+      tests_require=['nose==1.2.1',
+                     'coverage',
+                     'nosexcover',
+                     'logilab-common==0.63.0',
+                     'pylint==1.4.4',
+                     'setuptools-lint']
+    )
+
+
 
 # Make scripts executable
 subprocess.call(["chmod -R ugo+x bin"], shell=True)
