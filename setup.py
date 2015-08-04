@@ -91,10 +91,7 @@ setup(name="fsmtest",
                         'eventlet', 
                         'suds',
                         'restlib', 
-                        'lxml', 
-
-
-
+                        'lxml',
                         'psutil', 
                         'websocket-client', 
                         'paramiko',
