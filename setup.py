@@ -86,11 +86,24 @@ setup(name="fsmtest",
           'Topic :: Text Processing :: Markup :: XML'
       ],
 
-      install_requires=['Louie', 'termcolor', 'eventlet', 'suds',
-                        'restlib', 'lxml', 'nose==1.2.1', 'coverage',
-                        'nosexcover', 'pylint', 'setuptools-lint',
-                        'psutil', 'sphinx_bootstrap_theme',
-                        'setuptools-pep8'])
+      install_requires=['Louie',
+                        'termcolor',
+                        'eventlet',
+                        'suds',
+                        'restlib',
+                        'lxml',
+                        'psutil',
+                        'websocket-client',
+                        'paramiko',
+                        'setuptools-pep8'],
+
+      tests_require=['nose==1.2.1',
+                     'coverage',
+                     'nosexcover',
+                     'logilab-common==0.63.0',
+                     'pylint==1.4.4',
+                     'setuptools-lint']
+      )
 
 # Make scripts executable
 subprocess.call(["chmod -R ugo+x bin"], shell=True)
